@@ -1,0 +1,32 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+
+skinparam classFontStyle Bold
+skinparam style strictuml
+hide empty members
+
+class Plateau {
+}
+
+package Cartes {
+    class Cartes_animaux{}
+    class Cartes_obstacles{}
+    class Chat extends Cartes_animaux{}
+    class Grizzly extends Cartes_animaux{}
+    class Coyote extends Cartes_animaux{}
+    class Moineau extends Cartes_animaux{}
+    class Corbeau extends Cartes_animaux{}
+    class Ecureuil extends Cartes_animaux{}
+    class Hermine extends Cartes_animaux{}
+    class Louveteau extends Cartes_animaux{}
+    class Loup extends Cartes_animaux{}
+    class Punaise extends Cartes_animaux{}
+    class Rocher extends Cartes_obstacles{}
+    class Sapin extends Cartes_obstacles{}
+}
+
+Plateau o--> Cartes_animaux
+Plateau o--> Cartes_obstacles
+
+@enduml
