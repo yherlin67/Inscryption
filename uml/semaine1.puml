@@ -1,17 +1,38 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-
+skinparam classAttributeIconSize 0
 skinparam classFontStyle Bold
 skinparam style strictuml
 hide empty members
 
 class Plateau {
+    -m_victoire : Boolean
+    +isVictorieux() : Boolean
+
 }
 
 package Cartes {
-    class Cartes_animaux{}
-    class Cartes_obstacles{}
+    abstract class Cartes_animaux <<abstract>>{
+    -m_nom : String
+    -m_attaque : Integer
+    -m_points_de_vie : Integer
+    -m_gouttes_de_sang : Integer
+    -m_os : Integer
+    -m_volant : Boolean
+    +getNom() : String
+    +getAttaque() : Integer
+    +getPointsDeVie() : Integer
+    +getGouttesDeSang(): Integer
+    +getOs() : Integer
+    +isVolant() : Boolean
+    }
+    abstract class Cartes_obstacles <<abstract>>{
+    -m_nom : String
+    -m_points_de_vie : Integer
+    +getNom() : String
+    +getPointsDeVie() : Integer
+    }
     class Chat extends Cartes_animaux{}
     class Grizzly extends Cartes_animaux{}
     class Coyote extends Cartes_animaux{}
