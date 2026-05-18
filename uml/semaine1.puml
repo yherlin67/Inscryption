@@ -6,48 +6,83 @@ skinparam classFontStyle Bold
 skinparam style strictuml
 hide empty members
 
-class Plateau {
-    -m_victoire : Boolean
-    +isVictorieux() : Boolean
-
+class Main {
+    +{static}main(args : String[])
 }
 
-package Cartes {
-    abstract class Cartes_animaux <<abstract>>{
-    -m_nom : String
-    -m_attaque : Integer
-    -m_points_de_vie : Integer
-    -m_gouttes_de_sang : Integer
-    -m_os : Integer
-    -m_volant : Boolean
-    +getNom() : String
-    +getAttaque() : Integer
-    +getPointsDeVie() : Integer
-    +getGouttesDeSang(): Integer
-    +getOs() : Integer
-    +isVolant() : Boolean
+package inscryption
+{
+    class Plateau {
+        -m_victoire : Boolean
+        +isVictorieux() : Boolean
+
     }
-    abstract class Cartes_obstacles <<abstract>>{
-    -m_nom : String
-    -m_points_de_vie : Integer
-    +getNom() : String
-    +getPointsDeVie() : Integer
+
+    package cartes {
+        abstract class Cartes_animaux <<abstract>>{
+        -m_nom : String
+        -m_attaque : Integer
+        -m_points_de_vie : Integer
+        -m_gouttes_de_sang : Integer
+        -m_os : Integer
+        -m_volant : Boolean
+        +<<create>>Cartes_animaux(nom : String, att : Integer, pdv : Integer, gds : Integer, os : Integer, vol : Boolean)
+        +getNom() : String
+        +getAttaque() : Integer
+        +getPointsDeVie() : Integer
+        +getGouttesDeSang(): Integer
+        +getOs() : Integer
+        +isVolant() : Boolean
+        }
+        abstract class Cartes_obstacles <<abstract>>{
+        -m_nom : String
+        -m_points_de_vie : Integer
+        +<<create>> Cartes_obstacles(nom : String , pdv : Integer)
+        +getNom() : String
+        +getPointsDeVie() : Integer
+        }
+        class Chat extends Cartes_animaux{
+            +<<create>>Chat()
+        }
+        class Grizzly extends Cartes_animaux{
+            +<<create>>Grizzly()
+        }
+        class Coyote extends Cartes_animaux{
+            +<<create>>Coyote()
+        }
+        class Moineau extends Cartes_animaux{
+            +<<create>>Moineau()
+        }
+        class Corbeau extends Cartes_animaux{
+            +<<create>>Corbeau()
+        }
+        class Ecureuil extends Cartes_animaux{
+            +<<create>>Ecureuil()
+        }
+        class Hermine extends Cartes_animaux{
+            +<<create>>Hermine()
+        }
+        class Louveteau extends Cartes_animaux{
+            +<<create>>Louveteau()
+        }
+        class Loup extends Cartes_animaux{
+            +<<create>>Loup()
+        }
+        class Punaise extends Cartes_animaux{
+            +<<create>>Punaise()
+        }
+        class Rocher extends Cartes_obstacles{
+            +<<create>>Rocher()
+        }
+        class Sapin extends Cartes_obstacles{
+            +<<create>>Sapin()
+        }
     }
-    class Chat extends Cartes_animaux{}
-    class Grizzly extends Cartes_animaux{}
-    class Coyote extends Cartes_animaux{}
-    class Moineau extends Cartes_animaux{}
-    class Corbeau extends Cartes_animaux{}
-    class Ecureuil extends Cartes_animaux{}
-    class Hermine extends Cartes_animaux{}
-    class Louveteau extends Cartes_animaux{}
-    class Loup extends Cartes_animaux{}
-    class Punaise extends Cartes_animaux{}
-    class Rocher extends Cartes_obstacles{}
-    class Sapin extends Cartes_obstacles{}
 }
+
 
 Plateau o--> Cartes_animaux
 Plateau o--> Cartes_obstacles
-
+Main .-> Plateau : <<create>>
+Main .-> inscryption : <<uses>>
 @enduml
