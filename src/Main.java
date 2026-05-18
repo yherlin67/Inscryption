@@ -9,9 +9,13 @@ public class Main
         int nbParties = 0;
         boolean victoire = true;
 
-        while(nbParties <= 3 && victoire)
+        while(nbParties < 3 && victoire)
         {
+
+            Plateau plateau = new Plateau();
             nbParties ++;
+            System.out.println("Partie " + nbParties + "\n");
+            plateau.afficherPlateau();
         }
     }
 
