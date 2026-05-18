@@ -1,3 +1,5 @@
+package inscryption;
+
 public class Plateau {
     private boolean m_victoire;
 
