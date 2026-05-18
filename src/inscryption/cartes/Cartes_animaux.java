@@ -43,4 +43,14 @@ public abstract class Cartes_animaux {
         return m_volant;
     }
 
+    public void subirDegats(int degats) {
+        this.m_points_de_vie -= degats;
+    }
+
+    public void Attaquer(Cartes_animaux other)
+    {
+        int degats = this.getAttaque();
+        other.subirDegats(degats);
+    }
+
 }
