@@ -1,3 +1,4 @@
+import inscryption.*;
 
 public class Main
 {
