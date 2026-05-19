@@ -7,10 +7,10 @@ public class Plateau {
     private boolean m_victoire;
     private int m_score;
     private int m_tour;
-    private String[][] m_cartes = {
-            {"Louveteau", "", "Moineau", ""},
-            {"", "", "", ""},
-            {"", "Rocher", "", ""}
+    private Cartes_animaux,Cartes_obstacles[][] m_cartes = {
+            {new Louveteau(), null, new Moineau(), null},
+            {null, null, null, null},
+            {null, new Rocher(), null, null}
     };
     private ArrayList<Cartes_animaux> m_main = new ArrayList<Cartes_animaux>();
     private ArrayList<Cartes_animaux> m_pioche = new ArrayList<Cartes_animaux>();
@@ -54,13 +54,17 @@ public class Plateau {
 
     public void afficherPlateau()
     {
-        System.out.println("Tour n°" + m_tour + " :                                        Score : " + m_score + "\n");
-        afficherCartes();
-        System.out.println("Votre main :                                                    Pioche\n");
-        for(int i=0; i<m_main.size(); i++)
+        while(m_tour <= 3)
         {
-            System.out.println((i+1) + ". " + m_main.get(i).getNom() + "    " + "PV: ");
+            System.out.println("Tour n°" + m_tour + " :                                        Score : " + m_score + "\n");
+            afficherCartes();
+            System.out.println("Votre main :                                                    Pioche\n");
+            for(int i=0; i<m_main.size(); i++)
+            {
+                System.out.println((i+1) + ". " + m_main.get(i).getNom() + "    " + "PV: ");
+            }
         }
+
     }
 
     public void afficherCartes()
@@ -84,6 +88,28 @@ public class Plateau {
                 chaine = "";
             }
             System.out.println(chaine);
+        }
+        System.out.println("Actions possibles :");
+        System.out.println(" [fin] Terminer votre tour");
+        System.out.println(" [piocher] Piocher une carte");
+        System.out.println(" [placer <numero carte> <position>] Placer une carte sur le plateau");
+        Scanner sc = new Scanner(System.in);
+        String action = sc.nextLine();
+        if(action.equals("fin"))
+        {
+            System.out.println("Vous passez au tour suivant");
+            m_tour ++;
+        }
+        else if(action.equals("piocher"))
+        {
+            m_main.add(m_pioche.getLast());
+            m_pioche.removeLast();
+            System.out.println("Vous piochez une carte");
+            m_tour ++;
+        }
+        else
+        {
+            System.out.println("Entrez une chaîne valide !");
         }
     }
 
