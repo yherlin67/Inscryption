@@ -10,17 +10,14 @@ public class PlateauLogic {
     private boolean m_victoire;
     private int m_score;
     private int m_tour;
-    private String m_cartes[][];
     private ArrayList<Cartes_animaux> m_main = new ArrayList<Cartes_animaux>();
     private ArrayList<Cartes_animaux> m_pioche = new ArrayList<Cartes_animaux>();
     private Random m_aleatoire = new Random();
-
-    //    private Cartes_animaux,
-//    Cartes_obstacles[][] m_cartes = {
-//            {new Louveteau(), null, new Moineau(), null},
-//            {null, null, null, null},
-//            {null, new Rocher(), null, null}
-//    };
+    private Cartes m_cartes[][] = {
+            {new Louveteau(), null, new Moineau(), null},
+            {null, null, null, null},
+            {null, new Rocher(), null, null}
+    };
 
     public PlateauLogic()
     {
@@ -53,4 +50,16 @@ public class PlateauLogic {
             m_pioche.removeLast();
         }
     }
+
+    public boolean getVictoire(){return m_victoire;}
+
+    public int getScore(){return m_score;}
+
+    public int getTour(){return m_tour;}
+
+    public Cartes[][] getCartes(){return m_cartes;}
+
+    public ArrayList<Cartes_animaux> getMain(){return m_main;}
+
+    public ArrayList<Cartes_animaux> getPioche(){return m_pioche;}
 }

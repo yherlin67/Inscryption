@@ -13,7 +13,7 @@ public class Main
         while(nbParties < 3 && victoire)
         {
 
-            Plateau plateau = new Plateau();
+            PlateauAffichage plateau = new PlateauAffichage();
             nbParties ++;
             System.out.println("Partie " + nbParties + "\n");
             plateau.afficherPlateau();

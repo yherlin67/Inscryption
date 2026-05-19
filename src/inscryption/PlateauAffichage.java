@@ -1,16 +1,12 @@
 package inscryption;
 
-import inscryption.cartes.*;
-
-import java.util.Random;
-import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Plateau {
+public class PlateauAffichage {
 
     private PlateauLogic m_datas;
 
-    public Plateau()
+    public PlateauAffichage()
     {
         m_datas = new PlateauLogic();
     }

@@ -1,10 +1,10 @@
 package inscryption.cartes;
 
-public abstract class Cartes_obstacles {
+public abstract class Cartes {
     private String m_nom;
     private int m_points_de_vie;
 
-    public Cartes_obstacles(String nom, int pdv)
+    public Cartes(String nom, int pdv)
     {
         m_nom = nom;
         m_points_de_vie = pdv;
@@ -16,5 +16,9 @@ public abstract class Cartes_obstacles {
 
     public int getPointsDeVie() {
         return m_points_de_vie;
+    }
+
+    public void subirDegats(int degats) {
+        this.m_points_de_vie -= degats;
     }
 }
