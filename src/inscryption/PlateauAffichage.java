@@ -2,6 +2,8 @@ package inscryption;
 
 import java.util.Scanner;
 
+import static java.lang.Integer.parseInt;
+
 public class PlateauAffichage {
 
     private PlateauLogic m_datas;
@@ -48,6 +50,7 @@ public class PlateauAffichage {
             }
             System.out.println(chaine);
         }
+        boolean showErr = false;
         System.out.println("Actions possibles :");
         System.out.println(" [fin] Terminer votre tour");
         System.out.println(" [piocher] Piocher une carte");
@@ -64,14 +67,28 @@ public class PlateauAffichage {
             m_datas.Draw();
             System.out.println("Vous piochez une carte");
         }
-        if(action.substring(0,5).equals("placer"))
+        if(action.substring(0,6).equals("placer") && action.length() >= 10)
         {
-            m_datas.Draw();
+            int indHand = 0;
+            int indBoard = 0;
+
+            try {
+                indHand = parseInt(action.substring(7,8));
+                indBoard = parseInt(action.substring(9,11));
+            } catch (NumberFormatException e) {
+                showErr = true;
+                System.out.println("Entrez une chaîne valide !");
+            }
+            m_datas.placeCard(indHand,indBoard);
             System.out.println("Vous piochez une carte");
         }
         else
         {
-            System.out.println("Entrez une chaîne valide !");
+            if(showErr)
+            {
+                System.out.println("Entrez une chaîne valide !");
+            }
+
         }
     }
 
