@@ -1,3 +1,8 @@
+import Cartes.*;
+
+import java.util.Random;
+import java.util.ArrayList;
+
 public class Plateau {
     private boolean m_victoire;
     private int m_score;
@@ -7,11 +12,40 @@ public class Plateau {
             {"", "", "", ""},
             {"", "Rocher", "", ""}
     };
+    private ArrayList<Cartes_animaux> m_main = new ArrayList<Cartes_animaux>();
+    private ArrayList<Cartes_animaux> m_pioche = new ArrayList<Cartes_animaux>();
+    private Random m_aleatoire = new Random();
 
     public Plateau()
     {
         m_tour = 1;
         m_score = 0;
+        ArrayList<Cartes_animaux> temp = new ArrayList<Cartes_animaux>();
+        for(int i=0; i<6; i++)
+        {
+            Ecureuil e = new Ecureuil();
+            temp.add(e);
+        }
+        temp.add(new Chat());
+        temp.add(new Corbeau());
+        temp.add(new Coyote());
+        temp.add(new Grizzly());
+        temp.add(new Hermine());
+        temp.add(new Loup());
+        temp.add(new Louveteau());
+        temp.add(new Moineau());
+        temp.add(new Punaise());
+        for(int k=0; k<15; k++)
+        {
+            int index_aleatoire = m_aleatoire.nextInt(temp.size());
+            m_pioche.add(temp.get(index_aleatoire));
+            temp.remove(index_aleatoire);
+        }
+        for(int j=0; j<4; j++)
+        {
+            m_main.add(m_pioche.getLast());
+            m_pioche.removeLast();
+        }
     }
 
     public boolean isVictorieux() {
@@ -22,6 +56,11 @@ public class Plateau {
     {
         System.out.println("Tour n°" + m_tour + " :                                        Score : " + m_score + "\n");
         afficherCartes();
+        System.out.println("Votre main :                                                    Pioche\n");
+        for(int i=0; i<m_main.size(); i++)
+        {
+            System.out.println((i+1) + ". " + m_main.get(i).getNom() + "    " + "PV: ");
+        }
     }
 
     public void afficherCartes()
