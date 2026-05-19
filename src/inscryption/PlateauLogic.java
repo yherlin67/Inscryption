@@ -51,11 +51,29 @@ public class PlateauLogic {
         }
     }
 
+    public void Draw()
+    {
+        m_main.add(m_pioche.getLast());
+        m_pioche.removeLast();
+        this.nextTurn();
+    }
+
+    public void nextTurn()
+    {
+        m_tour ++;
+    }
+
+    public void placeCard(int indHand,int indBoard)
+    {
+        Cartes maCard = m_main.get(indHand);
+        m_cartes[2][indBoard] = maCard;
+    }
+
     public boolean getVictoire(){return m_victoire;}
 
     public int getScore(){return m_score;}
 
-    public int getTour(){return m_tour;}
+    public int getTurn(){return m_tour;}
 
     public Cartes[][] getCartes(){return m_cartes;}
 

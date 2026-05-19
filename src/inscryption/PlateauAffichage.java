@@ -11,20 +11,16 @@ public class PlateauAffichage {
         m_datas = new PlateauLogic();
     }
 
-    public boolean isVictorieux() {
-        return m_victoire;
-    }
-
     public void afficherPlateau()
     {
-        while(m_tour <= 3)
+        while(m_datas.getScore() <= 3)
         {
-            System.out.println("Tour n°" + m_tour + " :                                        Score : " + m_score + "\n");
+            System.out.println("Tour n°" + m_datas.getTurn() + " :                                        Score : " + m_datas.getScore() + "\n");
             afficherCartes();
             System.out.println("Votre main :                                                    Pioche\n");
-            for(int i=0; i<m_main.size(); i++)
+            for(int i=0; i<m_datas.getMain().size(); i++)
             {
-                System.out.println((i+1) + ". " + m_main.get(i).getNom() + "    " + "PV: ");
+                System.out.println((i+1) + ". " + m_datas.getMain().get(i).getNom() + "    " + "PV: ");
             }
         }
 
@@ -60,15 +56,18 @@ public class PlateauAffichage {
         String action = sc.nextLine();
         if(action.equals("fin"))
         {
+            m_datas.nextTurn();
             System.out.println("Vous passez au tour suivant");
-            m_tour ++;
         }
-        else if(action.equals("piocher"))
+        if(action.equals("piocher"))
         {
-            m_main.add(m_pioche.getLast());
-            m_pioche.removeLast();
+            m_datas.Draw();
             System.out.println("Vous piochez une carte");
-            m_tour ++;
+        }
+        if(action.substring(0,5).equals("placer"))
+        {
+            m_datas.Draw();
+            System.out.println("Vous piochez une carte");
         }
         else
         {
@@ -87,7 +86,7 @@ public class PlateauAffichage {
                 case 1:
                     for(int l=0; l<4; l++)
                     {
-                        if(m_cartes[j][l] == "")
+                        if(m_datas.getCartes()[j][l] == null)
                         {
                             chaine += " ************* ";
                         }
@@ -100,7 +99,7 @@ public class PlateauAffichage {
                 case 2:
                     for(int l=0; l<4; l++)
                     {
-                        if(m_cartes[j][l] == "")
+                        if(m_datas.getCartes()[j][l] == null)
                         {
                             chaine += " *           * ";
                         }
@@ -114,7 +113,7 @@ public class PlateauAffichage {
                 case 3:
                     for(int l=0; l<4; l++)
                     {
-                        if(m_cartes[j][l] == "")
+                        if(m_datas.getCartes()[j][l] == null)
                         {
                             chaine += " *           * ";
                         }
@@ -128,7 +127,7 @@ public class PlateauAffichage {
                 case 4:
                     for(int l=0; l<4; l++)
                     {
-                        if(m_cartes[j][l] == "")
+                        if(m_datas.getCartes()[j][l] == null)
                         {
                             if(rangee == 1)
                             {
@@ -153,7 +152,7 @@ public class PlateauAffichage {
                 case 5:
                     for(int l=0; l<4; l++)
                     {
-                        if(m_cartes[j][l] == "")
+                        if(m_datas.getCartes()[j][l] == null)
                         {
                             chaine += " *           * ";
                         }
@@ -167,7 +166,7 @@ public class PlateauAffichage {
                 case 6:
                     for(int l=0; l<4; l++)
                     {
-                        if(m_cartes[j][l] == "")
+                        if(m_datas.getCartes()[j][l] == null)
                         {
                             chaine += " *           * ";
                         }
@@ -181,7 +180,7 @@ public class PlateauAffichage {
                 case 7:
                     for(int l=0; l<4; l++)
                     {
-                        if(m_cartes[j][l] == "")
+                        if(m_datas.getCartes()[j][l] == null)
                         {
                             chaine += " ************* ";
                         }
