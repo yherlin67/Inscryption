@@ -24,15 +24,23 @@ package inscryption
 
         }
 
-        package player {
+        package players {
 
         class Player {
         }
 
         class Opponent {
+
+        + setFirstMatch() : Void
+        + setSecondMatch() : Void
+        + setThirdMatch() : Void
+        + play() : void
+
         }
 
         }
+
+        Opponent o--> cartes.Cartes : - m_actions : Cartes[0..4]
 
     package cartes {
 

@@ -5,7 +5,7 @@ import inscryption.cartes.*;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class PlateauLogic {
+public class GameManager {
 
     private boolean m_victoire;
     private int m_score;
@@ -15,12 +15,12 @@ public class PlateauLogic {
     private Random m_aleatoire = new Random();
 
     private Cartes m_cartes[][] = {
-            {new Louveteau(), null, new Moineau(), null},
             {null, null, null, null},
-            {null, new Rocher(), null, null}
+            {null, null, null, null},
+            {null, null, null, null}
     };
 
-    public PlateauLogic()
+    public GameManager()
     {
         m_tour = 1;
         m_score = 0;
@@ -84,4 +84,10 @@ public class PlateauLogic {
     public ArrayList<Cartes_animaux> getPioche(){return m_pioche;}
 
     public void increaseTurn(){m_tour++;}
+
+    public void setGame(int i) {
+        if (i == 0) {
+            m_cartes[2][1] = new Rocher();
+        }
+    }
 }

@@ -12,8 +12,9 @@ public class Main
 
         while(nbParties < 3 && victoire)
         {
-
-            PlateauAffichage plateau = new PlateauAffichage();
+            GameManager gameManager = new GameManager();
+            gameManager.setGame(nbParties);
+            PlateauAffichage plateau = new PlateauAffichage(gameManager);
             nbParties ++;
             System.out.println("Partie " + nbParties + "\n");
             plateau.afficherPlateau();

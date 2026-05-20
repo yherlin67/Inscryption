@@ -9,11 +9,11 @@ import static java.lang.Integer.parseInt;
 
 public class PlateauAffichage {
 
-    private PlateauLogic m_datas;
+    private GameManager m_datas;
 
-    public PlateauAffichage()
+    public PlateauAffichage(GameManager gameManager)
     {
-        m_datas = new PlateauLogic();
+        m_datas = gameManager;
     }
 
     public void afficherPlateau()
@@ -22,7 +22,7 @@ public class PlateauAffichage {
         {
             System.out.println("Tour n°" + m_datas.getTurn() + " :                                        Score : " + m_datas.getScore() + "\n");
             afficherCartes();
-            System.out.println("Votre main :                                                    Pioche\n");
+            System.out.println("Votre main :                                                    Pioche");
             System.out.println("                                                             *___________*");
             int pourlaboucle = (6-m_datas.getMain().size());
             if(pourlaboucle<0)
@@ -48,24 +48,24 @@ public class PlateauAffichage {
                     {
                         if(m_datas.getPioche().size() >= 10)
                         {
-                            chaine += ligneFormatee + "      |     " + m_datas.getPioche().size() + "    | ";
+                            chaine += ligneFormatee + "      |     " + m_datas.getPioche().size() + "    |";
                         }
                         else
                         {
-                            chaine += ligneFormatee + "      |     " + m_datas.getPioche().size() + "     | ";
+                            chaine += ligneFormatee + "      |     " + m_datas.getPioche().size() + "     |";
                         }
                     }
                     else if(j==3)
                     {
-                        chaine += ligneFormatee + "      |   cartes  | ";
+                        chaine += ligneFormatee + "      |   cartes  |";
                     }
                     else if(j==5)
                     {
-                        chaine += ligneFormatee + "      *___________* ";
+                        chaine += ligneFormatee + "      *___________*";
                     }
                     else if(j<6)
                     {
-                        chaine += ligneFormatee + "      |           | ";
+                        chaine += ligneFormatee + "      |           |";
                     }
                     else
                     {
@@ -74,13 +74,28 @@ public class PlateauAffichage {
                 }
                 else
                 {
-                    if(j!=5)
+                    if(j==2)
+                    {
+                        if(m_datas.getPioche().size() >= 10)
+                        {
+                            chaine += "                                                             |     " + m_datas.getPioche().size() + "    |";
+                        }
+                        else
+                        {
+                            chaine +=  "                                                             |     " + m_datas.getPioche().size() + "     |";
+                        }
+                    }
+                    else if(j==3)
+                    {
+                        chaine += "                                                             |   cartes  |";
+                    }
+                    else if(j!=5)
                     {
                         chaine += "                                                             |           |";
                     }
                     else
                     {
-                        chaine += "                                                             *___________* ";
+                        chaine += "                                                             *___________*";
                     }
                 }
                 System.out.println(chaine);
