@@ -11,6 +11,7 @@ public abstract class Cartes_animaux extends Cartes{
     public Cartes_animaux(String nom, int att, int pdv, int gds, int os, boolean vol)
     {
         super(nom,pdv);
+        this.setAnimaux(this);
         m_attaque = att;
         m_gouttes_de_sang = gds;
         m_os = os;
