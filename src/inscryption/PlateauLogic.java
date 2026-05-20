@@ -67,6 +67,7 @@ public class PlateauLogic {
     public void placeCard(int indHand,int indBoard)
     {
         Cartes maCard = m_main.get(indHand);
+        m_main.remove(indHand);
         m_cartes[2][indBoard] = maCard;
     }
 

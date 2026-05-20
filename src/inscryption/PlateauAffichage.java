@@ -85,7 +85,6 @@ public class PlateauAffichage {
                 }
                 System.out.println(chaine);
             }
-            boolean showErr = false;
             System.out.println("Actions possibles :");
             System.out.println(" [fin] Terminer votre tour");
             System.out.println(" [piocher] Piocher une carte");
@@ -108,22 +107,16 @@ public class PlateauAffichage {
                 int indBoard = 0;
 
                 try {
-                    indHand = parseInt(action.substring(7,8));
-                    indBoard = parseInt(action.substring(9,11));
+                    indHand = parseInt(action.substring(7,8)) - 1;
+                    indBoard = parseInt(action.substring(10,11)) - 1;
                 } catch (NumberFormatException e) {
-                    showErr = true;
                     System.out.println("Entrez une chaîne valide !");
                 }
                 m_datas.placeCard(indHand,indBoard);
-                System.out.println("Vous piochez une carte");
             }
             else
             {
-                if(showErr)
-                {
-                    System.out.println("Entrez une chaîne valide !");
-                }
-
+                System.out.println("Entrez une chaîne valide !");
             }
 
         }

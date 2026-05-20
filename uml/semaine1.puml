@@ -12,11 +12,27 @@ class Main {
 
 package inscryption
 {
-    class Plateau {
-        -m_victoire : Boolean
-        +isVictorieux() : Boolean
+    class PlateauAffichage {
+            - m_datas : PlateauLogic
+            +isVictorieux() : Boolean
 
-    }
+        }
+
+        class PlateauLogic {
+                -m_victoire : Boolean
+                +isVictorieux() : Boolean
+
+        }
+
+        package player {
+
+        class Player {
+        }
+
+        class Opponent {
+        }
+
+        }
 
     package cartes {
 
@@ -80,8 +96,8 @@ package inscryption
 }
 
 
-Plateau o--> Cartes_animaux
-Plateau o--> Cartes
-Main .-> Plateau : <<create>>
+PlateauAffichage o--> Cartes_animaux
+PlateauAffichage o--> Cartes
+Main .-> PlateauAffichage : <<create>>
 Main .-> inscryption : <<uses>>
 @enduml
