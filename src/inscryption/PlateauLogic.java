@@ -13,6 +13,7 @@ public class PlateauLogic {
     private ArrayList<Cartes_animaux> m_main = new ArrayList<Cartes_animaux>();
     private ArrayList<Cartes_animaux> m_pioche = new ArrayList<Cartes_animaux>();
     private Random m_aleatoire = new Random();
+
     private Cartes m_cartes[][] = {
             {new Louveteau(), null, new Moineau(), null},
             {null, null, null, null},
@@ -62,4 +63,6 @@ public class PlateauLogic {
     public ArrayList<Cartes_animaux> getMain(){return m_main;}
 
     public ArrayList<Cartes_animaux> getPioche(){return m_pioche;}
+
+    public void increaseTurn(){m_tour++;}
 }

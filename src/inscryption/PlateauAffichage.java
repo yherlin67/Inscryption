@@ -1,5 +1,8 @@
 package inscryption;
 
+import inscryption.cartes.Cartes;
+import inscryption.cartes.Cartes_animaux;
+
 import java.util.Scanner;
 
 public class PlateauAffichage {
@@ -11,20 +14,96 @@ public class PlateauAffichage {
         m_datas = new PlateauLogic();
     }
 
-    public boolean isVictorieux() {
-        return m_victoire;
-    }
-
     public void afficherPlateau()
     {
-        while(m_tour <= 3)
+        while(m_datas.getScore() <= 3)
         {
-            System.out.println("Tour n°" + m_tour + " :                                        Score : " + m_score + "\n");
+            System.out.println("Tour n°" + m_datas.getTour() + " :                                        Score : " + m_datas.getScore() + "\n");
             afficherCartes();
-            System.out.println("Votre main :                                                    Pioche\n");
-            for(int i=0; i<m_main.size(); i++)
+            System.out.println("Votre main :                                                    Pioche");
+            System.out.println("                                                             *___________*");
+            int pourlaboucle = (6-m_datas.getMain().size());
+            if(pourlaboucle<0)
             {
-                System.out.println((i+1) + ". " + m_main.get(i).getNom() + "    " + "PV: ");
+                pourlaboucle = 0;
+            }
+            for(int j=0; j<m_datas.getMain().size()+pourlaboucle; j++)
+            {
+                String chaine = "";
+                if(m_datas.getMain().size() > j)
+                {
+                    Cartes_animaux animal = m_datas.getMain().get(j);
+
+                    String ligneFormatee = String.format("%-1d. %-12s PV: %-3d Att: %-2d Sang: %-2d Os: %-10d",
+                            (j + 1),
+                            animal.getNom(),
+                            animal.getPointsDeVie(),
+                            animal.getAttaque(),
+                            animal.getGouttesDeSang(),
+                            animal.getOs()
+                    );
+                    if(j==2)
+                    {
+                        if(m_datas.getPioche().size() >= 10)
+                        {
+                            chaine += ligneFormatee + "      |     " + m_datas.getPioche().size() + "    | ";
+                        }
+                        else
+                        {
+                            chaine += ligneFormatee + "      |     " + m_datas.getPioche().size() + "     | ";
+                        }
+                    }
+                    else if(j==3)
+                    {
+                        chaine += ligneFormatee + "      |   cartes  | ";
+                    }
+                    else if(j==5)
+                    {
+                        chaine += ligneFormatee + "      *___________* ";
+                    }
+                    else if(j<6)
+                    {
+                        chaine += ligneFormatee + "      |           | ";
+                    }
+                    else
+                    {
+                        chaine += ligneFormatee;
+                    }
+                }
+                else
+                {
+                    if(j!=5)
+                    {
+                        chaine += "                                                             |           |";
+                    }
+                    else
+                    {
+                        chaine += "                                                             *___________* ";
+                    }
+                }
+                System.out.println(chaine);
+            }
+            System.out.println("\nActions possibles :");
+            System.out.println(" [fin] Terminer votre tour");
+            System.out.println(" [piocher] Piocher une carte");
+            System.out.println(" [placer <numero carte> <position>] Placer une carte sur le plateau");
+            Scanner sc = new Scanner(System.in);
+            String action = sc.nextLine();
+            if(action.equals("fin"))
+            {
+                System.out.println("Vous passez au tour suivant");
+                m_datas.increaseTurn();
+            }
+            else if(action.equals("piocher"))
+            {
+                m_datas.getMain().add(m_datas.getPioche().getLast());
+                m_datas.getPioche().removeLast();
+                System.out.println("Vous piochez une carte");
+                m_datas.increaseTurn();
+            }
+            else
+            {
+                System.out.println("Entrez une chaîne valide !");
             }
         }
 
@@ -52,42 +131,23 @@ public class PlateauAffichage {
             }
             System.out.println(chaine);
         }
-        System.out.println("Actions possibles :");
-        System.out.println(" [fin] Terminer votre tour");
-        System.out.println(" [piocher] Piocher une carte");
-        System.out.println(" [placer <numero carte> <position>] Placer une carte sur le plateau");
-        Scanner sc = new Scanner(System.in);
-        String action = sc.nextLine();
-        if(action.equals("fin"))
-        {
-            System.out.println("Vous passez au tour suivant");
-            m_tour ++;
-        }
-        else if(action.equals("piocher"))
-        {
-            m_main.add(m_pioche.getLast());
-            m_pioche.removeLast();
-            System.out.println("Vous piochez une carte");
-            m_tour ++;
-        }
-        else
-        {
-            System.out.println("Entrez une chaîne valide !");
-        }
+
     }
 
     public String afficherRangee(String chaine, int rangee)
     {
         int ligne = 1;
         int j=rangee;
+        Cartes[][] cartes = m_datas.getCartes();
         for(int i=0; i<7; i++)
         {
             switch(ligne)
             {
                 case 1:
+                case 7:
                     for(int l=0; l<4; l++)
                     {
-                        if(m_cartes[j][l] == "")
+                        if(cartes[j][l] == null)
                         {
                             chaine += " ************* ";
                         }
@@ -97,24 +157,31 @@ public class PlateauAffichage {
                     }
                     chaine += "\n";
                     ligne++;
+                    break;
                 case 2:
                     for(int l=0; l<4; l++)
                     {
-                        if(m_cartes[j][l] == "")
+                        if(cartes[j][l] == null)
                         {
                             chaine += " *           * ";
                         }
                         else
                         {
-                            chaine += " |           | ";
+                            chaine += " | " + cartes[j][l].getNom();
+                            for(int x=0; x<(10-cartes[j][l].getNom().length()); x++)
+                            {
+                                chaine += " ";
+                            }
+                            chaine += "| ";
                         }
                     }
                     chaine += "\n";
                     ligne++;
+                    break;
                 case 3:
                     for(int l=0; l<4; l++)
                     {
-                        if(m_cartes[j][l] == "")
+                        if(cartes[j][l] == null)
                         {
                             chaine += " *           * ";
                         }
@@ -125,10 +192,11 @@ public class PlateauAffichage {
                     }
                     chaine += "\n";
                     ligne++;
+                    break;
                 case 4:
                     for(int l=0; l<4; l++)
                     {
-                        if(m_cartes[j][l] == "")
+                        if(cartes[j][l] == null)
                         {
                             if(rangee == 1)
                             {
@@ -145,17 +213,22 @@ public class PlateauAffichage {
                         }
                         else
                         {
-                            chaine += " |           | ";
+                            chaine += " | PV : " + cartes[j][l].getPointsDeVie() + "    | ";
                         }
                     }
                     chaine += "\n";
                     ligne++;
+                    break;
                 case 5:
                     for(int l=0; l<4; l++)
                     {
-                        if(m_cartes[j][l] == "")
+                        if(cartes[j][l] == null)
                         {
                             chaine += " *           * ";
+                        }
+                        else if(cartes[j][l].getAnimaux() != null && cartes[j][l].getAnimaux().getAttaque() > 0)
+                        {
+                            chaine += " | Att : " + cartes[j][l].getAnimaux().getAttaque() + "   | ";
                         }
                         else
                         {
@@ -164,12 +237,17 @@ public class PlateauAffichage {
                     }
                     chaine += "\n";
                     ligne++;
+                    break;
                 case 6:
                     for(int l=0; l<4; l++)
                     {
-                        if(m_cartes[j][l] == "")
+                        if(cartes[j][l] == null)
                         {
                             chaine += " *           * ";
+                        }
+                        else if(cartes[j][l].getAnimaux() != null && cartes[j][l].getAnimaux().isVolant())
+                        {
+                            chaine += " | Volant    | ";
                         }
                         else
                         {
@@ -178,20 +256,7 @@ public class PlateauAffichage {
                     }
                     chaine += "\n";
                     ligne++;
-                case 7:
-                    for(int l=0; l<4; l++)
-                    {
-                        if(m_cartes[j][l] == "")
-                        {
-                            chaine += " ************* ";
-                        }
-                        else
-                        {
-                            chaine += " *___________* ";
-                        }
-                    }
-                    chaine += "\n";
-                    ligne++;
+                    break;
             }
         }
         return chaine;
