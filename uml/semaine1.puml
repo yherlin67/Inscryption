@@ -12,34 +12,49 @@ class Main {
 
 package inscryption
 {
-    class Plateau {
-        -m_victoire : Boolean
-        +isVictorieux() : Boolean
+    class PlateauAffichage {
+            - m_datas : PlateauLogic
+            +isVictorieux() : Boolean
 
-    }
+        }
+
+        class PlateauLogic {
+                -m_victoire : Boolean
+                +isVictorieux() : Boolean
+
+        }
+
+        package player {
+
+        class Player {
+        }
+
+        class Opponent {
+        }
+
+        }
 
     package cartes {
-        abstract class Cartes_animaux <<abstract>>{
-        -m_nom : String
+
+        abstract class Cartes <<abstract>>{
+            -m_nom : String
+            -m_points_de_vie : Integer
+            +<<create>> Cartes_obstacles(nom : String , pdv : Integer)
+            +getNom() : String
+            +getPointsDeVie() : Integer
+
+        }
+
+        abstract class Cartes_animaux<<abstract>> extends Cartes{
         -m_attaque : Integer
-        -m_points_de_vie : Integer
         -m_gouttes_de_sang : Integer
         -m_os : Integer
         -m_volant : Boolean
         +<<create>>Cartes_animaux(nom : String, att : Integer, pdv : Integer, gds : Integer, os : Integer, vol : Boolean)
-        +getNom() : String
         +getAttaque() : Integer
-        +getPointsDeVie() : Integer
         +getGouttesDeSang(): Integer
         +getOs() : Integer
         +isVolant() : Boolean
-        }
-        abstract class Cartes_obstacles <<abstract>>{
-        -m_nom : String
-        -m_points_de_vie : Integer
-        +<<create>> Cartes_obstacles(nom : String , pdv : Integer)
-        +getNom() : String
-        +getPointsDeVie() : Integer
         }
         class Chat extends Cartes_animaux{
             +<<create>>Chat()
@@ -71,18 +86,18 @@ package inscryption
         class Punaise extends Cartes_animaux{
             +<<create>>Punaise()
         }
-        class Rocher extends Cartes_obstacles{
+        class Rocher extends Cartes{
             +<<create>>Rocher()
         }
-        class Sapin extends Cartes_obstacles{
+        class Sapin extends Cartes{
             +<<create>>Sapin()
         }
     }
 }
 
 
-Plateau o--> Cartes_animaux
-Plateau o--> Cartes_obstacles
-Main .-> Plateau : <<create>>
+PlateauAffichage o--> Cartes_animaux
+PlateauAffichage o--> Cartes
+Main .-> PlateauAffichage : <<create>>
 Main .-> inscryption : <<uses>>
 @enduml
