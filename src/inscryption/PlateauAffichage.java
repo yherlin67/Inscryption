@@ -2,6 +2,7 @@ package inscryption;
 
 import inscryption.cartes.Cartes;
 import inscryption.cartes.Cartes_animaux;
+import inscryption.players.Opponent;
 
 import java.util.Scanner;
 
@@ -10,10 +11,12 @@ import static java.lang.Integer.parseInt;
 public class PlateauAffichage {
 
     private GameManager m_datas;
+    private Opponent m_opponent;
 
-    public PlateauAffichage(GameManager gameManager)
+    public PlateauAffichage(GameManager gameManager, Opponent opponent)
     {
         m_datas = gameManager;
+        m_opponent = opponent;
     }
 
     public void afficherPlateau()
@@ -109,29 +112,33 @@ public class PlateauAffichage {
             if(action.equals("fin"))
             {
                 m_datas.nextTurn();
-                System.out.println("Vous passez au tour suivant");
-            }
-            if(action.equals("piocher"))
-            {
-                m_datas.Draw();
-                System.out.println("Vous piochez une carte");
-            }
-            if(action.substring(0,6).equals("placer") && action.length() >= 10)
-            {
-                int indHand = 0;
-                int indBoard = 0;
-
-                try {
-                    indHand = parseInt(action.substring(7,8)) - 1;
-                    indBoard = parseInt(action.substring(10,11)) - 1;
-                } catch (NumberFormatException e) {
-                    System.out.println("Entrez une chaîne valide !");
-                }
-                m_datas.placeCard(indHand,indBoard);
+                m_opponent.play();
+                System.out.println("Vous passez au tour suivant\n");
             }
             else
             {
-                System.out.println("Entrez une chaîne valide !");
+                if(action.equals("piocher"))
+                {
+                    m_datas.Draw();
+                    System.out.println("Vous piochez une carte\n");
+                }
+                if(action.substring(0,6).equals("placer") && action.length() >= 10)
+                {
+                    int indHand = 0;
+                    int indBoard = 0;
+
+                    try {
+                        indHand = parseInt(action.substring(7,8)) - 1;
+                        indBoard = parseInt(action.substring(10,11)) - 1;
+                    } catch (NumberFormatException e) {
+                        System.out.println("Entrez une chaîne valide !\n");
+                    }
+                    m_datas.placeCard(indHand,indBoard);
+                }
+                else
+                {
+                    System.out.println("Entrez une chaîne valide !\n");
+                }
             }
 
         }

@@ -1,6 +1,7 @@
 package inscryption;
 
 import inscryption.cartes.*;
+import inscryption.players.Opponent;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -83,11 +84,24 @@ public class GameManager {
 
     public ArrayList<Cartes_animaux> getPioche(){return m_pioche;}
 
-    public void increaseTurn(){m_tour++;}
-
-    public void setGame(int i) {
-        if (i == 0) {
+    public void setGame(int match, Opponent opponent) {
+        opponent.setGameManager(this);
+        if (match == 1) {
             m_cartes[2][1] = new Rocher();
+            opponent.setFirstMatch();
         }
+        else if(match == 2)
+        {
+            opponent.setSecondMatch();
+        }
+        else
+        {
+            opponent.setThirdMatch();
+        }
+    }
+
+    public void setCard(Cartes carte, int row, int colowns)
+    {
+        m_cartes[row][colowns] = carte;
     }
 }

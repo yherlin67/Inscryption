@@ -1,4 +1,5 @@
 import inscryption.*;
+import inscryption.players.Opponent;
 
 public class Main
 {
@@ -13,8 +14,9 @@ public class Main
         while(nbParties < 3 && victoire)
         {
             GameManager gameManager = new GameManager();
-            gameManager.setGame(nbParties);
-            PlateauAffichage plateau = new PlateauAffichage(gameManager);
+            Opponent opponent = new Opponent();
+            gameManager.setGame(nbParties+1, opponent);
+            PlateauAffichage plateau = new PlateauAffichage(gameManager, opponent);
             nbParties ++;
             System.out.println("Partie " + nbParties + "\n");
             plateau.afficherPlateau();
