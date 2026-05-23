@@ -8,7 +8,7 @@ import java.util.Random;
 
 public class GameManager {
 
-    private boolean m_victoire;
+    private Boolean m_victoire = null;
     private int m_score;
     private int m_tour;
     private ArrayList<Cartes_animaux> m_main = new ArrayList<Cartes_animaux>();
@@ -72,7 +72,7 @@ public class GameManager {
         m_cartes[2][indBoard] = maCard;
     }
 
-    public boolean getVictoire(){return m_victoire;}
+    public Boolean getVictoire(){return m_victoire;}
 
     public int getScore(){return m_score;}
 

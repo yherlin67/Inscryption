@@ -19,7 +19,10 @@ public class Main
             PlateauAffichage plateau = new PlateauAffichage(gameManager, opponent);
             nbParties ++;
             System.out.println("Partie " + nbParties + "\n");
-            plateau.afficherPlateau();
+            while(gameManager.getVictoire()==null)
+            {
+                plateau.afficherPlateau();
+            }
         }
     }
 
