@@ -2,62 +2,88 @@ package inscryption;
 
 import inscryption.cartes.*;
 import inscryption.players.Opponent;
+import inscryption.players.Player;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
+
+import static java.lang.Integer.parseInt;
 
 public class GameManager {
 
-    private Boolean m_victoire = null;
+    private Player m_player;
+    private Opponent m_opponent;
     private int m_score;
     private int m_tour;
-    private ArrayList<Cartes_animaux> m_main = new ArrayList<Cartes_animaux>();
-    private ArrayList<Cartes_animaux> m_pioche = new ArrayList<Cartes_animaux>();
-    private Random m_aleatoire = new Random();
 
-    private Cartes m_cartes[][] = {
+    private Cartes m_plateau[][] = {
             {null, null, null, null},
             {null, null, null, null},
             {null, null, null, null}
     };
 
-    public GameManager()
+    public GameManager(Player player, Opponent opponent)
     {
+        m_player = player;
+        m_player.setGameManager(this);
+        m_opponent = opponent;
+        m_opponent.setGameManager(this);
         m_tour = 1;
         m_score = 0;
-        ArrayList<Cartes_animaux> temp = new ArrayList<Cartes_animaux>();
-        for(int i=0; i<6; i++)
-        {
-            Ecureuil e = new Ecureuil();
-            temp.add(e);
-        }
-        temp.add(new Chat());
-        temp.add(new Corbeau());
-        temp.add(new Coyote());
-        temp.add(new Grizzly());
-        temp.add(new Hermine());
-        temp.add(new Loup());
-        temp.add(new Louveteau());
-        temp.add(new Moineau());
-        temp.add(new Punaise());
-        for(int k=0; k<15; k++)
-        {
-            int index_aleatoire = m_aleatoire.nextInt(temp.size());
-            m_pioche.add(temp.get(index_aleatoire));
-            temp.remove(index_aleatoire);
-        }
+        m_player.createDraw();
         for(int j=0; j<4; j++)
         {
-            m_main.add(m_pioche.getLast());
-            m_pioche.removeLast();
+            m_player.draw();
         }
     }
 
-    public void Draw()
+    public boolean manageAction()
     {
-        m_main.add(m_pioche.getLast());
-        m_pioche.removeLast();
-        this.nextTurn();
+        Scanner sc = new Scanner(System.in);
+        String action = sc.nextLine();
+        if(action.equals("fin"))
+        {
+            m_player.attack();
+            m_opponent.play();
+            m_opponent.attack();
+            nextTurn();
+            System.out.println("Vous finissez votre tour, maintenant au tour de l'adversaire !\n");
+            return false;
+        }
+        if(action.equals("piocher"))
+        {
+            m_player.draw();
+            System.out.println("Vous piochez une carte\n");
+            return false;
+        }
+        if(action.substring(0,6).equals("placer") && action.length() >= 10)
+        {
+            int indHand = 0;
+            int indBoard = 0;
+
+            try {
+                indHand = parseInt(action.substring(7,8)) - 1;
+                indBoard = parseInt(action.substring(10,11)) - 1;
+            } catch (NumberFormatException e) {
+                return true;
+            }
+            if(m_plateau[2][indBoard] == null)
+            {
+                placeCard(indHand,indBoard);
+                return false;
+            }
+            else
+            {
+                System.out.println("Vous ne pouvez pas placer ça ici\n");
+                return true;
+            }
+        }
+        else
+        {
+            System.out.println("Veuillez rentrer une chaîne valide\n");
+            return true;
+        }
     }
 
     public void nextTurn()
@@ -67,27 +93,32 @@ public class GameManager {
 
     public void placeCard(int indHand,int indBoard)
     {
-        Cartes maCard = m_main.get(indHand);
-        m_main.remove(indHand);
-        m_cartes[2][indBoard] = maCard;
+        Cartes maCard = m_player.removeCard(indHand);
+        m_plateau[2][indBoard] = maCard;
     }
-
-    public Boolean getVictoire(){return m_victoire;}
 
     public int getScore(){return m_score;}
 
+    public void setScore(int attack){m_score+=attack;}
+
     public int getTurn(){return m_tour;}
 
-    public Cartes[][] getCartes(){return m_cartes;}
+    public Cartes[][] getCartes(){return m_plateau;}
 
-    public ArrayList<Cartes_animaux> getMain(){return m_main;}
+    public ArrayList<Cartes_animaux> getHand(){return m_player.getHand();}
 
-    public ArrayList<Cartes_animaux> getPioche(){return m_pioche;}
+    public ArrayList<Cartes_animaux> getDraw(){return m_player.getDraw();}
+
+    public Player getPlayer(){return m_player;}
+
+    public Opponent getOpponent(){return m_opponent;}
+
+    public void increaseTurn(){m_tour++;}
 
     public void setGame(int match, Opponent opponent) {
         opponent.setGameManager(this);
         if (match == 1) {
-            m_cartes[2][1] = new Rocher();
+            m_plateau[2][1] = new Rocher();
             opponent.setFirstMatch();
         }
         else if(match == 2)
@@ -100,8 +131,8 @@ public class GameManager {
         }
     }
 
-    public void setCard(Cartes carte, int row, int colowns)
+    public void setCard(Cartes carte, int row, int columns)
     {
-        m_cartes[row][colowns] = carte;
+        m_plateau[row][columns] = carte;
     }
 }

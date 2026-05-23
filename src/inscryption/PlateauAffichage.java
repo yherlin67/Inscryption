@@ -3,6 +3,7 @@ package inscryption;
 import inscryption.cartes.Cartes;
 import inscryption.cartes.Cartes_animaux;
 import inscryption.players.Opponent;
+import inscryption.players.Player;
 
 import java.util.Scanner;
 
@@ -12,32 +13,34 @@ public class PlateauAffichage {
 
     private GameManager m_datas;
     private Opponent m_opponent;
+    private Player m_player;
 
-    public PlateauAffichage(GameManager gameManager, Opponent opponent)
+    public PlateauAffichage(GameManager gameManager)
     {
         m_datas = gameManager;
-        m_opponent = opponent;
+        m_opponent = gameManager.getOpponent();
+        m_player = gameManager.getPlayer();
     }
 
     public void afficherPlateau()
     {
-        while(m_datas.getScore() <= 3)
+        while(m_player.getVictoire() == null)
         {
             System.out.println("Tour n°" + m_datas.getTurn() + " :                                        Score : " + m_datas.getScore() + "\n");
             afficherCartes();
             System.out.println("Votre main :                                                    Pioche");
             System.out.println("                                                             *___________*");
-            int pourlaboucle = (6-m_datas.getMain().size());
+            int pourlaboucle = (6-m_datas.getHand().size());
             if(pourlaboucle<0)
             {
                 pourlaboucle = 0;
             }
-            for(int j=0; j<m_datas.getMain().size()+pourlaboucle; j++)
+            for(int j=0; j<m_datas.getHand().size()+pourlaboucle; j++)
             {
                 String chaine = "";
-                if(m_datas.getMain().size() > j)
+                if(m_datas.getHand().size() > j)
                 {
-                    Cartes_animaux animal = m_datas.getMain().get(j);
+                    Cartes_animaux animal = m_datas.getHand().get(j);
 
                     String ligneFormatee = String.format("%-1d. %-12s PV: %-3d Att: %-2d Sang: %-2d Os: %-10d",
                             (j + 1),
@@ -49,13 +52,13 @@ public class PlateauAffichage {
                     );
                     if(j==2)
                     {
-                        if(m_datas.getPioche().size() >= 10)
+                        if(m_datas.getDraw().size() >= 10)
                         {
-                            chaine += ligneFormatee + "      |     " + m_datas.getPioche().size() + "    |";
+                            chaine += ligneFormatee + "      |     " + m_datas.getDraw().size() + "    |";
                         }
                         else
                         {
-                            chaine += ligneFormatee + "      |     " + m_datas.getPioche().size() + "     |";
+                            chaine += ligneFormatee + "      |     " + m_datas.getDraw().size() + "     |";
                         }
                     }
                     else if(j==3)
@@ -79,13 +82,13 @@ public class PlateauAffichage {
                 {
                     if(j==2)
                     {
-                        if(m_datas.getPioche().size() >= 10)
+                        if(m_datas.getDraw().size() >= 10)
                         {
-                            chaine += "                                                             |     " + m_datas.getPioche().size() + "    |";
+                            chaine += "                                                             |     " + m_datas.getDraw().size() + "    |";
                         }
                         else
                         {
-                            chaine +=  "                                                             |     " + m_datas.getPioche().size() + "     |";
+                            chaine +=  "                                                             |     " + m_datas.getDraw().size() + "     |";
                         }
                     }
                     else if(j==3)
@@ -103,44 +106,11 @@ public class PlateauAffichage {
                 }
                 System.out.println(chaine);
             }
-            System.out.println("Actions possibles :");
+            System.out.println("\nActions possibles :");
             System.out.println(" [fin] Terminer votre tour");
             System.out.println(" [piocher] Piocher une carte");
             System.out.println(" [placer <numero carte> <position>] Placer une carte sur le plateau");
-            Scanner sc = new Scanner(System.in);
-            String action = sc.nextLine();
-            if(action.equals("fin"))
-            {
-                m_datas.nextTurn();
-                m_opponent.play();
-                System.out.println("Vous passez au tour suivant\n");
-            }
-            else
-            {
-                if(action.equals("piocher"))
-                {
-                    m_datas.Draw();
-                    System.out.println("Vous piochez une carte\n");
-                }
-                if(action.substring(0,6).equals("placer") && action.length() >= 10)
-                {
-                    int indHand = 0;
-                    int indBoard = 0;
-
-                    try {
-                        indHand = parseInt(action.substring(7,8)) - 1;
-                        indBoard = parseInt(action.substring(10,11)) - 1;
-                    } catch (NumberFormatException e) {
-                        System.out.println("Entrez une chaîne valide !\n");
-                    }
-                    m_datas.placeCard(indHand,indBoard);
-                }
-                else
-                {
-                    System.out.println("Entrez une chaîne valide !\n");
-                }
-            }
-
+            this.m_datas.manageAction();
         }
 
     }
