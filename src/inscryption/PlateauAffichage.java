@@ -109,8 +109,7 @@ public class PlateauAffichage {
             System.out.println(" [fin] Terminer votre tour");
             System.out.println(" [piocher] Piocher une carte");
             System.out.println(" [placer <numero carte> <position>] Placer une carte sur le plateau");
-            this.m_datas.manageAction();
-
+           // this.m_datas.manageAction();
     }
 
     public void afficherCartes()

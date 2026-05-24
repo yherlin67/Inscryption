@@ -73,10 +73,17 @@ public class Player {
                 else
                 {
                     int degats = m_datas.getCartes()[2][i].getAnimaux().getAttaque();
-                    m_datas.getCartes()[1][i].subirDegats(degats);
-                    if(m_datas.getCartes()[1][i].getPointsDeVie() <= 0)
+
+                    if(m_datas.getCartes()[2][i].getAnimaux() != null && m_datas.getCartes()[2][i].getAnimaux().isVolant())
                     {
-                        m_datas.getCartes()[1][i] = null;
+                        m_datas.setScore(degats);
+                    }
+                    else if(m_datas.getCartes()[2][i].getAnimaux() != null && !m_datas.getCartes()[2][i].getAnimaux().isVolant())
+                    {
+                        m_datas.getCartes()[1][i].subirDegats(degats);
+                        if (m_datas.getCartes()[1][i].getPointsDeVie() <= 0) {
+                            m_datas.getCartes()[1][i] = null;
+                        }
                     }
                 }
             }

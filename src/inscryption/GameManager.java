@@ -46,9 +46,9 @@ public class GameManager {
         if(action.equals("fin"))
         {
             m_player.attack();
-            if(m_score == 5)
+            if(gameReview() != null)
             {
-                return true;
+                return false;
             }
             m_opponent.play();
             m_draw = true;
@@ -87,14 +87,100 @@ public class GameManager {
                 } catch (NumberFormatException e) {
                     return true;
                 }
-                if(m_plateau[2][indBoard] == null)
+
+                if (m_plateau[2][indBoard] != null && m_plateau[2][indBoard].getAnimaux() == null) {
+                    System.out.println("Vous ne pouvez pas placer de carte ici : un obstacle bloque l'emplacement !\n");
+                    return true;
+                }
+
+                int gouttesRequises = m_player.getHand().get(indHand).getGouttesDeSang();
+
+                if(gouttesRequises == 0)
                 {
-                    placeCard(indHand,indBoard);
-                    return false;
+                    if(m_plateau[2][indBoard] == null) {
+                        placeCard(indHand, indBoard);
+                        return false;
+                    } else {
+                        System.out.println("Vous ne pouvez pas placer ça ici (case occupée)\n");
+                        return true;
+                    }
                 }
                 else
                 {
-                    System.out.println("Vous ne pouvez pas placer ça ici\n");
+                    String enCours = "";
+                    ArrayList<Integer> aSupprimer = new ArrayList<>();
+                    int blood = 0;
+
+                    while(!action.equals("valider sacrifice") && !action.equals("annuler"))
+                    {
+                        System.out.println("\n [sacrifier <position>]");
+                        System.out.println(" [valider sacrifice] (Sacrifice en cours : " + enCours + " | Récolté : " + blood + "/" + gouttesRequises + ")");
+                        System.out.println(" [annuler]");
+                        action = sc.nextLine();
+
+                        if (action.startsWith("sacrifier") && action.length() >= 12)
+                        {
+                            if(action.charAt(10) == 'B')
+                            {
+                                int idxSacrifice = Character.getNumericValue(action.charAt(11)) - 1;
+
+                                if(blood >= gouttesRequises)
+                                {
+                                    System.out.println("Vous avez déjà assez de sang ! Validez votre sacrifice.\n");
+                                }
+                                else if(idxSacrifice >= 0 && idxSacrifice < 4 && m_plateau[2][idxSacrifice] != null && m_plateau[2][idxSacrifice].getAnimaux() != null)
+                                {
+                                    if(aSupprimer.contains(idxSacrifice))
+                                    {
+                                        System.out.println("Animal déjà sélectionné pour le sacrifice ! \n");
+                                    }
+                                    else
+                                    {
+                                        enCours += m_plateau[2][idxSacrifice].getNom() + " ";
+                                        aSupprimer.add(idxSacrifice);
+                                        blood += 1;
+                                    }
+                                }
+                                else
+                                {
+                                    System.out.println("Il n'y a rien (ou un obstacle) à sacrifier ici\n");
+                                }
+                            }
+                            else
+                            {
+                                System.out.println("Veuillez rentrer une chaine valide\n");
+                            }
+                        }
+                        else if (action.equals("annuler")) {
+                            return true;
+                        }
+                        else if (!action.equals("valider sacrifice"))
+                        {
+                            System.out.println("Veuillez rentrer une chaine valide\n");
+                        }
+                    }
+
+                    if(action.equals("valider sacrifice")) {
+                        if(blood < gouttesRequises) {
+                            System.out.println("Pas assez de sang récolté pour cette carte !\n");
+                            return true;
+                        }
+
+                        for(int col : aSupprimer) {
+                            m_plateau[2][col] = null;
+                        }
+
+                        if(m_plateau[2][indBoard] == null) {
+                            placeCard(indHand, indBoard);
+                            return false;
+                        } else {
+                            System.out.println("Placement impossible ! La case ciblée est encore occupée.\n");
+                            for(int col : aSupprimer) {
+                                m_plateau[2][col] = null;
+                            }
+                            return true;
+                        }
+                    }
                     return true;
                 }
             }
@@ -106,14 +192,100 @@ public class GameManager {
                 } catch (NumberFormatException e) {
                     return true;
                 }
-                if(m_plateau[2][indBoard] == null)
+
+                if (m_plateau[2][indBoard] != null && m_plateau[2][indBoard].getAnimaux() == null) {
+                    System.out.println("Vous ne pouvez pas placer de carte ici : un obstacle bloque l'emplacement !\n");
+                    return true;
+                }
+
+                int gouttesRequises = m_player.getHand().get(indHand).getGouttesDeSang();
+
+                if(gouttesRequises == 0)
                 {
-                    placeCard(indHand,indBoard);
-                    return false;
+                    if(m_plateau[2][indBoard] == null) {
+                        placeCard(indHand, indBoard);
+                        return false;
+                    } else {
+                        System.out.println("Vous ne pouvez pas placer ça ici (case occupée)\n");
+                        return true;
+                    }
                 }
                 else
                 {
-                    System.out.println("Vous ne pouvez pas placer ça ici\n");
+                    String enCours = "";
+                    ArrayList<Integer> aSupprimer = new ArrayList<>();
+                    int blood = 0;
+
+                    while(!action.equals("valider sacrifice") && !action.equals("annuler"))
+                    {
+                        System.out.println("\n [sacrifier <position>]");
+                        System.out.println(" [valider sacrifice] (Sacrifice en cours : " + enCours + " | Récolté : " + blood + "/" + gouttesRequises + ")");
+                        System.out.println(" [annuler]");
+                        action = sc.nextLine();
+
+                        if (action.startsWith("sacrifier") && action.length() >= 12)
+                        {
+                            if(action.charAt(10) == 'B')
+                            {
+                                int idxSacrifice = Character.getNumericValue(action.charAt(11)) - 1;
+
+                                if(blood >= gouttesRequises)
+                                {
+                                    System.out.println("Vous avez déjà assez de sang ! Validez votre sacrifice.\n");
+                                }
+                                else if(idxSacrifice >= 0 && idxSacrifice < 4 && m_plateau[2][idxSacrifice] != null && m_plateau[2][idxSacrifice].getAnimaux() != null)
+                                {
+                                    if(aSupprimer.contains(idxSacrifice))
+                                    {
+                                        System.out.println("Animal déjà sélectionné pour le sacrifice ! \n");
+                                    }
+                                    else
+                                    {
+                                        enCours += m_plateau[2][idxSacrifice].getNom() + " ";
+                                        aSupprimer.add(idxSacrifice);
+                                        blood += 1;
+                                    }
+                                }
+                                else
+                                {
+                                    System.out.println("Il n'y a rien (ou un obstacle) à sacrifier ici\n");
+                                }
+                            }
+                            else
+                            {
+                                System.out.println("Veuillez rentrer une chaine valide\n");
+                            }
+                        }
+                        else if (action.equals("annuler")) {
+                            return true;
+                        }
+                        else if (!action.equals("valider sacrifice"))
+                        {
+                            System.out.println("Veuillez rentrer une chaine valide\n");
+                        }
+                    }
+
+                    if(action.equals("valider sacrifice")) {
+                        if(blood < gouttesRequises) {
+                            System.out.println("Pas assez de sang récolté pour cette carte !\n");
+                            return true;
+                        }
+
+                        for(int col : aSupprimer) {
+                            m_plateau[2][col] = null;
+                        }
+
+                        if(m_plateau[2][indBoard] == null) {
+                            placeCard(indHand, indBoard);
+                            return false;
+                        } else {
+                            System.out.println("Placement impossible ! La case ciblée est encore occupée.\n");
+                            for(int col : aSupprimer) {
+                                m_plateau[2][col] = null;
+                            }
+                            return true;
+                        }
+                    }
                     return true;
                 }
             }
@@ -122,7 +294,6 @@ public class GameManager {
                 System.out.println("Veuillez rentrer une chaîne valide\n");
                 return true;
             }
-
         }
         else
         {
