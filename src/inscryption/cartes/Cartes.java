@@ -1,33 +1,33 @@
 package inscryption.cartes;
 
 public abstract class Cartes {
-    private String m_nom;
-    private int m_points_de_vie;
-    private Cartes_animaux m_animaux;
+    private final String m_name;
+    private int m_health_points;
+    private Cartes_animaux m_animals;
 
     public Cartes(String nom, int pdv)
     {
-        m_nom = nom;
-        m_points_de_vie = pdv;
+        m_name = nom;
+        m_health_points = pdv;
     }
 
-    public String getNom() {
-        return m_nom;
+    public String getName() {
+        return m_name;
     }
 
-    public int getPointsDeVie() {
-        return m_points_de_vie;
+    public int getHealthPoints() {
+        return m_health_points;
     }
 
-    public void subirDegats(int degats) {
-        this.m_points_de_vie -= degats;
+    public void takeDamage(int degats) {
+        this.m_health_points -= degats;
     }
 
-    public void setAnimaux(Cartes_animaux animaux) {
-        this.m_animaux = animaux;
+    public void setAnimals(Cartes_animaux animaux) {
+        this.m_animals = animaux;
     }
 
-    public Cartes_animaux getAnimaux() {
-        return m_animaux;
+    public Cartes_animaux getAnimals() {
+        return m_animals;
     }
 }

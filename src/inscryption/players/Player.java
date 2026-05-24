@@ -6,20 +6,18 @@ import inscryption.cartes.*;
 import java.util.ArrayList;
 import java.util.Random;
 
-import static java.lang.Integer.parseInt;
-
 public class Player {
 
     private ArrayList<Cartes_animaux> m_main;
-    private ArrayList<Cartes_animaux> m_pioche;
-    private Random m_aleatoire;
+    private ArrayList<Cartes_animaux> m_gamecards;
+    private Random m_random;
     private GameManager m_datas;
 
     public Player()
     {
         m_main = new ArrayList<Cartes_animaux>();
-        m_pioche = new ArrayList<Cartes_animaux>();
-        m_aleatoire = new Random();
+        m_gamecards = new ArrayList<Cartes_animaux>();
+        m_random = new Random();
     }
 
     public void setGameManager(GameManager gameManager) {
@@ -45,15 +43,15 @@ public class Player {
         temp.add(new Punaise());
         for(int k=0; k<15; k++)
         {
-            int index_aleatoire = m_aleatoire.nextInt(temp.size());
-            m_pioche.add(temp.get(index_aleatoire));
+            int index_aleatoire = m_random.nextInt(temp.size());
+            m_gamecards.add(temp.get(index_aleatoire));
             temp.remove(index_aleatoire);
         }
     }
 
     public void draw()
     {
-        Cartes_animaux carte = m_pioche.removeLast();
+        Cartes_animaux carte = m_gamecards.removeLast();
         m_main.add(carte);
     }
 
@@ -61,28 +59,28 @@ public class Player {
     {
         for(int i=0; i<4; i++)
         {
-            if(m_datas.getCartes()[2][i] != null)
+            if(m_datas.getCards()[2][i] != null)
             {
-                if(m_datas.getCartes()[1][i] == null)
+                if(m_datas.getCards()[1][i] == null)
                 {
-                    if (m_datas.getCartes()[2][i].getAnimaux() != null)
+                    if (m_datas.getCards()[2][i].getAnimals() != null)
                     {
-                        m_datas.setScore(m_datas.getCartes()[2][i].getAnimaux().getAttaque());
+                        m_datas.setScore(m_datas.getCards()[2][i].getAnimals().getAttack());
                     }
                 }
                 else
                 {
-                    int degats = m_datas.getCartes()[2][i].getAnimaux().getAttaque();
+                    int degats = m_datas.getCards()[2][i].getAnimals().getAttack();
 
-                    if(m_datas.getCartes()[2][i].getAnimaux() != null && m_datas.getCartes()[2][i].getAnimaux().isVolant())
+                    if(m_datas.getCards()[2][i].getAnimals() != null && m_datas.getCards()[2][i].getAnimals().isFlying())
                     {
                         m_datas.setScore(degats);
                     }
-                    else if(m_datas.getCartes()[2][i].getAnimaux() != null && !m_datas.getCartes()[2][i].getAnimaux().isVolant())
+                    else if(m_datas.getCards()[2][i].getAnimals() != null && !m_datas.getCards()[2][i].getAnimals().isFlying())
                     {
-                        m_datas.getCartes()[1][i].subirDegats(degats);
-                        if (m_datas.getCartes()[1][i].getPointsDeVie() <= 0) {
-                            m_datas.getCartes()[1][i] = null;
+                        m_datas.getCards()[1][i].takeDamage(degats);
+                        if (m_datas.getCards()[1][i].getHealthPoints() <= 0) {
+                            m_datas.getCards()[1][i] = null;
                         }
                     }
                 }
@@ -97,6 +95,6 @@ public class Player {
 
     public ArrayList<Cartes_animaux> getHand(){return m_main;}
 
-    public ArrayList<Cartes_animaux> getDraw(){return m_pioche;}
+    public ArrayList<Cartes_animaux> getDraw(){return m_gamecards;}
 
 }

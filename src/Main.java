@@ -23,7 +23,7 @@ public class Main
             System.out.println("Partie " + nbParties + "\n");
             while(matchVictory == null)
             {
-                plateau.afficherPlateau();
+                plateau.displayGameboard();
                 gameManager.manageAction();
                 matchVictory = gameManager.gameReview();
             }

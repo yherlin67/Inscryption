@@ -4,20 +4,19 @@ import inscryption.cartes.*;
 import inscryption.players.*;
 
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.Scanner;
 
 import static java.lang.Integer.parseInt;
 
 public class GameManager {
 
-    private Player m_player;
-    private Opponent m_opponent;
+    private final Player m_player;
+    private final Opponent m_opponent;
     private int m_score;
-    private int m_tour;
+    private int m_turn;
     private boolean m_draw;
 
-    private Cartes m_plateau[][] = {
+    private Cartes m_gameboard[][] = {
             {null, null, null, null},
             {null, null, null, null},
             {null, null, null, null}
@@ -29,7 +28,7 @@ public class GameManager {
         m_player.setGameManager(this);
         m_opponent = opponent;
         m_opponent.setGameManager(this);
-        m_tour = 1;
+        m_turn = 1;
         m_score = 0;
         m_draw = true;
         m_player.createDraw();
@@ -88,16 +87,16 @@ public class GameManager {
                     return true;
                 }
 
-                if (m_plateau[2][indBoard] != null && m_plateau[2][indBoard].getAnimaux() == null) {
+                if (m_gameboard[2][indBoard] != null && m_gameboard[2][indBoard].getAnimals() == null) {
                     System.out.println("Vous ne pouvez pas placer de carte ici : un obstacle bloque l'emplacement !\n");
                     return true;
                 }
 
-                int gouttesRequises = m_player.getHand().get(indHand).getGouttesDeSang();
+                int gouttesRequises = m_player.getHand().get(indHand).getBlood();
 
                 if(gouttesRequises == 0)
                 {
-                    if(m_plateau[2][indBoard] == null) {
+                    if(m_gameboard[2][indBoard] == null) {
                         placeCard(indHand, indBoard);
                         return false;
                     } else {
@@ -128,7 +127,7 @@ public class GameManager {
                                 {
                                     System.out.println("Vous avez déjà assez de sang ! Validez votre sacrifice.\n");
                                 }
-                                else if(idxSacrifice >= 0 && idxSacrifice < 4 && m_plateau[2][idxSacrifice] != null && m_plateau[2][idxSacrifice].getAnimaux() != null)
+                                else if(idxSacrifice >= 0 && idxSacrifice < 4 && m_gameboard[2][idxSacrifice] != null && m_gameboard[2][idxSacrifice].getAnimals() != null)
                                 {
                                     if(aSupprimer.contains(idxSacrifice))
                                     {
@@ -136,7 +135,7 @@ public class GameManager {
                                     }
                                     else
                                     {
-                                        enCours += m_plateau[2][idxSacrifice].getNom() + " ";
+                                        enCours += m_gameboard[2][idxSacrifice].getName() + " ";
                                         aSupprimer.add(idxSacrifice);
                                         blood += 1;
                                     }
@@ -167,16 +166,16 @@ public class GameManager {
                         }
 
                         for(int col : aSupprimer) {
-                            m_plateau[2][col] = null;
+                            m_gameboard[2][col] = null;
                         }
 
-                        if(m_plateau[2][indBoard] == null) {
+                        if(m_gameboard[2][indBoard] == null) {
                             placeCard(indHand, indBoard);
                             return false;
                         } else {
                             System.out.println("Placement impossible ! La case ciblée est encore occupée.\n");
                             for(int col : aSupprimer) {
-                                m_plateau[2][col] = null;
+                                m_gameboard[2][col] = null;
                             }
                             return true;
                         }
@@ -193,16 +192,16 @@ public class GameManager {
                     return true;
                 }
 
-                if (m_plateau[2][indBoard] != null && m_plateau[2][indBoard].getAnimaux() == null) {
+                if (m_gameboard[2][indBoard] != null && m_gameboard[2][indBoard].getAnimals() == null) {
                     System.out.println("Vous ne pouvez pas placer de carte ici : un obstacle bloque l'emplacement !\n");
                     return true;
                 }
 
-                int gouttesRequises = m_player.getHand().get(indHand).getGouttesDeSang();
+                int gouttesRequises = m_player.getHand().get(indHand).getBlood();
 
                 if(gouttesRequises == 0)
                 {
-                    if(m_plateau[2][indBoard] == null) {
+                    if(m_gameboard[2][indBoard] == null) {
                         placeCard(indHand, indBoard);
                         return false;
                     } else {
@@ -233,7 +232,7 @@ public class GameManager {
                                 {
                                     System.out.println("Vous avez déjà assez de sang ! Validez votre sacrifice.\n");
                                 }
-                                else if(idxSacrifice >= 0 && idxSacrifice < 4 && m_plateau[2][idxSacrifice] != null && m_plateau[2][idxSacrifice].getAnimaux() != null)
+                                else if(idxSacrifice >= 0 && idxSacrifice < 4 && m_gameboard[2][idxSacrifice] != null && m_gameboard[2][idxSacrifice].getAnimals() != null)
                                 {
                                     if(aSupprimer.contains(idxSacrifice))
                                     {
@@ -241,7 +240,7 @@ public class GameManager {
                                     }
                                     else
                                     {
-                                        enCours += m_plateau[2][idxSacrifice].getNom() + " ";
+                                        enCours += m_gameboard[2][idxSacrifice].getName() + " ";
                                         aSupprimer.add(idxSacrifice);
                                         blood += 1;
                                     }
@@ -272,16 +271,16 @@ public class GameManager {
                         }
 
                         for(int col : aSupprimer) {
-                            m_plateau[2][col] = null;
+                            m_gameboard[2][col] = null;
                         }
 
-                        if(m_plateau[2][indBoard] == null) {
+                        if(m_gameboard[2][indBoard] == null) {
                             placeCard(indHand, indBoard);
                             return false;
                         } else {
                             System.out.println("Placement impossible ! La case ciblée est encore occupée.\n");
                             for(int col : aSupprimer) {
-                                m_plateau[2][col] = null;
+                                m_gameboard[2][col] = null;
                             }
                             return true;
                         }
@@ -304,13 +303,13 @@ public class GameManager {
 
     public void nextTurn()
     {
-        m_tour ++;
+        m_turn++;
     }
 
     public void placeCard(int indHand,int indBoard)
     {
         Cartes maCard = m_player.removeCard(indHand);
-        m_plateau[2][indBoard] = maCard;
+        m_gameboard[2][indBoard] = maCard;
     }
 
     public Boolean gameReview()
@@ -333,9 +332,9 @@ public class GameManager {
 
     public void setScore(int attack){m_score+=attack;}
 
-    public int getTurn(){return m_tour;}
+    public int getTurn(){return m_turn;}
 
-    public Cartes[][] getCartes(){return m_plateau;}
+    public Cartes[][] getCards(){return m_gameboard;}
 
     public ArrayList<Cartes_animaux> getHand(){return m_player.getHand();}
 
@@ -348,7 +347,7 @@ public class GameManager {
     public void setGame(int match, Opponent opponent) {
         opponent.setGameManager(this);
         if (match == 1) {
-            m_plateau[2][1] = new Rocher();
+            m_gameboard[2][1] = new Rocher();
             opponent.setFirstMatch();
         }
         else if(match == 2)
@@ -363,6 +362,6 @@ public class GameManager {
 
     public void setCard(Cartes carte, int row, int columns)
     {
-        m_plateau[row][columns] = carte;
+        m_gameboard[row][columns] = carte;
     }
 }

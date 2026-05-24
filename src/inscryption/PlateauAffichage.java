@@ -5,8 +5,6 @@ import inscryption.cartes.Cartes_animaux;
 import inscryption.players.Opponent;
 import inscryption.players.Player;
 
-import java.util.Scanner;
-
 import static java.lang.Integer.parseInt;
 
 public class PlateauAffichage {
@@ -22,11 +20,11 @@ public class PlateauAffichage {
         m_player = gameManager.getPlayer();
     }
 
-    public void afficherPlateau()
+    public void displayGameboard()
     {
 
             System.out.println("Tour n°" + m_datas.getTurn() + " :                                        Score : " + m_datas.getScore() + "\n");
-            afficherCartes();
+            displayCards();
             System.out.println("Votre main :                                                    Pioche");
             System.out.println("                                                             *___________*");
             int pourlaboucle = (6-m_datas.getHand().size());
@@ -43,11 +41,11 @@ public class PlateauAffichage {
 
                     String ligneFormatee = String.format("%-1d. %-12s PV: %-3d Att: %-2d Sang: %-2d Os: %-10d",
                             (j + 1),
-                            animal.getNom(),
-                            animal.getPointsDeVie(),
-                            animal.getAttaque(),
-                            animal.getGouttesDeSang(),
-                            animal.getOs()
+                            animal.getName(),
+                            animal.getHealthPoints(),
+                            animal.getAttack(),
+                            animal.getBlood(),
+                            animal.getBone()
                     );
                     if(j==2)
                     {
@@ -112,12 +110,12 @@ public class PlateauAffichage {
            // this.m_datas.manageAction();
     }
 
-    public void afficherCartes()
+    public void displayCards()
     {
         for(int i=0; i<3; i++)
         {
             String chaine = "";
-            chaine = afficherRangee(chaine, i);
+            chaine = displayRow(chaine, i);
             if(i==0)
             {
                 for(int j=0; j<4; j++)
@@ -137,11 +135,11 @@ public class PlateauAffichage {
 
     }
 
-    public String afficherRangee(String chaine, int rangee)
+    public String displayRow(String chaine, int rangee)
     {
         int ligne = 1;
         int j=rangee;
-        Cartes[][] cartes = m_datas.getCartes();
+        Cartes[][] cartes = m_datas.getCards();
         for(int i=0; i<7; i++)
         {
             switch(ligne)
@@ -170,8 +168,8 @@ public class PlateauAffichage {
                         }
                         else
                         {
-                            chaine += " | " + cartes[j][l].getNom();
-                            for(int x=0; x<(10-cartes[j][l].getNom().length()); x++)
+                            chaine += " | " + cartes[j][l].getName();
+                            for(int x = 0; x<(10-cartes[j][l].getName().length()); x++)
                             {
                                 chaine += " ";
                             }
@@ -216,7 +214,7 @@ public class PlateauAffichage {
                         }
                         else
                         {
-                            chaine += " | PV : " + cartes[j][l].getPointsDeVie() + "    | ";
+                            chaine += " | PV : " + cartes[j][l].getHealthPoints() + "    | ";
                         }
                     }
                     chaine += "\n";
@@ -229,9 +227,9 @@ public class PlateauAffichage {
                         {
                             chaine += " *           * ";
                         }
-                        else if(cartes[j][l].getAnimaux() != null && cartes[j][l].getAnimaux().getAttaque() > 0)
+                        else if(cartes[j][l].getAnimals() != null && cartes[j][l].getAnimals().getAttack() > 0)
                         {
-                            chaine += " | Att : " + cartes[j][l].getAnimaux().getAttaque() + "   | ";
+                            chaine += " | Att : " + cartes[j][l].getAnimals().getAttack() + "   | ";
                         }
                         else
                         {
@@ -248,7 +246,7 @@ public class PlateauAffichage {
                         {
                             chaine += " *           * ";
                         }
-                        else if(cartes[j][l].getAnimaux() != null && cartes[j][l].getAnimaux().isVolant())
+                        else if(cartes[j][l].getAnimals() != null && cartes[j][l].getAnimals().isFlying())
                         {
                             chaine += " | Volant    | ";
                         }
