@@ -10,16 +10,13 @@ import static java.lang.Integer.parseInt;
 
 public class Player {
 
-    private Boolean m_victoire;
     private ArrayList<Cartes_animaux> m_main;
     private ArrayList<Cartes_animaux> m_pioche;
     private Random m_aleatoire;
     private GameManager m_datas;
-    private int m_score;
 
     public Player()
     {
-        m_victoire = false;
         m_main = new ArrayList<Cartes_animaux>();
         m_pioche = new ArrayList<Cartes_animaux>();
         m_aleatoire = new Random();
@@ -94,7 +91,5 @@ public class Player {
     public ArrayList<Cartes_animaux> getHand(){return m_main;}
 
     public ArrayList<Cartes_animaux> getDraw(){return m_pioche;}
-
-    public Boolean getVictoire(){return m_victoire;}
 
 }

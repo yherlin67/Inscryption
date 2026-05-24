@@ -10,7 +10,7 @@ public class Main
         //Déclaration d'un plateau, qui symbolise l'affichage d'une partie
 
         int nbParties = 1;
-        Boolean matchVictoiry = null;
+        Boolean matchVictory = null;
         boolean continueGame = true;
 
         while(nbParties <= 3 && continueGame)
@@ -21,18 +21,25 @@ public class Main
             gameManager.setGame(nbParties, opponent);
             PlateauAffichage plateau = new PlateauAffichage(gameManager);
             System.out.println("Partie " + nbParties + "\n");
-            while(matchVictoiry == null)
+            while(matchVictory == null)
             {
-                //System.out.flush();
                 plateau.afficherPlateau();
-                matchVictoiry = gameManager.gameReview();
+                matchVictory = gameManager.gameReview();
             }
-            if(!matchVictoiry)
+            if(!matchVictory)
             {
                 continueGame = false;
             }
-            matchVictoiry = null;
+            matchVictory = null;
             nbParties ++;
+        }
+        if (continueGame)
+        {
+            System.out.println("Vous avez survécu ! Bravo !");
+        }
+        else
+        {
+            System.out.println("Retentez votre chance... La prochaine fois sera peut être la bonne.");
         }
     }
 
