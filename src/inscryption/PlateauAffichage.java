@@ -24,8 +24,7 @@ public class PlateauAffichage {
 
     public void afficherPlateau()
     {
-        while(m_player.getVictoire() == null)
-        {
+
             System.out.println("Tour n°" + m_datas.getTurn() + " :                                        Score : " + m_datas.getScore() + "\n");
             afficherCartes();
             System.out.println("Votre main :                                                    Pioche");
@@ -111,7 +110,6 @@ public class PlateauAffichage {
             System.out.println(" [piocher] Piocher une carte");
             System.out.println(" [placer <numero carte> <position>] Placer une carte sur le plateau");
             this.m_datas.manageAction();
-        }
 
     }
 

@@ -1,8 +1,7 @@
 package inscryption;
 
 import inscryption.cartes.*;
-import inscryption.players.Opponent;
-import inscryption.players.Player;
+import inscryption.players.*;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -97,6 +96,22 @@ public class GameManager {
         m_plateau[2][indBoard] = maCard;
     }
 
+    public Boolean gameReview()
+    {
+        if(m_score <= -5)
+        {
+            return false;
+        }
+        else if(m_score >= 5)
+        {
+            return true;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
     public int getScore(){return m_score;}
 
     public void setScore(int attack){m_score+=attack;}
@@ -112,8 +127,6 @@ public class GameManager {
     public Player getPlayer(){return m_player;}
 
     public Opponent getOpponent(){return m_opponent;}
-
-    public void increaseTurn(){m_tour++;}
 
     public void setGame(int match, Opponent opponent) {
         opponent.setGameManager(this);

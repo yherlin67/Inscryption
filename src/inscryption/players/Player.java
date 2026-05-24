@@ -15,10 +15,11 @@ public class Player {
     private ArrayList<Cartes_animaux> m_pioche;
     private Random m_aleatoire;
     private GameManager m_datas;
+    private int m_score;
 
     public Player()
     {
-        m_victoire = null;
+        m_victoire = false;
         m_main = new ArrayList<Cartes_animaux>();
         m_pioche = new ArrayList<Cartes_animaux>();
         m_aleatoire = new Random();
@@ -70,6 +71,15 @@ public class Player {
                     if (m_datas.getCartes()[2][i].getAnimaux() != null)
                     {
                         m_datas.setScore(m_datas.getCartes()[2][i].getAnimaux().getAttaque());
+                    }
+                }
+                else
+                {
+                    int degats = m_datas.getCartes()[2][i].getAnimaux().getAttaque();
+                    m_datas.getCartes()[1][i].subirDegats(degats);
+                    if(m_datas.getCartes()[1][i].getPointsDeVie() <= 0)
+                    {
+                        m_datas.getCartes()[1][i] = null;
                     }
                 }
             }

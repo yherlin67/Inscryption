@@ -9,23 +9,30 @@ public class Main
         System.out.println("Another challenger... It has been ages.");
         //Déclaration d'un plateau, qui symbolise l'affichage d'une partie
 
-        int nbParties = 0;
-        boolean victoire = true;
+        int nbParties = 1;
+        Boolean matchVictoiry = null;
+        boolean continueGame = true;
 
-        while(nbParties < 3 && victoire)
+        while(nbParties <= 3 && continueGame)
         {
             Opponent opponent = new Opponent();
             Player player = new Player();
             GameManager gameManager = new GameManager(player, opponent);
-            gameManager.setGame(nbParties+1, opponent);
+            gameManager.setGame(nbParties, opponent);
             PlateauAffichage plateau = new PlateauAffichage(gameManager);
-            nbParties ++;
             System.out.println("Partie " + nbParties + "\n");
-            while(player.getVictoire() == null)
+            while(matchVictoiry == null)
             {
                 //System.out.flush();
                 plateau.afficherPlateau();
+                matchVictoiry = gameManager.gameReview();
             }
+            if(!matchVictoiry)
+            {
+                continueGame = false;
+            }
+            matchVictoiry = null;
+            nbParties ++;
         }
     }
 

@@ -78,6 +78,15 @@ public class Opponent {
                 {
                    m_datas.setScore(-m_datas.getCartes()[1][i].getAnimaux().getAttaque());
                 }
+                else
+                {
+                    int degats = m_datas.getCartes()[1][i].getAnimaux().getAttaque();
+                    m_datas.getCartes()[2][i].subirDegats(degats);
+                    if(m_datas.getCartes()[2][i].getPointsDeVie() <= 0)
+                    {
+                        m_datas.getCartes()[2][i] = null;
+                    }
+                }
             }
         }
     }
