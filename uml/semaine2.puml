@@ -1,0 +1,164 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+skinparam classAttributeIconSize 0
+skinparam classFontStyle Bold
+skinparam style strictuml
+hide empty members
+
+class Main {
+    +{static}main(args : String[])
+}
+
+package inscryption
+{
+    class PlateauAffichage {
+            - m_datas : GameManager
+            - m_player : Player
+            - m_opponent : Opponent
+            + displayGameBoard() : void
+            + displayCards() : void
+            + displayRows() : String
+
+        }
+
+        class GameManager {
+            -m_score : Integer
+            -m_turn : Integer
+            -m_draw : Boolean
+
+            +<<create>>GameManager(player : Player, opponent : Opponent)
+            +manageAction() : Boolean
+            +nextTurn() : void
+            +placeCard(indHand : Integer, indBoard : Integer) : void
+            +gameReview() : Boolean
+            +getScore() : Integer
+            +setScore(attack : Integer) : void
+            +getTurn() : Integer
+            +getCards() : Cartes[][]
+            +getHand() : ArrayList<Cartes_animaux>
+            +getDraw() : ArrayList<Cartes_animaux>
+            +getPlayer() : Player
+            +getOpponent() : Opponent
+            +setGame(match : Integer, opponent : Opponent) : void
+            +setCard(carte : Cartes, row : Integer, columns : Integer) : void
+        }
+
+        package players {
+
+        class Player {
+            -m_random : Random
+            -m_obtainedBones : int
+            +<<create>>Player()
+             +setGameManager(gameManager : GameManager) : void
+             +createDraw() : void
+             +draw() : void
+             +attack() : void
+             +removeCard(indHand : Integer) : Cartes
+             +getHand() : ArrayList<Cartes_animaux>
+             +getDraw() : ArrayList<Cartes_animaux>
+             +getPlayerBones() : Integer
+             +setPlayerBones(nb : Integer) : void
+             +increaseBones() : void
+
+        }
+
+
+
+        class Opponent {
+
+            +setGameManager(gameManager : GameManager) : void
+            + setFirstMatch() : Void
+            + setSecondMatch() : Void
+            + setThirdMatch() : Void
+            + play() : void
+            +attack() : void
+
+        }
+
+
+        }
+
+
+
+    package cartes {
+
+        abstract class Cartes <<abstract>>{
+            -m_name : String
+            -m_health_points : Integer
+            -m_animals : Cartes_animaux
+            +<<create>> Cartes_obstacles(nom : String , pdv : Integer)
+            +getName() : String
+            +getHealthPoints() : Integer
+            +takeDamage() : void
+            +setAnimals(animal : Cartes_animaux) : void
+            +getAnimals() : Cartes_animaux
+
+        }
+
+        abstract class Cartes_animaux<<abstract>> extends Cartes{
+        -m_attack : Integer
+        -m_blood : Integer
+        -m_bones : Integer
+        -m_flying : Boolean
+        +<<create>>Cartes_animaux(nom : String, att : Integer, pdv : Integer, gds : Integer, os : Integer, vol : Boolean)
+        +getAttack() : Integer
+        +getBlood(): Integer
+        +getBones() : Integer
+        +isFlying() : Boolean
+        }
+        class Chat extends Cartes_animaux{
+            +<<create>>Chat()
+        }
+        class Grizzly extends Cartes_animaux{
+            +<<create>>Grizzly()
+        }
+        class Coyote extends Cartes_animaux{
+            +<<create>>Coyote()
+        }
+        class Moineau extends Cartes_animaux{
+            +<<create>>Moineau()
+        }
+        class Corbeau extends Cartes_animaux{
+            +<<create>>Corbeau()
+        }
+        class Ecureuil extends Cartes_animaux{
+            +<<create>>Ecureuil()
+        }
+        class Hermine extends Cartes_animaux{
+            +<<create>>Hermine()
+        }
+        class Louveteau extends Cartes_animaux{
+            +<<create>>Louveteau()
+        }
+        class Loup extends Cartes_animaux{
+            +<<create>>Loup()
+        }
+        class Punaise extends Cartes_animaux{
+            +<<create>>Punaise()
+        }
+        class Rocher extends Cartes{
+            +<<create>>Rocher()
+        }
+        class Sapin extends Cartes{
+            +<<create>>Sapin()
+        }
+    }
+}
+
+
+Player *--> "- m_main \n 0..*" Cartes_animaux
+Player *--> "- m_gamecards \n 10" Cartes_animaux
+Player o--> "-m_datas \n 1" GameManager
+Opponent o--> "- m_actions : Cartes[0..*] \n 4" Cartes
+Opponent o--> "-m_datas \n 1" GameManager
+GameManager o--> "-m_player \n 1" Player
+GameManager o--> "-m_opponent \n 1" Opponent
+GameManager o--> "-m_gameboard : Cartes[0..4] \n 3" Cartes
+PlateauAffichage o--> "-m_datas \n 1" GameManager
+Main .-> PlateauAffichage : <<create>>
+Main .-> GameManager : <<create>>
+Main .-> Player : <<create>>
+Main .-> Opponent : <<create>>
+Main .-> inscryption : <<uses>>
+@enduml

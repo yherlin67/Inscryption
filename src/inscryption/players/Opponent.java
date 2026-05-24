@@ -85,6 +85,7 @@ public class Opponent {
                     if(m_datas.getCards()[2][i].getHealthPoints() <= 0)
                     {
                         m_datas.getCards()[2][i] = null;
+                        m_datas.getPlayer().increaseBones();
                     }
                 }
             }

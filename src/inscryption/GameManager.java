@@ -40,6 +40,8 @@ public class GameManager {
 
     public boolean manageAction()
     {
+        //Retourne si on doit afficher une erreur ou non !
+
         Scanner sc = new Scanner(System.in);
         String action = sc.nextLine();
         if(action.equals("fin"))
@@ -87,24 +89,45 @@ public class GameManager {
                     return true;
                 }
 
-                if (m_gameboard[2][indBoard] != null && m_gameboard[2][indBoard].getAnimals() == null) {
-                    System.out.println("Vous ne pouvez pas placer de carte ici : un obstacle bloque l'emplacement !\n");
+//                if (m_gameboard[2][indBoard] != null && m_gameboard[2][indBoard].getAnimals() == null) {
+//                    System.out.println("Vous ne pouvez pas placer de carte ici : un obstacle bloque l'emplacement !\n");
+//                    return true;
+//                }
+
+                if (m_gameboard[2][indBoard] != null) {
+                    System.out.println("Vous ne pouvez pas placer de carte ici (case occupée)\n");
                     return true;
                 }
 
-                int gouttesRequises = m_player.getHand().get(indHand).getBlood();
+                int requiedDrop = m_player.getHand().get(indHand).getBlood();
+                int requiedBones = m_player.getHand().get(indHand).getBone();
 
-                if(gouttesRequises == 0)
+                if(requiedDrop == 0 && requiedBones == 0)
                 {
-                    if(m_gameboard[2][indBoard] == null) {
+//                    if(m_gameboard[2][indBoard] == null) {
                         placeCard(indHand, indBoard);
                         return false;
-                    } else {
-                        System.out.println("Vous ne pouvez pas placer ça ici (case occupée)\n");
-                        return true;
+//                    } else {
+//                        System.out.println("Vous ne pouvez pas placer ça ici (case occupée)\n");
+//                        return true;
+//                    }
+                }
+                else if(requiedBones > 0)
+                {
+                    int os = m_player.getPlayerBones();
+                    if(os >= requiedBones)
+                    {
+                        os -= requiedBones;
+                        m_player.setPlayerBones(os);
+                        placeCard(indHand, indBoard);
+                        return false;
+                    }
+                    else
+                    {
+                        System.out.println("Vous n'avez pas assez d'os pour placer cette carte !");
                     }
                 }
-                else
+                else if(requiedDrop > 0)
                 {
                     String enCours = "";
                     ArrayList<Integer> aSupprimer = new ArrayList<>();
@@ -113,7 +136,7 @@ public class GameManager {
                     while(!action.equals("valider sacrifice") && !action.equals("annuler"))
                     {
                         System.out.println("\n [sacrifier <position>]");
-                        System.out.println(" [valider sacrifice] (Sacrifice en cours : " + enCours + " | Récolté : " + blood + "/" + gouttesRequises + ")");
+                        System.out.println(" [valider sacrifice] (Sacrifice en cours : " + enCours + " | Récolté : " + blood + "/" + requiedDrop + ")");
                         System.out.println(" [annuler]");
                         action = sc.nextLine();
 
@@ -123,7 +146,7 @@ public class GameManager {
                             {
                                 int idxSacrifice = Character.getNumericValue(action.charAt(11)) - 1;
 
-                                if(blood >= gouttesRequises)
+                                if(blood >= requiedDrop)
                                 {
                                     System.out.println("Vous avez déjà assez de sang ! Validez votre sacrifice.\n");
                                 }
@@ -160,13 +183,14 @@ public class GameManager {
                     }
 
                     if(action.equals("valider sacrifice")) {
-                        if(blood < gouttesRequises) {
+                        if(blood < requiedDrop) {
                             System.out.println("Pas assez de sang récolté pour cette carte !\n");
                             return true;
                         }
 
                         for(int col : aSupprimer) {
                             m_gameboard[2][col] = null;
+                            m_player.increaseBones();
                         }
 
                         if(m_gameboard[2][indBoard] == null) {
@@ -197,9 +221,9 @@ public class GameManager {
                     return true;
                 }
 
-                int gouttesRequises = m_player.getHand().get(indHand).getBlood();
+                int requiedDrop = m_player.getHand().get(indHand).getBlood();
 
-                if(gouttesRequises == 0)
+                if(requiedDrop == 0)
                 {
                     if(m_gameboard[2][indBoard] == null) {
                         placeCard(indHand, indBoard);
@@ -218,7 +242,7 @@ public class GameManager {
                     while(!action.equals("valider sacrifice") && !action.equals("annuler"))
                     {
                         System.out.println("\n [sacrifier <position>]");
-                        System.out.println(" [valider sacrifice] (Sacrifice en cours : " + enCours + " | Récolté : " + blood + "/" + gouttesRequises + ")");
+                        System.out.println(" [valider sacrifice] (Sacrifice en cours : " + enCours + " | Récolté : " + blood + "/" + requiedDrop + ")");
                         System.out.println(" [annuler]");
                         action = sc.nextLine();
 
@@ -228,7 +252,7 @@ public class GameManager {
                             {
                                 int idxSacrifice = Character.getNumericValue(action.charAt(11)) - 1;
 
-                                if(blood >= gouttesRequises)
+                                if(blood >= requiedDrop)
                                 {
                                     System.out.println("Vous avez déjà assez de sang ! Validez votre sacrifice.\n");
                                 }
@@ -265,7 +289,7 @@ public class GameManager {
                     }
 
                     if(action.equals("valider sacrifice")) {
-                        if(blood < gouttesRequises) {
+                        if(blood < requiedDrop) {
                             System.out.println("Pas assez de sang récolté pour cette carte !\n");
                             return true;
                         }
@@ -299,6 +323,7 @@ public class GameManager {
             System.out.println("Veuillez rentrer une chaîne valide\n");
             return true;
         }
+        return false;
     }
 
     public void nextTurn()

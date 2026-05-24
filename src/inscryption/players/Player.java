@@ -12,6 +12,7 @@ public class Player {
     private ArrayList<Cartes_animaux> m_gamecards;
     private Random m_random;
     private GameManager m_datas;
+    private int m_obtainedBones;
 
     public Player()
     {
@@ -96,5 +97,11 @@ public class Player {
     public ArrayList<Cartes_animaux> getHand(){return m_main;}
 
     public ArrayList<Cartes_animaux> getDraw(){return m_gamecards;}
+
+    public int getPlayerBones() { return m_obtainedBones; }
+
+    public void setPlayerBones(int nb) {m_obtainedBones = nb;}
+
+    public void increaseBones() { m_obtainedBones ++; }
 
 }

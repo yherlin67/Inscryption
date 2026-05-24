@@ -27,6 +27,7 @@ package inscryption
         package players {
 
         class Player {
+
         }
 
         class Opponent {

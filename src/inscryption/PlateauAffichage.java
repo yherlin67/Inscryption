@@ -103,6 +103,14 @@ public class PlateauAffichage {
                 }
                 System.out.println(chaine);
             }
+            if(m_player.getPlayerBones() < 10)
+            {
+                System.out.println("                                                            Os obtenus : " + m_player.getPlayerBones());
+            }
+            else
+            {
+                System.out.println("                                                             Os obtenus : " + m_player.getPlayerBones());
+            }
             System.out.println("\nActions possibles :");
             System.out.println(" [fin] Terminer votre tour");
             System.out.println(" [piocher] Piocher une carte");
