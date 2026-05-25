@@ -1,30 +1,32 @@
 package inscryption;
 
-import inscryption.cartes.Cartes;
-import inscryption.cartes.Cartes_animaux;
+import inscryption.cartes.*;
 import inscryption.players.Opponent;
 import inscryption.players.Player;
 
-import static java.lang.Integer.parseInt;
+import java.util.ArrayList;
+import java.util.Random;
+
+import java.util.Random;
 
 public class PlateauAffichage {
 
     private GameManager m_datas;
     private Opponent m_opponent;
     private Player m_player;
+    private Random m_random;
 
     public PlateauAffichage(GameManager gameManager)
     {
         m_datas = gameManager;
         m_opponent = gameManager.getOpponent();
         m_player = gameManager.getPlayer();
+        m_random = new Random();
     }
 
-    public void displayGameboard()
+    public void displayGameboard(String message)
     {
-
-            System.out.println("Tour n°" + m_datas.getTurn() + " :                                        Score : " + m_datas.getScore() + "\n");
-            displayCards();
+            displayCards(message);
             System.out.println("Votre main :                                                    Pioche");
             System.out.println("                                                             *___________*");
             int pourlaboucle = (6-m_datas.getHand().size());
@@ -103,27 +105,18 @@ public class PlateauAffichage {
                 }
                 System.out.println(chaine);
             }
-            if(m_player.getPlayerBones() < 10)
-            {
-                System.out.println("                                                            Os obtenus : " + m_player.getPlayerBones());
-            }
-            else
-            {
-                System.out.println("                                                             Os obtenus : " + m_player.getPlayerBones());
-            }
             System.out.println("\nActions possibles :");
             System.out.println(" [fin] Terminer votre tour");
             System.out.println(" [piocher] Piocher une carte");
             System.out.println(" [placer <numero carte> <position>] Placer une carte sur le plateau");
-           // this.m_datas.manageAction();
     }
 
-    public void displayCards()
+    public void displayCards(String message)
     {
         for(int i=0; i<3; i++)
         {
             String chaine = "";
-            chaine = displayRow(chaine, i);
+            chaine = displayRow(chaine, i, message);
             if(i==0)
             {
                 for(int j=0; j<4; j++)
@@ -143,7 +136,7 @@ public class PlateauAffichage {
 
     }
 
-    public String displayRow(String chaine, int rangee)
+    public String displayRow(String chaine, int rangee, String message)
     {
         int ligne = 1;
         int j=rangee;
@@ -184,7 +177,14 @@ public class PlateauAffichage {
                             chaine += "| ";
                         }
                     }
-                    chaine += "\n";
+                    if(rangee==1)
+                    {
+                        chaine += "      Partie n°" + m_datas.getGame() + "\n";
+                    }
+                    else
+                    {
+                        chaine += "\n";
+                    }
                     ligne++;
                     break;
                 case 3:
@@ -199,7 +199,14 @@ public class PlateauAffichage {
                             chaine += " |-----------| ";
                         }
                     }
-                    chaine += "\n";
+                    if(rangee==1)
+                    {
+                        chaine += "      Tour n°" + m_datas.getTurn() + "\n";
+                    }
+                    else
+                    {
+                        chaine += "\n";
+                    }
                     ligne++;
                     break;
                 case 4:
@@ -225,7 +232,14 @@ public class PlateauAffichage {
                             chaine += " | PV : " + cartes[j][l].getHealthPoints() + "    | ";
                         }
                     }
-                    chaine += "\n";
+                    if(rangee==1)
+                    {
+                        chaine += "      Score : " + m_datas.getScore() + "\n";
+                    }
+                    else
+                    {
+                        chaine += "\n";
+                    }
                     ligne++;
                     break;
                 case 5:
@@ -244,7 +258,21 @@ public class PlateauAffichage {
                             chaine += " |           | ";
                         }
                     }
-                    chaine += "\n";
+                    if(rangee==1)
+                    {
+                        if(m_player.getPlayerBones() < 10)
+                        {
+                            chaine += "      Os obtenus : " + m_player.getPlayerBones() + "\n";
+                        }
+                        else
+                        {
+                            chaine += "      Os obtenus : " + m_player.getPlayerBones() + "\n";
+                        }
+                    }
+                    else
+                    {
+                        chaine += "\n";
+                    }
                     ligne++;
                     break;
                 case 6:
@@ -263,12 +291,44 @@ public class PlateauAffichage {
                             chaine += " |           | ";
                         }
                     }
-                    chaine += "\n";
+                    if(rangee==1)
+                    {
+                        chaine += "      " + message + "\n";
+                    }
+                    else
+                    {
+                        chaine += "\n";
+                    }
                     ligne++;
 
                     break;
             }
         }
         return chaine;
+    }
+
+    public void displayNewCard()
+    {
+        System.out.println("Vous pouvez désormais ajouter une nouvelle carte dans votre pioche.");
+        System.out.println("Que choisissez vous ?");
+        for(int i=0; i<3; i++)
+        {
+            ArrayList<Cartes_animaux> temp = new ArrayList<Cartes_animaux>();
+            temp.add(new Chat());
+            temp.add(new Corbeau());
+            temp.add(new Coyote());
+            temp.add(new Grizzly());
+            temp.add(new Hermine());
+            temp.add(new Loup());
+            temp.add(new Louveteau());
+            temp.add(new Moineau());
+            temp.add(new Punaise());
+            for(int k=0; k<15; k++)
+            {
+                int index_aleatoire = m_random.nextInt(temp.size());
+                System.out.println(i + ". " + temp.get(index_aleatoire));
+                temp.remove(index_aleatoire);
+            }
+        }
     }
 }

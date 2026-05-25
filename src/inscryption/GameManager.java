@@ -15,6 +15,8 @@ public class GameManager {
     private int m_score;
     private int m_turn;
     private boolean m_draw;
+    private int m_game;
+    private String m_message;
 
     private Cartes m_gameboard[][] = {
             {null, null, null, null},
@@ -30,7 +32,9 @@ public class GameManager {
         m_opponent.setGameManager(this);
         m_turn = 1;
         m_score = 0;
+        m_game = 1;
         m_draw = true;
+        m_message = "";
         m_player.createDraw();
         for(int j=0; j<4; j++)
         {
@@ -49,30 +53,31 @@ public class GameManager {
             m_player.attack();
             if(gameReview() != null)
             {
+                setMessage("Vous avez gagné ! Pour l'instant...");
                 return false;
             }
             m_opponent.play();
             m_draw = true;
             m_opponent.attack();
             nextTurn();
-            System.out.println("Vous finissez votre tour, maintenant au tour de l'adversaire !\n");
+            setMessage("Votre adversaire à joué, à votre tour de jouer maintenant...");
             return false;
         }
         if(action.equals("piocher") && m_draw && !m_player.getDraw().isEmpty())
         {
             m_player.draw();
             m_draw = false;
-            System.out.println("Vous piochez une carte\n");
+            setMessage("Vous piochez une carte");
             return false;
         }
         else if(action.equals("piocher") && !m_draw || m_player.getDraw().isEmpty())
         {
-            System.out.println("Vous ne pouvez pas piocher\n");
+            setMessage("Vous avez déjà pioché voyons ! Ne soyez pas trop gourmand...");
             return true;
         }
         else if(action.length()<6)
         {
-            System.out.println("Veuillez rentrer une chaîne valide\n");
+            setMessage("Je crois que vous ne pouvez pas faire ça dans ce jeu.");
             return true;
         }
         else if(action.substring(0,6).equals("placer") && action.length() >= 10)
@@ -80,6 +85,7 @@ public class GameManager {
             int indHand = 0;
             int indBoard = 0;
 
+            // CAS 1 : Index de la main à 1 chiffre (ex: placer 3 B1)
             if(action.length()==11 && action.charAt(9) == 'B')
             {
                 try {
@@ -89,42 +95,40 @@ public class GameManager {
                     return true;
                 }
 
-//                if (m_gameboard[2][indBoard] != null && m_gameboard[2][indBoard].getAnimals() == null) {
-//                    System.out.println("Vous ne pouvez pas placer de carte ici : un obstacle bloque l'emplacement !\n");
-//                    return true;
-//                }
-
-                if (m_gameboard[2][indBoard] != null) {
-                    System.out.println("Vous ne pouvez pas placer de carte ici (case occupée)\n");
-                    return true;
-                }
-
                 int requiedDrop = m_player.getHand().get(indHand).getBlood();
                 int requiedBones = m_player.getHand().get(indHand).getBone();
 
                 if(requiedDrop == 0 && requiedBones == 0)
                 {
-//                    if(m_gameboard[2][indBoard] == null) {
+                    if(m_gameboard[2][indBoard] == null) {
+                        setMessage("Vous placer la carte");
                         placeCard(indHand, indBoard);
                         return false;
-//                    } else {
-//                        System.out.println("Vous ne pouvez pas placer ça ici (case occupée)\n");
-//                        return true;
-//                    }
+                    } else {
+                        setMessage("Ah non ! C'est déjà occupé ici !");
+                        return true;
+                    }
                 }
                 else if(requiedBones > 0)
                 {
                     int os = m_player.getPlayerBones();
                     if(os >= requiedBones)
                     {
-                        os -= requiedBones;
-                        m_player.setPlayerBones(os);
-                        placeCard(indHand, indBoard);
-                        return false;
+                        if (m_gameboard[2][indBoard] == null) {
+                            os -= requiedBones;
+                            m_player.setPlayerBones(os);
+                            setMessage("Vous placer la carte");
+                            placeCard(indHand, indBoard);
+                            return false;
+                        } else {
+                            setMessage("Ah non ! C'est déjà occupé ici !");
+                            return true;
+                        }
                     }
                     else
                     {
-                        System.out.println("Vous n'avez pas assez d'os pour placer cette carte !");
+                        setMessage("Vous n'avez pas assez d'os pour placer cette carte !");
+                        return true;
                     }
                 }
                 else if(requiedDrop > 0)
@@ -148,13 +152,13 @@ public class GameManager {
 
                                 if(blood >= requiedDrop)
                                 {
-                                    System.out.println("Vous avez déjà assez de sang ! Validez votre sacrifice.\n");
+                                    setMessage("Vous avez déjà assez de sang ! Validez votre sacrifice.");
                                 }
                                 else if(idxSacrifice >= 0 && idxSacrifice < 4 && m_gameboard[2][idxSacrifice] != null && m_gameboard[2][idxSacrifice].getAnimals() != null)
                                 {
                                     if(aSupprimer.contains(idxSacrifice))
                                     {
-                                        System.out.println("Animal déjà sélectionné pour le sacrifice ! \n");
+                                        setMessage("Sacrifiez un animal une fois c'est cruel mais deux fois ??");
                                     }
                                     else
                                     {
@@ -165,26 +169,27 @@ public class GameManager {
                                 }
                                 else
                                 {
-                                    System.out.println("Il n'y a rien (ou un obstacle) à sacrifier ici\n");
+                                    setMessage("Le vide n'est pas un animal à sacrifier.");
                                 }
                             }
                             else
                             {
-                                System.out.println("Veuillez rentrer une chaine valide\n");
+                                setMessage("Je crois que vous ne pouvez pas faire ça dans ce jeu.");
                             }
                         }
                         else if (action.equals("annuler")) {
+                            setMessage("Annulation du sacrifice");
                             return true;
                         }
                         else if (!action.equals("valider sacrifice"))
                         {
-                            System.out.println("Veuillez rentrer une chaine valide\n");
+                            setMessage("Je crois que vous ne pouvez pas faire ça dans ce jeu..");
                         }
                     }
 
                     if(action.equals("valider sacrifice")) {
                         if(blood < requiedDrop) {
-                            System.out.println("Pas assez de sang récolté pour cette carte !\n");
+                            setMessage("Pas assez de sang récolté pour cette carte !");
                             return true;
                         }
 
@@ -195,18 +200,17 @@ public class GameManager {
 
                         if(m_gameboard[2][indBoard] == null) {
                             placeCard(indHand, indBoard);
+                            setMessage("Vous placer la carte.");
                             return false;
                         } else {
-                            System.out.println("Placement impossible ! La case ciblée est encore occupée.\n");
-                            for(int col : aSupprimer) {
-                                m_gameboard[2][col] = null;
-                            }
+                            setMessage("Placement impossible ! La case ciblée est encore occupée.");
                             return true;
                         }
                     }
                     return true;
                 }
             }
+            // CAS 2 : Index de la main à 2 chiffres (ex: placer 10 B1)
             else if(action.length()==12 && action.charAt(10) == 'B')
             {
                 try {
@@ -216,20 +220,16 @@ public class GameManager {
                     return true;
                 }
 
-                if (m_gameboard[2][indBoard] != null && m_gameboard[2][indBoard].getAnimals() == null) {
-                    System.out.println("Vous ne pouvez pas placer de carte ici : un obstacle bloque l'emplacement !\n");
-                    return true;
-                }
-
                 int requiedDrop = m_player.getHand().get(indHand).getBlood();
 
                 if(requiedDrop == 0)
                 {
                     if(m_gameboard[2][indBoard] == null) {
                         placeCard(indHand, indBoard);
+                        setMessage("Vous placer la carte.");
                         return false;
                     } else {
-                        System.out.println("Vous ne pouvez pas placer ça ici (case occupée)\n");
+                        setMessage("Ah non ! C'est déjà occupé ici !");
                         return true;
                     }
                 }
@@ -254,13 +254,13 @@ public class GameManager {
 
                                 if(blood >= requiedDrop)
                                 {
-                                    System.out.println("Vous avez déjà assez de sang ! Validez votre sacrifice.\n");
+                                    setMessage("Vous avez déjà assez de sang ! Pourquoi sacrifier d'autres pauvres bêtes ?");
                                 }
                                 else if(idxSacrifice >= 0 && idxSacrifice < 4 && m_gameboard[2][idxSacrifice] != null && m_gameboard[2][idxSacrifice].getAnimals() != null)
                                 {
                                     if(aSupprimer.contains(idxSacrifice))
                                     {
-                                        System.out.println("Animal déjà sélectionné pour le sacrifice ! \n");
+                                        setMessage("Sacrifiez un animal une fois c'est cruel mais deux fois ??");
                                     }
                                     else
                                     {
@@ -271,41 +271,41 @@ public class GameManager {
                                 }
                                 else
                                 {
-                                    System.out.println("Il n'y a rien (ou un obstacle) à sacrifier ici\n");
+                                    setMessage("Le vide n'est pas un animal à sacrifier.");
                                 }
                             }
                             else
                             {
-                                System.out.println("Veuillez rentrer une chaine valide\n");
+                                setMessage("Je crois que vous ne pouvez pas faire ça dans ce jeu.");
                             }
                         }
                         else if (action.equals("annuler")) {
+                            setMessage("Annulation du sacrifice.");
                             return true;
                         }
                         else if (!action.equals("valider sacrifice"))
                         {
-                            System.out.println("Veuillez rentrer une chaine valide\n");
+                            setMessage("Je crois que vous ne pouvez pas faire ça dans ce jeu.");
                         }
                     }
 
                     if(action.equals("valider sacrifice")) {
                         if(blood < requiedDrop) {
-                            System.out.println("Pas assez de sang récolté pour cette carte !\n");
+                            setMessage("Pas assez de sang récolté pour cette carte !");
                             return true;
                         }
 
                         for(int col : aSupprimer) {
                             m_gameboard[2][col] = null;
+                            m_player.increaseBones();
                         }
 
                         if(m_gameboard[2][indBoard] == null) {
+                            setMessage("Vous placer la carte");
                             placeCard(indHand, indBoard);
                             return false;
                         } else {
-                            System.out.println("Placement impossible ! La case ciblée est encore occupée.\n");
-                            for(int col : aSupprimer) {
-                                m_gameboard[2][col] = null;
-                            }
+                            setMessage("Placement impossible ! La case ciblée est encore occupée.");
                             return true;
                         }
                     }
@@ -314,13 +314,13 @@ public class GameManager {
             }
             else
             {
-                System.out.println("Veuillez rentrer une chaîne valide\n");
+                setMessage("Je crois que vous ne pouvez pas faire ça dans ce jeu.");
                 return true;
             }
         }
         else
         {
-            System.out.println("Veuillez rentrer une chaîne valide\n");
+            setMessage("Je crois que vous ne pouvez pas faire ça dans ce jeu.");
             return true;
         }
         return false;
@@ -336,6 +336,10 @@ public class GameManager {
         Cartes maCard = m_player.removeCard(indHand);
         m_gameboard[2][indBoard] = maCard;
     }
+
+    public void setMessage(String message){m_message = message;}
+
+    public String getMessage(){return m_message;}
 
     public Boolean gameReview()
     {
@@ -369,8 +373,9 @@ public class GameManager {
 
     public Opponent getOpponent(){return m_opponent;}
 
-    public void setGame(int match, Opponent opponent) {
+    public void setGame(int match, Opponent opponent, int actualGame) {
         opponent.setGameManager(this);
+        m_game = actualGame;
         if (match == 1) {
             m_gameboard[2][1] = new Rocher();
             opponent.setFirstMatch();
@@ -389,4 +394,6 @@ public class GameManager {
     {
         m_gameboard[row][columns] = carte;
     }
+
+    public int getGame(){return m_game;}
 }

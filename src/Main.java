@@ -18,12 +18,11 @@ public class Main
             Opponent opponent = new Opponent();
             Player player = new Player();
             GameManager gameManager = new GameManager(player, opponent);
-            gameManager.setGame(nbParties, opponent);
+            gameManager.setGame(nbParties, opponent, nbParties);
             PlateauAffichage plateau = new PlateauAffichage(gameManager);
-            System.out.println("Partie " + nbParties + "\n");
             while(matchVictory == null)
             {
-                plateau.displayGameboard();
+                plateau.displayGameboard(gameManager.getMessage());
                 gameManager.manageAction();
                 matchVictory = gameManager.gameReview();
             }
@@ -33,6 +32,11 @@ public class Main
             }
             matchVictory = null;
             nbParties ++;
+            if(nbParties == 3)
+            {
+                System.out.flush();
+                plateau.displayNewCard();
+            }
         }
         if (continueGame)
         {
