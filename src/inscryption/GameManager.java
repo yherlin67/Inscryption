@@ -4,6 +4,7 @@ import inscryption.cartes.*;
 import inscryption.players.*;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 import static java.lang.Integer.parseInt;
@@ -17,6 +18,7 @@ public class GameManager {
     private boolean m_draw;
     private int m_game;
     private String m_message;
+    private Random m_random;
 
     private Cartes m_gameboard[][] = {
             {null, null, null, null},
@@ -36,17 +38,16 @@ public class GameManager {
         m_draw = true;
         m_message = "";
         m_player.createDraw();
+        m_random = new Random();
         for(int j=0; j<4; j++)
         {
             m_player.draw();
         }
     }
 
-    public boolean manageAction()
+    public boolean manageAction(Scanner sc)
     {
         //Retourne si on doit afficher une erreur ou non !
-
-        Scanner sc = new Scanner(System.in);
         String action = sc.nextLine();
         if(action.equals("fin"))
         {
@@ -387,6 +388,59 @@ public class GameManager {
         else
         {
             opponent.setThirdMatch();
+        }
+    }
+
+    public void proposeAddToDraw(Scanner sc)
+    {
+        System.out.println("Avant de jouer la troisième partie, vous pouvez rajouter une carte dans la pioche parmi les deux cartes ci-dessous ! (tapez 1 ou 2)");
+        Cartes_animaux proposition;
+        ArrayList<Cartes_animaux> propositions = new ArrayList<Cartes_animaux>();
+        ArrayList<Cartes_animaux> temp = new ArrayList<Cartes_animaux>();
+        temp.add(new Ecureuil());
+        temp.add(new Chat());
+        temp.add(new Corbeau());
+        temp.add(new Coyote());
+        temp.add(new Grizzly());
+        temp.add(new Hermine());
+        temp.add(new Loup());
+        temp.add(new Louveteau());
+        temp.add(new Moineau());
+        temp.add(new Punaise());
+        for(int i=0; i <2; i++)
+        {
+            int random_index = m_random.nextInt(temp.size());
+            proposition = temp.get(random_index);
+            propositions.add(proposition);
+            temp.remove(random_index);
+            String ligneFormatee = String.format("%-2d %-12s PV: %-3d Att: %-2d Sang: %-2d Os: %-10d",
+                    (i+1),
+                    proposition.getName(),
+                    proposition.getHealthPoints(),
+                    proposition.getAttack(),
+                    proposition.getBlood(),
+                    proposition.getBone());
+            System.out.println(ligneFormatee);
+        }
+        String choix;
+        boolean valide = false;
+        while(!valide)
+        {
+            choix = sc.nextLine();
+            if(choix.equals("1"))
+            {
+                m_player.getDraw().add(propositions.get(0));
+                valide = true;
+            }
+            else if(choix.equals("2"))
+            {
+                m_player.getDraw().add(propositions.get(1));
+                valide = true;
+            }
+            else
+            {
+                System.out.println("Tapez 1 ou 2 c'est pas compliqué non ?");
+            }
         }
     }
 

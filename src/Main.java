@@ -2,6 +2,8 @@ import inscryption.*;
 import inscryption.players.Opponent;
 import inscryption.players.Player;
 
+import java.util.Scanner;
+
 public class Main
 {
     public static void main(String[] args)
@@ -9,9 +11,10 @@ public class Main
         System.out.println("Another challenger... It has been ages.");
         //Déclaration d'un plateau, qui symbolise l'affichage d'une partie
 
-        int nbParties = 1;
+        int nbParties = 3;
         Boolean matchVictory = null;
         boolean continueGame = true;
+        Scanner sc = new Scanner(System.in);
 
         while(nbParties <= 3 && continueGame)
         {
@@ -20,10 +23,14 @@ public class Main
             GameManager gameManager = new GameManager(player, opponent);
             gameManager.setGame(nbParties, opponent, nbParties);
             PlateauAffichage plateau = new PlateauAffichage(gameManager);
+            if(nbParties == 3)
+            {
+                gameManager.proposeAddToDraw(sc);
+            }
             while(matchVictory == null)
             {
                 plateau.displayGameboard(gameManager.getMessage());
-                gameManager.manageAction();
+                gameManager.manageAction(sc);
                 matchVictory = gameManager.gameReview();
             }
             if(!matchVictory)
@@ -32,11 +39,10 @@ public class Main
             }
             matchVictory = null;
             nbParties ++;
-            if(nbParties == 3)
-            {
-                System.out.flush();
-                plateau.displayNewCard();
-            }
+//            if(nbParties == 3)
+//            {
+//                System.out.flush();
+//            }
         }
         if (continueGame)
         {

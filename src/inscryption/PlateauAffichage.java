@@ -307,28 +307,4 @@ public class PlateauAffichage {
         return chaine;
     }
 
-    public void displayNewCard()
-    {
-        System.out.println("Vous pouvez désormais ajouter une nouvelle carte dans votre pioche.");
-        System.out.println("Que choisissez vous ?");
-        for(int i=0; i<3; i++)
-        {
-            ArrayList<Cartes_animaux> temp = new ArrayList<Cartes_animaux>();
-            temp.add(new Chat());
-            temp.add(new Corbeau());
-            temp.add(new Coyote());
-            temp.add(new Grizzly());
-            temp.add(new Hermine());
-            temp.add(new Loup());
-            temp.add(new Louveteau());
-            temp.add(new Moineau());
-            temp.add(new Punaise());
-            for(int k=0; k<15; k++)
-            {
-                int index_aleatoire = m_random.nextInt(temp.size());
-                System.out.println(i + ". " + temp.get(index_aleatoire));
-                temp.remove(index_aleatoire);
-            }
-        }
-    }
 }
