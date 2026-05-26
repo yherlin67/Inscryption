@@ -1,6 +1,7 @@
 package inscryption.players;
 
 import inscryption.GameManager;
+import inscryption.PowerEnum;
 import inscryption.cartes.*;
 
 import java.util.ArrayList;
@@ -97,6 +98,13 @@ public class Opponent {
                 else
                 {
                     int degats = m_datas.getCards()[1][i].getAnimals().getAttack();
+                    if(m_datas.getCards()[2][i].getAnimals() != null)
+                    {
+                        if(m_datas.getCards()[2][i].getAnimals().getPower() == PowerEnum.PUANT)
+                        {
+                            degats --;
+                        }
+                    }
                     m_datas.getCards()[2][i].takeDamage(degats);
                     if(m_datas.getCards()[2][i].getHealthPoints() <= 0)
                     {

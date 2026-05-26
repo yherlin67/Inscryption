@@ -62,6 +62,23 @@ public class GameManager {
             m_opponent.attack();
             nextTurn();
             setMessage("Votre adversaire à joué, à votre tour de jouer maintenant...");
+            if(m_turn == 2)
+            {
+                for(int i = 0; i < 4; i++)
+                {
+
+                    if(m_gameboard[2][i].getAnimals() != null)
+                    {
+                        if(m_gameboard[2][i].getAnimals().getPower() == PowerEnum.CROISSANCE)
+                        {
+                            Cartes_animaux loup = new Loup();
+                            m_gameboard[2][i] = loup;
+                            System.out.println("Chouette ! Une de vos cartes s'est transformée en Loup !");
+                        }
+                    }
+
+                }
+            }
             return false;
         }
         if(action.equals("piocher") && m_draw && !m_player.getDraw().isEmpty())
@@ -164,7 +181,10 @@ public class GameManager {
                                     else
                                     {
                                         enCours += m_gameboard[2][idxSacrifice].getName() + " ";
-                                        aSupprimer.add(idxSacrifice);
+                                        if(m_gameboard[2][idxSacrifice].getAnimals().getPower() != PowerEnum.NOMBREUSES_VIES)
+                                        {
+                                            aSupprimer.add(idxSacrifice);
+                                        }
                                         blood += 1;
                                     }
                                 }
@@ -266,7 +286,10 @@ public class GameManager {
                                     else
                                     {
                                         enCours += m_gameboard[2][idxSacrifice].getName() + " ";
-                                        aSupprimer.add(idxSacrifice);
+                                        if(m_gameboard[2][idxSacrifice].getAnimals().getPower() != PowerEnum.NOMBREUSES_VIES)
+                                        {
+                                            aSupprimer.add(idxSacrifice);
+                                        }
                                         blood += 1;
                                     }
                                 }

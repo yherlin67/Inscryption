@@ -41,13 +41,14 @@ public class PlateauAffichage {
                 {
                     Cartes_animaux animal = m_datas.getHand().get(j);
 
-                    String ligneFormatee = String.format("%-1d. %-12s PV: %-3d Att: %-2d Sang: %-2d Os: %-10d",
+                    String ligneFormatee = String.format("%-1d. %-12s PV: %-3d Att: %-2d Sang: %-2d Os: %-2d Pouvoir: %-15s",
                             (j + 1),
                             animal.getName(),
                             animal.getHealthPoints(),
                             animal.getAttack(),
                             animal.getBlood(),
-                            animal.getBone()
+                            animal.getBone(),
+                            animal.getPower().toString()
                     );
                     if(j==2)
                     {
