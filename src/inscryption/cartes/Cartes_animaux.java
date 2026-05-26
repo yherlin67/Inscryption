@@ -2,6 +2,7 @@ package inscryption.cartes;
 
 import inscryption.PowerEnum;
 
+
 public abstract class Cartes_animaux extends Cartes{
 
     private final int m_attack;
