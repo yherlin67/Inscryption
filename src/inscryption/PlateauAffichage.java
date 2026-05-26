@@ -27,8 +27,8 @@ public class PlateauAffichage {
     public void displayGameboard(String message)
     {
             displayCards(message);
-            System.out.println("Votre main :                                                    Pioche");
-            System.out.println("                                                             *___________*");
+            System.out.println("Votre main :                                                                       Pioche");
+            System.out.println("                                                                                *___________*");
             int pourlaboucle = (6-m_datas.getHand().size());
             if(pourlaboucle<0)
             {
@@ -54,24 +54,24 @@ public class PlateauAffichage {
                     {
                         if(m_datas.getDraw().size() >= 10)
                         {
-                            chaine += ligneFormatee + "      |     " + m_datas.getDraw().size() + "    |";
+                            chaine += ligneFormatee + "        |     " + m_datas.getDraw().size() + "    |";
                         }
                         else
                         {
-                            chaine += ligneFormatee + "      |     " + m_datas.getDraw().size() + "     |";
+                            chaine += ligneFormatee + "        |     " + m_datas.getDraw().size() + "     |";
                         }
                     }
                     else if(j==3)
                     {
-                        chaine += ligneFormatee + "      |   cartes  |";
+                        chaine += ligneFormatee + "        |   cartes  |";
                     }
                     else if(j==5)
                     {
-                        chaine += ligneFormatee + "      *___________*";
+                        chaine += ligneFormatee + "        *___________*";
                     }
                     else if(j<6)
                     {
-                        chaine += ligneFormatee + "      |           |";
+                        chaine += ligneFormatee + "        |           |";
                     }
                     else
                     {
@@ -84,24 +84,24 @@ public class PlateauAffichage {
                     {
                         if(m_datas.getDraw().size() >= 10)
                         {
-                            chaine += "                                                             |     " + m_datas.getDraw().size() + "    |";
+                            chaine += "                                                                                |     " + m_datas.getDraw().size() + "    |";
                         }
                         else
                         {
-                            chaine +=  "                                                             |     " + m_datas.getDraw().size() + "     |";
+                            chaine +=  "                                                                                |     " + m_datas.getDraw().size() + "     |";
                         }
                     }
                     else if(j==3)
                     {
-                        chaine += "                                                             |   cartes  |";
+                        chaine += "                                                                                |   cartes  |";
                     }
                     else if(j!=5)
                     {
-                        chaine += "                                                             |           |";
+                        chaine += "                                                                                |           |";
                     }
                     else
                     {
-                        chaine += "                                                             *___________*";
+                        chaine += "                                                                                *___________*";
                     }
                 }
                 System.out.println(chaine);
@@ -142,12 +142,12 @@ public class PlateauAffichage {
         int ligne = 1;
         int j=rangee;
         Cartes[][] cartes = m_datas.getCards();
-        for(int i=0; i<7; i++)
+        for(int i=0; i<8; i++)
         {
             switch(ligne)
             {
                 case 1:
-                case 7:
+                case 8:
                     for(int l=0; l<4; l++)
                     {
                         if(cartes[j][l] == null)
@@ -158,7 +158,14 @@ public class PlateauAffichage {
                             chaine += " *___________* ";
                         }
                     }
-                    chaine += "\n";
+                    if(rangee==1 && ligne == 1)
+                    {
+                        chaine += "      Partie n°" + m_datas.getGame() + "\n";
+                    }
+                    else
+                    {
+                        chaine += "\n";
+                    }
                     ligne++;
                     break;
                 case 2:
@@ -180,7 +187,7 @@ public class PlateauAffichage {
                     }
                     if(rangee==1)
                     {
-                        chaine += "      Partie n°" + m_datas.getGame() + "\n";
+                        chaine += "      Tour n°" + m_datas.getTurn() + "\n";
                     }
                     else
                     {
@@ -202,7 +209,7 @@ public class PlateauAffichage {
                     }
                     if(rangee==1)
                     {
-                        chaine += "      Tour n°" + m_datas.getTurn() + "\n";
+                        chaine += "      Score : " + m_datas.getScore() + "\n";
                     }
                     else
                     {
@@ -235,7 +242,7 @@ public class PlateauAffichage {
                     }
                     if(rangee==1)
                     {
-                        chaine += "      Score : " + m_datas.getScore() + "\n";
+                        chaine += "      Os obtenus : " + m_player.getPlayerBones() + "\n";
                     }
                     else
                     {
@@ -261,14 +268,7 @@ public class PlateauAffichage {
                     }
                     if(rangee==1)
                     {
-                        if(m_player.getPlayerBones() < 10)
-                        {
-                            chaine += "      Os obtenus : " + m_player.getPlayerBones() + "\n";
-                        }
-                        else
-                        {
-                            chaine += "      Os obtenus : " + m_player.getPlayerBones() + "\n";
-                        }
+                        chaine += "      " + message + "\n";
                     }
                     else
                     {
@@ -290,6 +290,22 @@ public class PlateauAffichage {
                         else
                         {
                             chaine += " |           | ";
+                        }
+                    }
+                    chaine += "\n";
+                    ligne++;
+
+                    break;
+                case 7:
+                    for(int l=0; l<4; l++)
+                    {
+                        if(cartes[j][l] == null)
+                        {
+                            chaine += " *           * ";
+                        }
+                        else if(cartes[j][l].getAnimals() != null)
+                        {
+                            chaine += " | " + cartes[j][l].getAnimals().getPower().toString() + "| ";
                         }
                     }
                     if(rangee==1)
