@@ -1,6 +1,7 @@
 package inscryption.players;
 
 import inscryption.GameManager;
+import inscryption.PowerEnum;
 import inscryption.cartes.*;
 
 import java.util.ArrayList;
@@ -28,11 +29,6 @@ public class Player {
     public void createDraw()
     {
         ArrayList<Cartes_animaux> temp = new ArrayList<Cartes_animaux>();
-        for(int i=0; i<6; i++)
-        {
-            Ecureuil e = new Ecureuil();
-            temp.add(e);
-        }
         temp.add(new Chat());
         temp.add(new Corbeau());
         temp.add(new Coyote());
@@ -42,11 +38,24 @@ public class Player {
         temp.add(new Louveteau());
         temp.add(new Moineau());
         temp.add(new Punaise());
+        temp.add(new Elan());
+        temp.add(new Vipere());
+        temp.add(new Porc_epic());
+        while(temp.size() != 7)
+        {
+            int aleatoireIndex = m_random.nextInt(temp.size());
+            temp.remove(temp.get(aleatoireIndex));
+        }
+        for(int i=0; i<6; i++)
+        {
+            Ecureuil e = new Ecureuil();
+            temp.add(e);
+        }
         for(int k=0; k<15; k++)
         {
-            int index_aleatoire = m_random.nextInt(temp.size());
-            m_gamecards.add(temp.get(index_aleatoire));
-            temp.remove(index_aleatoire);
+            int aleatoireIndex = m_random.nextInt(temp.size());
+            m_gamecards.add(temp.get(aleatoireIndex));
+            temp.remove(aleatoireIndex);
         }
     }
 
@@ -80,6 +89,34 @@ public class Player {
                     else if(m_datas.getCards()[2][i].getAnimals() != null && !m_datas.getCards()[2][i].getAnimals().isFlying())
                     {
                         m_datas.getCards()[1][i].takeDamage(degats);
+
+                        if(m_datas.getCards()[2][i].getAnimals().getPower() == PowerEnum.CONTACT_MORTEL && m_datas.getCards()[2][i].getAnimals() != null)
+                        {
+                            m_datas.getCards()[1][i] = null;
+                        }
+
+                        if(m_datas.getCards()[1][i].getAnimals().getPower() == PowerEnum.PIQUES_POINTUES && m_datas.getCards()[2][i].getAnimals() != null)
+                        {
+                            m_datas.getCards()[2][i].takeDamage(1);
+                        }
+
+                        if(m_datas.getCards()[2][i].getAnimals().getPower() == PowerEnum.COUREUR && m_datas.getCards()[2][i].getAnimals() != null)
+                        {
+                            if(m_datas.getCards()[2][i].getAnimals() != null)
+                            {
+                                if(i<3 && m_datas.getCards()[2][i+1] != null)
+                                {
+                                    m_datas.getCards()[2][i+1] = m_datas.getCards()[2][i].getAnimals();
+                                    m_datas.getCards()[2][i] = null;
+                                }
+                                else if(i>0 && m_datas.getCards()[2][i-1] != null)
+                                {
+                                    m_datas.getCards()[2][i-1] = m_datas.getCards()[2][i].getAnimals();
+                                    m_datas.getCards()[2][i] = null;
+                                }
+                            }
+                        }
+
                         if (m_datas.getCards()[1][i].getHealthPoints() <= 0) {
                             m_datas.getCards()[1][i] = null;
                         }

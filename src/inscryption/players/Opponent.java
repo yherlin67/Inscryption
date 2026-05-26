@@ -1,6 +1,7 @@
 package inscryption.players;
 
 import inscryption.GameManager;
+import inscryption.PowerEnum;
 import inscryption.cartes.*;
 
 import java.util.ArrayList;
@@ -97,11 +98,44 @@ public class Opponent {
                 else
                 {
                     int degats = m_datas.getCards()[1][i].getAnimals().getAttack();
-                    m_datas.getCards()[2][i].takeDamage(degats);
-                    if(m_datas.getCards()[2][i].getHealthPoints() <= 0)
+                    if(m_datas.getCards()[1][i].getAnimals() != null && m_datas.getCards()[1][i].getAnimals().isFlying())
                     {
-                        m_datas.getCards()[2][i] = null;
-                        m_datas.getPlayer().increaseBones();
+                        m_datas.setScore(degats);
+                    }
+                    else if(m_datas.getCards()[1][i].getAnimals() != null && !m_datas.getCards()[1][i].getAnimals().isFlying())
+                    {
+                        m_datas.getCards()[2][i].takeDamage(degats);
+
+                        if(m_datas.getCards()[1][i].getAnimals().getPower() == PowerEnum.CONTACT_MORTEL && m_datas.getCards()[1][i].getAnimals() != null)
+                        {
+                            m_datas.getCards()[2][i] = null;
+                        }
+
+                        if(m_datas.getCards()[2][i].getAnimals().getPower() == PowerEnum.PIQUES_POINTUES && m_datas.getCards()[1][i].getAnimals() != null)
+                        {
+                            m_datas.getCards()[1][i].takeDamage(1);
+                        }
+
+                        if(m_datas.getCards()[2][i].getAnimals().getPower() == PowerEnum.COUREUR && m_datas.getCards()[2][i].getAnimals() != null)
+                        {
+                            if(m_datas.getCards()[2][i].getAnimals() != null)
+                            {
+                                if(i<3 && m_datas.getCards()[2][i+1] != null)
+                                {
+                                    m_datas.getCards()[2][i+1] = m_datas.getCards()[2][i].getAnimals();
+                                    m_datas.getCards()[2][i] = null;
+                                }
+                                else if(i>0 && m_datas.getCards()[2][i-1] != null)
+                                {
+                                    m_datas.getCards()[2][i-1] = m_datas.getCards()[2][i].getAnimals();
+                                    m_datas.getCards()[2][i] = null;
+                                }
+                            }
+                        }
+
+                        if (m_datas.getCards()[2][i].getHealthPoints() <= 0) {
+                            m_datas.getCards()[2][i] = null;
+                        }
                     }
                 }
             }
