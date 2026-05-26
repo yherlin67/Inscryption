@@ -15,6 +15,9 @@ public class PlateauAffichage {
     private Opponent m_opponent;
     private Player m_player;
     private Random m_random;
+    private int m_opponentAttack;
+    private int m_playerAttack;
+    private int m_actualTurn;
 
     public PlateauAffichage(GameManager gameManager)
     {
@@ -22,6 +25,9 @@ public class PlateauAffichage {
         m_opponent = gameManager.getOpponent();
         m_player = gameManager.getPlayer();
         m_random = new Random();
+        m_opponentAttack = 0;
+        m_playerAttack = 0;
+        m_actualTurn = 1;
     }
 
     public void displayGameboard(String message)
@@ -292,7 +298,14 @@ public class PlateauAffichage {
                             chaine += " |           | ";
                         }
                     }
-                    chaine += "\n";
+                    if(rangee==1)
+                    {
+                        chaine += "      Dégats infligés au tour précédent :\n";
+                    }
+                    else
+                    {
+                        chaine += "\n";
+                    }
                     ligne++;
 
                     break;
@@ -307,10 +320,17 @@ public class PlateauAffichage {
                         {
                             chaine += " | " + cartes[j][l].getAnimals().getPower().toString() + "| ";
                         }
+                        else
+                        {
+                            chaine += " |           | ";
+                        }
                     }
-                    if(rangee==1)
+                    if(rangee==1 && m_datas.getTurn() == m_actualTurn+1)
                     {
-                        chaine += "      " + message + "\n";
+                        m_playerAttack = m_player.getTurnAttack();
+                        m_opponentAttack = m_opponent.getTurnAttack();
+                        chaine += "      Joueur : " + m_playerAttack + "| Adversaire : " + m_opponentAttack + "\n";
+                        m_actualTurn++;
                     }
                     else
                     {

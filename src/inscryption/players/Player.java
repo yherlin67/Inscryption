@@ -65,6 +65,17 @@ public class Player {
         m_main.add(carte);
     }
 
+
+    public int getTurnAttack(){
+        int attack = 0;
+        for(int i=0; i<4; i++) {
+            if (m_datas.getCards()[2][i] != null && m_datas.getCards()[2][i].getAnimals() != null) {
+                attack += m_datas.getCards()[2][i].getAnimals().getAttack();
+            }
+        }
+        return attack;
+    }
+
     public void attack()
     {
         for(int i=0; i<4; i++)

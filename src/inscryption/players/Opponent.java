@@ -8,17 +8,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Opponent {
-    private ArrayList<Cartes>[] m_actions = new ArrayList[]{
-            new ArrayList<>(),
-            new ArrayList<>(),
-            new ArrayList<>(),
-            new ArrayList<>()
-    };
+    private ArrayList<Cartes>[] m_actions;
 
     private GameManager m_datas;
 
     public Opponent()
     {
+        m_actions = new ArrayList[]{
+                new ArrayList<>(),
+                new ArrayList<>(),
+                new ArrayList<>(),
+                new ArrayList<>()
+        };
     }
 
     public void setGameManager(GameManager gameManager) {
@@ -85,6 +86,15 @@ public class Opponent {
         }
     }
 
+    public int getTurnAttack(){
+        int attack = 0;
+        for(int i=0; i<4; i++) {
+            if (m_datas.getCards()[1][i] != null && m_datas.getCards()[1][i].getAnimals() != null) {
+                attack += m_datas.getCards()[1][i].getAnimals().getAttack();
+            }
+        }
+        return attack;
+    }
 
     public void attack()
     {

@@ -67,7 +67,7 @@ public class GameManager {
                 for(int i = 0; i < 4; i++)
                 {
 
-                    if(m_gameboard[2][i] != null)
+                    if(m_gameboard[2][i] != null && m_gameboard[2][i].getAnimals() != null)
                     {
                         if(m_gameboard[2][i].getAnimals().getPower() == PowerEnum.CROISSANCE)
                         {
