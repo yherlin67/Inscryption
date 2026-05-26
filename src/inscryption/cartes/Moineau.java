@@ -1,6 +1,8 @@
 package inscryption.cartes;
 
+import inscryption.PowerEnum;
+
 public class Moineau extends Cartes_animaux{
 
-    public Moineau() { super("Moineau", 1, 2, 1, 0, true); }
+public Moineau() { super("Moineau", 1, 2, 1, 0, true, PowerEnum.AUCUN); }
 }
