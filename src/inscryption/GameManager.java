@@ -153,13 +153,13 @@ public class GameManager {
 
                                 if(blood >= requiedDrop)
                                 {
-                                    setMessage("Vous avez déjà assez de sang ! Validez votre sacrifice.");
+                                    System.out.println("Vous avez déjà assez de sang ! Validez votre sacrifice.");
                                 }
                                 else if(idxSacrifice >= 0 && idxSacrifice < 4 && m_gameboard[2][idxSacrifice] != null && m_gameboard[2][idxSacrifice].getAnimals() != null)
                                 {
                                     if(aSupprimer.contains(idxSacrifice))
                                     {
-                                        setMessage("Sacrifiez un animal une fois c'est cruel mais deux fois ??");
+                                        System.out.println("Sacrifiez un animal une fois c'est cruel mais deux fois ??");
                                     }
                                     else
                                     {
@@ -170,7 +170,7 @@ public class GameManager {
                                 }
                                 else
                                 {
-                                    setMessage("Le vide n'est pas un animal à sacrifier.");
+                                    System.out.println("Le vide n'est pas un animal à sacrifier.");
                                 }
                             }
                             else
@@ -184,13 +184,13 @@ public class GameManager {
                         }
                         else if (!action.equals("valider sacrifice"))
                         {
-                            setMessage("Je crois que vous ne pouvez pas faire ça dans ce jeu..");
+                            System.out.println("Je crois que vous ne pouvez pas faire ça dans ce jeu..");
                         }
                     }
 
                     if(action.equals("valider sacrifice")) {
                         if(blood < requiedDrop) {
-                            setMessage("Pas assez de sang récolté pour cette carte !");
+                            System.out.println("Pas assez de sang récolté pour cette carte !");
                             return true;
                         }
 
@@ -255,13 +255,13 @@ public class GameManager {
 
                                 if(blood >= requiedDrop)
                                 {
-                                    setMessage("Vous avez déjà assez de sang ! Pourquoi sacrifier d'autres pauvres bêtes ?");
+                                    System.out.println("Vous avez déjà assez de sang ! Pourquoi sacrifier d'autres pauvres bêtes ?");
                                 }
                                 else if(idxSacrifice >= 0 && idxSacrifice < 4 && m_gameboard[2][idxSacrifice] != null && m_gameboard[2][idxSacrifice].getAnimals() != null)
                                 {
                                     if(aSupprimer.contains(idxSacrifice))
                                     {
-                                        setMessage("Sacrifiez un animal une fois c'est cruel mais deux fois ??");
+                                        System.out.println("Sacrifiez un animal une fois c'est cruel mais deux fois ??");
                                     }
                                     else
                                     {
@@ -272,7 +272,7 @@ public class GameManager {
                                 }
                                 else
                                 {
-                                    setMessage("Le vide n'est pas un animal à sacrifier.");
+                                    System.out.println("Le vide n'est pas un animal à sacrifier.");
                                 }
                             }
                             else
@@ -292,7 +292,7 @@ public class GameManager {
 
                     if(action.equals("valider sacrifice")) {
                         if(blood < requiedDrop) {
-                            setMessage("Pas assez de sang récolté pour cette carte !");
+                            System.out.println("Pas assez de sang récolté pour cette carte !");
                             return true;
                         }
 
