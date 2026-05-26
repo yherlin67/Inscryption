@@ -99,7 +99,7 @@ public class Player {
 
                         if(m_datas.getCards()[2][i].getAnimals().getPower() == PowerEnum.CONTACT_MORTEL && m_datas.getCards()[2][i].getAnimals() != null)
                         {
-                            m_datas.getCards()[1][i] = null;
+                            m_datas.getCards()[1][i].takeDamage(999);
                         }
 
                         if(m_datas.getCards()[1][i].getAnimals().getPower() == PowerEnum.PIQUES_POINTUES && m_datas.getCards()[2][i].getAnimals() != null)
@@ -111,12 +111,12 @@ public class Player {
                         {
                             if(m_datas.getCards()[2][i].getAnimals() != null)
                             {
-                                if(i<3 && m_datas.getCards()[2][i+1] != null)
+                                if(i<3 && m_datas.getCards()[2][i+1] != null && m_datas.getCards()[2][i+1].getAnimals() == null)
                                 {
                                     m_datas.getCards()[2][i+1] = m_datas.getCards()[2][i].getAnimals();
                                     m_datas.getCards()[2][i] = null;
                                 }
-                                else if(i>0 && m_datas.getCards()[2][i-1] != null)
+                                else if(i>0 && m_datas.getCards()[2][i-1] != null && m_datas.getCards()[2][i-1].getAnimals() == null)
                                 {
                                     m_datas.getCards()[2][i-1] = m_datas.getCards()[2][i].getAnimals();
                                     m_datas.getCards()[2][i] = null;
@@ -124,7 +124,7 @@ public class Player {
                             }
                         }
 
-                        if (m_datas.getCards()[1][i].getHealthPoints() <= 0) {
+                        if (m_datas.getCards()[1][i] != null && m_datas.getCards()[1][i].getHealthPoints() <= 0) {
                             m_datas.getCards()[1][i] = null;
                         }
                     }

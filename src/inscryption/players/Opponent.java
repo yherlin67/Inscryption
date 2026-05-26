@@ -85,6 +85,7 @@ public class Opponent {
         }
     }
 
+
     public void attack()
     {
         for(int i=0; i<4; i++)
@@ -93,7 +94,7 @@ public class Opponent {
             {
                 if(m_datas.getCards()[2][i] == null)
                 {
-                   m_datas.setScore(-m_datas.getCards()[1][i].getAnimals().getAttack());
+                    m_datas.setScore(-m_datas.getCards()[1][i].getAnimals().getAttack());
                 }
                 else
                 {
@@ -105,7 +106,6 @@ public class Opponent {
                             degats --;
                         }
                     }
-                    m_datas.getCards()[2][i].takeDamage(degats);
                     if(m_datas.getCards()[1][i].getAnimals() != null && m_datas.getCards()[1][i].getAnimals().isFlying())
                     {
                         m_datas.setScore(degats);
@@ -116,7 +116,7 @@ public class Opponent {
 
                         if(m_datas.getCards()[1][i].getAnimals().getPower() == PowerEnum.CONTACT_MORTEL && m_datas.getCards()[1][i].getAnimals() != null)
                         {
-                            m_datas.getCards()[2][i] = null;
+                            m_datas.getCards()[2][i].takeDamage(999);
                         }
 
                         if(m_datas.getCards()[2][i].getAnimals().getPower() == PowerEnum.PIQUES_POINTUES && m_datas.getCards()[1][i].getAnimals() != null)
@@ -141,7 +141,7 @@ public class Opponent {
                             }
                         }
 
-                        if (m_datas.getCards()[2][i].getHealthPoints() <= 0) {
+                        if (m_datas.getCards()[2][i] != null && m_datas.getCards()[2][i].getHealthPoints() <= 0) {
                             m_datas.getCards()[2][i] = null;
                         }
                     }
@@ -149,4 +149,5 @@ public class Opponent {
             }
         }
     }
+
 }
