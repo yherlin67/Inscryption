@@ -469,97 +469,67 @@ public class GameManager {
 
     public void displaySacrificeStone(Scanner sc)
     {
-        boolean present = false;
         System.out.println("Bien, maintenant vous devez choisir une carte à sacrifier ! (si la carte que vous choisissez à un pouvoir, vous pourrez ajouter ce dernier à une autre carte)");
-        for(int i = 0; i < 4; i++)
+        System.out.println("Tapez le numéro de la carte à sacrifier :");
+        for(int i = 0; i < m_player.getDraw().size(); i++)
         {
-            if(m_gameboard[2][i] != null)
-            {
-                present = true;
-            }
-        }
-        if(present)
-        {
-            System.out.println("Tapez l'emplacement' de la carte à sacrifier :");
-            String choice;
-            boolean valide = false;
-            while(!valide)
-            {
-                int numChoice;
-                choice = sc.nextLine();
-                if(choice.charAt(0) == 'B')
-                {
-                    numChoice = Character.getNumericValue(choice.charAt(1)) - 1;
-                    if(numChoice >= 0 && numChoice < 4 && m_gameboard[2][numChoice] != null && m_gameboard[2][numChoice].getAnimals() != null)
-                    {
-                        valide = true;
-                        logicSacrificeStone(numChoice,sc);
-                    }
-                    else
-                    {
-                        System.out.println("Je crois que vous ne pouvez pas faire ça dans ce jeu.");
-                    }
-                }
-                else
-                {
-                    setMessage("Je crois que vous ne pouvez pas faire ça dans ce jeu.");
-                }
-            }
-        }
-        else
-        {
-            System.out.println("Oups ! Il n'y a aucune carte à sacrifier sur le plateau !");
-        }
+            String chaine = "";
+            Cartes_animaux animal = m_player.getHand().get(i);
 
-    }
-
-    public void logicSacrificeStone(int numChoice, Scanner sc)
-    {
-        boolean present = false;
-        Cartes_animaux toSacrifice = m_gameboard[2][numChoice].getAnimals();
-        if(toSacrifice.getPower().getFirst() != PowerEnum.AUCUN)
+            String ligneFormatee = String.format("%-1d. %-12s PV: %-3d Att: %-2d Sang: %-2d Os: %-2d Pouvoir: %-15s",
+                    (i + 1),
+                    animal.getName(),
+                    animal.getHealthPoints(),
+                    animal.getAttack(),
+                    animal.getBlood(),
+                    animal.getBone(),
+                    animal.getPower().toString()
+            );
+            System.out.println(ligneFormatee);
+        }
+        String choice;
+        boolean valide = false;
+        while(!valide)
         {
-            PowerEnum toAttribute = toSacrifice.getPower().getFirst();
-            m_gameboard[2][numChoice] = null;
-            System.out.println("Super, cette carte avait le pouvoir " + toSacrifice.getPower().toString() + " !");
-            for(int i = 0; i < 4; i++)
+            int numChoice;
+            choice = sc.nextLine();
+            numChoice = Character.getNumericValue(choice.charAt(0)) - 1;
+            if(numChoice > 0 && numChoice < m_player.getDraw().size() -1)
             {
-                if(m_gameboard[2][i] != null)
-                {
-                    present = true;
-                }
-            }
-            if(present)
-            {
-                boolean valide = false;
-                String choice;
-                System.out.println("Choisissez à quelle carte vous voulez maintenant attribuer ce pouvoir ");
-                while(!valide)
-                {
-                    int numChoicePow = 0;
-                    choice = sc.nextLine();
-                    if(choice.charAt(0) == 'B')
-                    {
-                        numChoicePow = Character.getNumericValue(choice.charAt(1)) - 1;
-                        if(numChoicePow >= 0 && numChoicePow < 4 && m_gameboard[2][numChoicePow] != null && m_gameboard[2][numChoicePow].getAnimals() != null)
-                        {
-                            valide = true;
-                            m_gameboard[2][numChoicePow].getAnimals().getPower().add(toAttribute);
-                        }
-                        else
-                        {
-                            System.out.println("Je crois que vous ne pouvez pas faire ça dans ce jeu.");
-                        }
-                    }
-                    else
-                    {
-                        setMessage("Je crois que vous ne pouvez pas faire ça dans ce jeu.");
-                    }
-                }
+                valide = true;
+                Cartes_animaux toSacrifice = m_player.getDraw().get(numChoice);
+                logicSacrificeStone(toSacrifice,numChoice,sc);
             }
             else
             {
-                System.out.println("Malheureusement il n'y a aucune carte à laquelle vous pouvez attribuer ce pouvoir... tant pis !");
+                System.out.println("Je crois que vous ne pouvez pas faire ça dans ce jeu.");
+            }
+        }
+    }
+
+    public void logicSacrificeStone(Cartes_animaux toSacrifice, int numChoice, Scanner sc)
+    {
+        if(toSacrifice.getPower().getFirst() != PowerEnum.AUCUN)
+        {
+            PowerEnum toAttribute = toSacrifice.getPower().getFirst();
+            System.out.println("Super, cette carte avait le pouvoir " + toSacrifice.getPower().toString() + " !");
+            boolean valide = false;
+            String choice;
+            System.out.println("Choisissez à quelle carte vous voulez maintenant attribuer ce pouvoir ");
+            while(!valide)
+            {
+                int numChoicePow = 0;
+                choice = sc.nextLine();
+                numChoicePow = Character.getNumericValue(choice.charAt(1)) - 1;
+                if(numChoicePow > 0 && numChoice < m_player.getDraw().size() -1)
+                {
+                    valide = true;
+                    //m_player.getDraw().get(numChoicePow) = null;
+                }
+                else
+                {
+                    System.out.println("Je crois que vous ne pouvez pas faire ça dans ce jeu.");
+                }
             }
         }
         else

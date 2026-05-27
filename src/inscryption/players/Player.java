@@ -65,6 +65,11 @@ public class Player {
         m_main.add(carte);
     }
 
+    public void drawAt(int index)
+    {
+        m_gamecards.remove(index);
+    }
+
 
     public int getTurnAttack(){
         int attack = 0;
