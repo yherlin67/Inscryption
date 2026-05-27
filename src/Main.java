@@ -34,7 +34,7 @@ public class Main
                 gameManager.manageAction(sc);
                 matchVictory = gameManager.gameReview();
             }
-            continueGame = !matchVictory;
+            continueGame = matchVictory;
             matchVictory = null;
             nbParties ++;
 //            if(nbParties == 3)

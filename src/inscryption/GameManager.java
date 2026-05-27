@@ -69,7 +69,7 @@ public class GameManager {
 
                     if(m_gameboard[2][i] != null)
                     {
-                        if(m_gameboard[2][i].getAnimals().getPower().getFirst() == PowerEnum.CROISSANCE || m_gameboard[2][i].getAnimals().getPower().getLast() == PowerEnum.CROISSANCE)
+                        if(m_gameboard[2][i].getAnimals().getPowerAt(0) == PowerEnum.CROISSANCE || m_gameboard[2][i].getAnimals().getLastPower() == PowerEnum.CROISSANCE)
                         {
                             Cartes_animaux loup = new Loup();
                             m_gameboard[2][i] = loup;
@@ -181,7 +181,7 @@ public class GameManager {
                                     else
                                     {
                                         enCours += m_gameboard[2][idxSacrifice].getName() + " ";
-                                        if(m_gameboard[2][idxSacrifice].getAnimals().getPower().getFirst() != PowerEnum.NOMBREUSES_VIES || m_gameboard[2][idxSacrifice].getAnimals().getPower().getLast() != PowerEnum.NOMBREUSES_VIES)
+                                        if(m_gameboard[2][idxSacrifice].getAnimals().getPowerAt(0) != PowerEnum.NOMBREUSES_VIES || m_gameboard[2][idxSacrifice].getAnimals().getLastPower() != PowerEnum.NOMBREUSES_VIES)
                                         {
                                             aSupprimer.add(idxSacrifice);
                                         }
@@ -286,7 +286,7 @@ public class GameManager {
                                     else
                                     {
                                         enCours += m_gameboard[2][idxSacrifice].getName() + " ";
-                                        if(m_gameboard[2][idxSacrifice].getAnimals().getPower().getFirst() != PowerEnum.NOMBREUSES_VIES || m_gameboard[2][idxSacrifice].getAnimals().getPower().getLast() != PowerEnum.NOMBREUSES_VIES)
+                                        if(m_gameboard[2][idxSacrifice].getAnimals().getPowerAt(0) != PowerEnum.NOMBREUSES_VIES || m_gameboard[2][idxSacrifice].getAnimals().getLastPower() != PowerEnum.NOMBREUSES_VIES)
                                         {
                                             aSupprimer.add(idxSacrifice);
                                         }
@@ -471,10 +471,10 @@ public class GameManager {
     {
         System.out.println("Bien, maintenant vous devez choisir une carte à sacrifier ! (si la carte que vous choisissez à un pouvoir, vous pourrez ajouter ce dernier à une autre carte)");
         System.out.println("Tapez le numéro de la carte à sacrifier :");
-        for(int i = 0; i < m_player.getDraw().size(); i++)
+        for(int i = 0; i < m_player.getDrawSize(); i++)
         {
             String chaine = "";
-            Cartes_animaux animal = m_player.getHand().get(i);
+            Cartes_animaux animal = m_player.getAnimalAtInDraw(i);
 
             String ligneFormatee = String.format("%-1d. %-12s PV: %-3d Att: %-2d Sang: %-2d Os: %-2d Pouvoir: %-15s",
                     (i + 1),
@@ -483,7 +483,7 @@ public class GameManager {
                     animal.getAttack(),
                     animal.getBlood(),
                     animal.getBone(),
-                    animal.getPower().toString()
+                    animal.getPowerAt(0).toString()
             );
             System.out.println(ligneFormatee);
         }
@@ -493,8 +493,13 @@ public class GameManager {
         {
             int numChoice;
             choice = sc.nextLine();
-            numChoice = Character.getNumericValue(choice.charAt(0)) - 1;
-            if(numChoice > 0 && numChoice < m_player.getDraw().size() -1)
+            try
+            {
+                numChoice = Integer.parseInt(choice.trim()) - 1;
+            } catch (NumberFormatException e) {
+                numChoice = -1;
+            }
+            if(numChoice >= 0 && numChoice < m_player.getDrawSize())
             {
                 valide = true;
                 Cartes_animaux toSacrifice = m_player.getDraw().get(numChoice);
@@ -509,22 +514,29 @@ public class GameManager {
 
     public void logicSacrificeStone(Cartes_animaux toSacrifice, int numChoice, Scanner sc)
     {
-        if(toSacrifice.getPower().getFirst() != PowerEnum.AUCUN)
+        if(toSacrifice.getFirstPower() != PowerEnum.AUCUN)
         {
-            PowerEnum toAttribute = toSacrifice.getPower().getFirst();
-            System.out.println("Super, cette carte avait le pouvoir " + toSacrifice.getPower().toString() + " !");
+            PowerEnum toAttribute = toSacrifice.getFirstPower();
+            m_player.removeAtInDraw(numChoice);
+            System.out.println("Super, cette carte avait le pouvoir " + toSacrifice.getFirstPower().toString() + " !");
             boolean valide = false;
             String choice;
-            System.out.println("Choisissez à quelle carte vous voulez maintenant attribuer ce pouvoir ");
+            System.out.println("Choisissez à quelle carte vous voulez maintenant attribuer ce pouvoir :");
             while(!valide)
             {
-                int numChoicePow = 0;
+                int numChoicePow;
                 choice = sc.nextLine();
-                numChoicePow = Character.getNumericValue(choice.charAt(1)) - 1;
-                if(numChoicePow > 0 && numChoice < m_player.getDraw().size() -1)
+                try
+                {
+                    numChoicePow = Integer.parseInt(choice.trim()) - 1;
+                } catch (NumberFormatException e) {
+                    numChoicePow = -1;
+                }
+                if(numChoicePow >= 0 && numChoicePow < m_player.getDrawSize() && numChoicePow != numChoice)
                 {
                     valide = true;
-                    //m_player.getDraw().get(numChoicePow) = null;
+                    System.out.println("Parfait, le pouvoir à bien été ajouté !");
+                    m_player.getAnimalAtInDraw(numChoicePow).addPower(toAttribute);
                 }
                 else
                 {

@@ -70,6 +70,26 @@ public class Player {
         m_gamecards.remove(index);
     }
 
+    public int getDrawSize()
+    {
+        return m_gamecards.size();
+    }
+
+    public void setAnimalAtInDraw(int index, Cartes_animaux animal)
+    {
+        m_gamecards.set(index, animal);
+    }
+
+    public Cartes_animaux getAnimalAtInDraw(int index)
+    {
+        return m_gamecards.get(index);
+    }
+
+    public void removeAtInDraw(int index)
+    {
+        m_gamecards.remove(index);
+    }
+
 
     public int getTurnAttack(){
         int attack = 0;
@@ -100,7 +120,7 @@ public class Player {
 
                     if(m_datas.getCards()[1][i].getAnimals() != null)
                     {
-                        if(m_datas.getCards()[1][i].getAnimals().getPower().getFirst() == PowerEnum.PUANT || m_datas.getCards()[1][i].getAnimals().getPower().getLast() == PowerEnum.PUANT)
+                        if(m_datas.getCards()[1][i].getAnimals().getFirstPower() == PowerEnum.PUANT || m_datas.getCards()[1][i].getAnimals().getLastPower() == PowerEnum.PUANT)
                         {
                             degats --;
                         }
@@ -113,17 +133,17 @@ public class Player {
                     {
                         m_datas.getCards()[1][i].takeDamage(degats);
 
-                        if(m_datas.getCards()[2][i].getAnimals().getPower().getFirst() == PowerEnum.CONTACT_MORTEL || m_datas.getCards()[2][i].getAnimals().getPower().getLast() == PowerEnum.CONTACT_MORTEL && m_datas.getCards()[2][i].getAnimals() != null)
+                        if(m_datas.getCards()[2][i].getAnimals().getFirstPower() == PowerEnum.CONTACT_MORTEL || m_datas.getCards()[2][i].getAnimals().getLastPower() == PowerEnum.CONTACT_MORTEL && m_datas.getCards()[2][i].getAnimals() != null)
                         {
                             m_datas.getCards()[1][i].takeDamage(999);
                         }
 
-                        if(m_datas.getCards()[1][i].getAnimals().getPower().getFirst() == PowerEnum.PIQUES_POINTUES || m_datas.getCards()[1][i].getAnimals().getPower().getLast() == PowerEnum.PIQUES_POINTUES && m_datas.getCards()[2][i].getAnimals() != null)
+                        if(m_datas.getCards()[1][i].getAnimals().getFirstPower() == PowerEnum.PIQUES_POINTUES || m_datas.getCards()[1][i].getAnimals().getLastPower() == PowerEnum.PIQUES_POINTUES && m_datas.getCards()[2][i].getAnimals() != null)
                         {
                             m_datas.getCards()[2][i].takeDamage(1);
                         }
 
-                        if(m_datas.getCards()[2][i].getAnimals().getPower().getFirst() == PowerEnum.COUREUR || m_datas.getCards()[2][i].getAnimals().getPower().getLast() == PowerEnum.COUREUR && m_datas.getCards()[2][i].getAnimals() != null)
+                        if(m_datas.getCards()[2][i].getAnimals().getFirstPower() == PowerEnum.COUREUR || m_datas.getCards()[2][i].getAnimals().getLastPower() == PowerEnum.COUREUR && m_datas.getCards()[2][i].getAnimals() != null)
                         {
                             if(m_datas.getCards()[2][i].getAnimals() != null)
                             {

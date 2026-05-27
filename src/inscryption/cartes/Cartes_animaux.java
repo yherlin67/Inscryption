@@ -41,6 +41,31 @@ public abstract class Cartes_animaux extends Cartes{
         return m_flying;
     }
 
-    public ArrayList<PowerEnum> getPower() {return m_powerEnum;}
+    //public ArrayList<PowerEnum> getPower() {return m_powerEnum;}
+
+    public PowerEnum getPowerAt(int index)
+    {
+        return m_powerEnum.get(index);
+    }
+
+    public void addPower(PowerEnum power)
+    {
+        m_powerEnum.add(power);
+    }
+
+    public PowerEnum getLastPower()
+    {
+        return m_powerEnum.getLast();
+    }
+
+    public PowerEnum getFirstPower()
+    {
+        return m_powerEnum.getFirst();
+    }
+
+    public int getPowerSize()
+    {
+        return m_powerEnum.size();
+    }
 
 }

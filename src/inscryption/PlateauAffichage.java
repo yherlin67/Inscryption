@@ -54,7 +54,7 @@ public class PlateauAffichage {
                             animal.getAttack(),
                             animal.getBlood(),
                             animal.getBone(),
-                            animal.getPower().toString()
+                            animal.getFirstPower().toString()
                     );
                     if(j==2)
                     {
@@ -313,10 +313,10 @@ public class PlateauAffichage {
                         {
                             chaine += " *             * ";
                         }
-                        else if(cartes[j][l].getAnimals() != null && cartes[j][l].getAnimals().getPower().size() == 1 && cartes[j][l].getAnimals().getPower().getFirst() != PowerEnum.AUCUN )
+                        else if(cartes[j][l].getAnimals() != null && cartes[j][l].getAnimals().getPowerSize() == 1 && cartes[j][l].getAnimals().getFirstPower() != PowerEnum.AUCUN )
                         {
-                            chaine += " | " + cartes[j][l].getAnimals().getPower().getFirst().toString();
-                            for(int x = 0; x<(12-cartes[j][l].getAnimals().getPower().getFirst().toString().length()); x++)
+                            chaine += " | " + cartes[j][l].getAnimals().getFirstPower().toString();
+                            for(int x = 0; x<(12-cartes[j][l].getAnimals().getFirstPower().toString().length()); x++)
                             {
                                 chaine += " ";
                             }
@@ -348,10 +348,10 @@ public class PlateauAffichage {
                         {
                             chaine += " *             * ";
                         }
-                        else if(cartes[j][l].getAnimals() != null && cartes[j][l].getAnimals().getPower().size() == 2)
+                        else if(cartes[j][l].getAnimals() != null && cartes[j][l].getAnimals().getPowerSize() == 2)
                         {
-                            chaine += " | " + cartes[j][l].getAnimals().getPower().getLast().toString();
-                            for(int x = 0; x<(12-cartes[j][l].getAnimals().getPower().getLast().toString().length()); x++)
+                            chaine += " | " + cartes[j][l].getAnimals().getLastPower().toString();
+                            for(int x = 0; x<(12-cartes[j][l].getAnimals().getLastPower().toString().length()); x++)
                             {
                                 chaine += " ";
                             }
