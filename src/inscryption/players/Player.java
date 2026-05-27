@@ -95,7 +95,7 @@ public class Player {
 
                     if(m_datas.getCards()[1][i].getAnimals() != null)
                     {
-                        if(m_datas.getCards()[1][i].getAnimals().getPower() == PowerEnum.PUANT)
+                        if(m_datas.getCards()[1][i].getAnimals().getPower().getFirst() == PowerEnum.PUANT || m_datas.getCards()[1][i].getAnimals().getPower().getLast() == PowerEnum.PUANT)
                         {
                             degats --;
                         }
@@ -108,17 +108,17 @@ public class Player {
                     {
                         m_datas.getCards()[1][i].takeDamage(degats);
 
-                        if(m_datas.getCards()[2][i].getAnimals().getPower() == PowerEnum.CONTACT_MORTEL && m_datas.getCards()[2][i].getAnimals() != null)
+                        if(m_datas.getCards()[2][i].getAnimals().getPower().getFirst() == PowerEnum.CONTACT_MORTEL || m_datas.getCards()[2][i].getAnimals().getPower().getLast() == PowerEnum.CONTACT_MORTEL && m_datas.getCards()[2][i].getAnimals() != null)
                         {
                             m_datas.getCards()[1][i].takeDamage(999);
                         }
 
-                        if(m_datas.getCards()[1][i].getAnimals().getPower() == PowerEnum.PIQUES_POINTUES && m_datas.getCards()[2][i].getAnimals() != null)
+                        if(m_datas.getCards()[1][i].getAnimals().getPower().getFirst() == PowerEnum.PIQUES_POINTUES || m_datas.getCards()[1][i].getAnimals().getPower().getLast() == PowerEnum.PIQUES_POINTUES && m_datas.getCards()[2][i].getAnimals() != null)
                         {
                             m_datas.getCards()[2][i].takeDamage(1);
                         }
 
-                        if(m_datas.getCards()[2][i].getAnimals().getPower() == PowerEnum.COUREUR && m_datas.getCards()[2][i].getAnimals() != null)
+                        if(m_datas.getCards()[2][i].getAnimals().getPower().getFirst() == PowerEnum.COUREUR || m_datas.getCards()[2][i].getAnimals().getPower().getLast() == PowerEnum.COUREUR && m_datas.getCards()[2][i].getAnimals() != null)
                         {
                             if(m_datas.getCards()[2][i].getAnimals() != null)
                             {

@@ -2,6 +2,8 @@ package inscryption.cartes;
 
 import inscryption.PowerEnum;
 
+import java.util.ArrayList;
+
 
 public abstract class Cartes_animaux extends Cartes{
 
@@ -10,9 +12,9 @@ public abstract class Cartes_animaux extends Cartes{
     private final int m_blood;
     private final int m_bone;
     private final boolean m_flying;
-    private PowerEnum m_powerEnum;
+    private ArrayList<PowerEnum> m_powerEnum;
 
-    public Cartes_animaux(String nom, int att, int pdv, int gds, int os, boolean vol, PowerEnum powerEnum)
+    public Cartes_animaux(String nom, int att, int pdv, int gds, int os, boolean vol, ArrayList<PowerEnum> powerEnum)
     {
         super(nom,pdv);
         this.setAnimals(this);
@@ -39,6 +41,6 @@ public abstract class Cartes_animaux extends Cartes{
         return m_flying;
     }
 
-    public PowerEnum getPower() {return m_powerEnum;}
+    public ArrayList<PowerEnum> getPower() {return m_powerEnum;}
 
 }

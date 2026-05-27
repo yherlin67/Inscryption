@@ -313,10 +313,10 @@ public class PlateauAffichage {
                         {
                             chaine += " *             * ";
                         }
-                        else if(cartes[j][l].getAnimals() != null)
+                        else if(cartes[j][l].getAnimals() != null && cartes[j][l].getAnimals().getPower().size() == 1)
                         {
-                            chaine += " | " + cartes[j][l].getAnimals().getPower().toString();
-                            for(int x = 0; x<(12-cartes[j][l].getAnimals().getPower().toString().length()); x++)
+                            chaine += " | " + cartes[j][l].getAnimals().getPower().getFirst().toString();
+                            for(int x = 0; x<(12-cartes[j][l].getAnimals().getPower().getFirst().toString().length()); x++)
                             {
                                 chaine += " ";
                             }
@@ -348,10 +348,10 @@ public class PlateauAffichage {
                         {
                             chaine += " *             * ";
                         }
-                        else if(cartes[j][l].getAnimals() != null)
+                        else if(cartes[j][l].getAnimals() != null && cartes[j][l].getAnimals().getPower().size() == 2)
                         {
-                            chaine += " | " + cartes[j][l].getAnimals().getPower().toString();
-                            for(int x = 0; x<(12-cartes[j][l].getAnimals().getPower().toString().length()); x++)
+                            chaine += " | " + cartes[j][l].getAnimals().getPower().getLast().toString();
+                            for(int x = 0; x<(12-cartes[j][l].getAnimals().getPower().getLast().toString().length()); x++)
                             {
                                 chaine += " ";
                             }

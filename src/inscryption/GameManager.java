@@ -69,7 +69,7 @@ public class GameManager {
 
                     if(m_gameboard[2][i] != null)
                     {
-                        if(m_gameboard[2][i].getAnimals().getPower() == PowerEnum.CROISSANCE)
+                        if(m_gameboard[2][i].getAnimals().getPower().getFirst() == PowerEnum.CROISSANCE || m_gameboard[2][i].getAnimals().getPower().getLast() == PowerEnum.CROISSANCE)
                         {
                             Cartes_animaux loup = new Loup();
                             m_gameboard[2][i] = loup;
@@ -181,7 +181,7 @@ public class GameManager {
                                     else
                                     {
                                         enCours += m_gameboard[2][idxSacrifice].getName() + " ";
-                                        if(m_gameboard[2][idxSacrifice].getAnimals().getPower() != PowerEnum.NOMBREUSES_VIES)
+                                        if(m_gameboard[2][idxSacrifice].getAnimals().getPower().getFirst() != PowerEnum.NOMBREUSES_VIES || m_gameboard[2][idxSacrifice].getAnimals().getPower().getLast() != PowerEnum.NOMBREUSES_VIES)
                                         {
                                             aSupprimer.add(idxSacrifice);
                                         }
@@ -286,7 +286,7 @@ public class GameManager {
                                     else
                                     {
                                         enCours += m_gameboard[2][idxSacrifice].getName() + " ";
-                                        if(m_gameboard[2][idxSacrifice].getAnimals().getPower() != PowerEnum.NOMBREUSES_VIES)
+                                        if(m_gameboard[2][idxSacrifice].getAnimals().getPower().getFirst() != PowerEnum.NOMBREUSES_VIES || m_gameboard[2][idxSacrifice].getAnimals().getPower().getLast() != PowerEnum.NOMBREUSES_VIES)
                                         {
                                             aSupprimer.add(idxSacrifice);
                                         }

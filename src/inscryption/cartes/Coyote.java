@@ -2,8 +2,11 @@ package inscryption.cartes;
 
 import inscryption.PowerEnum;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Coyote extends Cartes_animaux {
 
-    public Coyote() { super("Coyote", 2, 1, 0, 4, false, PowerEnum.AUCUN); }
+    public Coyote() { super("Coyote", 2, 1, 0, 4, false, new ArrayList<>(List.of(PowerEnum.AUCUN))); }
 
 }
