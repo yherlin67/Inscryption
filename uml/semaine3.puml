@@ -19,6 +19,7 @@ package inscryption
             + displayGameBoard() : void
             + displayCards() : void
             + displayRows() : String
+            + toString() : String
 
         }
 
@@ -42,7 +43,20 @@ package inscryption
             +getOpponent() : Opponent
             +setGame(match : Integer, opponent : Opponent) : void
             +setCard(carte : Cartes, row : Integer, columns : Integer) : void
+            + toString() : String
         }
+
+        enum PowerEnum <<enumeration>> {
+            Many_Lives
+            Grow
+            Stinky
+            Runner
+            Death_Touch
+            Sharp_Spikes
+            +toString() : String
+        }
+
+
 
         package players {
 
@@ -60,11 +74,9 @@ package inscryption
              +getPlayerBones() : Integer
              +setPlayerBones(nb : Integer) : void
              +increaseBones() : void
+             +toString() : String
 
         }
-
-
-
         class Opponent {
 
             +setGameManager(gameManager : GameManager) : void
@@ -73,6 +85,7 @@ package inscryption
             + setThirdMatch() : Void
             + play() : void
             +attack() : void
+            +toString() : String
 
         }
 
@@ -93,6 +106,7 @@ package inscryption
             +takeDamage() : void
             +setAnimals(animal : Cartes_animaux) : void
             +getAnimals() : Cartes_animaux
+            +toString() : String
 
         }
 
@@ -106,55 +120,83 @@ package inscryption
         +getBlood(): Integer
         +getBones() : Integer
         +isFlying() : Boolean
+        +toString() : String
         }
         class Chat extends Cartes_animaux{
             +<<create>>Chat()
+            +toString() : String
         }
         class Grizzly extends Cartes_animaux{
             +<<create>>Grizzly()
+            +toString() : String
         }
         class Coyote extends Cartes_animaux{
             +<<create>>Coyote()
+            +toString() : String
         }
         class Moineau extends Cartes_animaux{
             +<<create>>Moineau()
+            +toString() : String
         }
         class Corbeau extends Cartes_animaux{
             +<<create>>Corbeau()
+            +toString() : String
         }
         class Ecureuil extends Cartes_animaux{
             +<<create>>Ecureuil()
+            +toString() : String
         }
         class Hermine extends Cartes_animaux{
             +<<create>>Hermine()
+            +toString() : String
         }
         class Louveteau extends Cartes_animaux{
             +<<create>>Louveteau()
+            +toString() : String
         }
         class Loup extends Cartes_animaux{
             +<<create>>Loup()
+            +toString() : String
         }
         class Punaise extends Cartes_animaux{
             +<<create>>Punaise()
+            +toString() : String
+        }
+        class Elan extends Cartes_animaux{
+            +<<create>>Elan()
+            +toString() : String
+        }
+        class Porc_epic extends Cartes_animaux{
+                    +<<create>>Porc_epic()
+                    +toString() : String
+        }
+        class Vipere extends Cartes_animaux{
+                    +<<create>>Vipere()
+                    +toString() : String
         }
         class Rocher extends Cartes{
             +<<create>>Rocher()
+            +toString() : String
         }
         class Sapin extends Cartes{
             +<<create>>Sapin()
+            +toString() : String
         }
     }
 }
 
-
+Cartes_animaux --> "m_power \n 1" PowerEnum
 Player *--> "- m_main \n 0..*" Cartes_animaux
 Player *--> "- m_gamecards \n 10" Cartes_animaux
 Player o--> "-m_datas \n 1" GameManager
-Opponent o--> "- m_actions : Cartes[0..*] \n 4" Cartes
+Player ..> PowerEnum : <<uses>>
+Opponent o--> "- m_actions : Cartes[0..4] \n 4" Cartes
 Opponent o--> "-m_datas \n 1" GameManager
+Opponent ..> PowerEnum : <<uses>>
 GameManager o--> "-m_player \n 1" Player
 GameManager o--> "-m_opponent \n 1" Opponent
 GameManager o--> "-m_gameboard : Cartes[0..4] \n 3" Cartes
+GameManager ..> PowerEnum : <<uses>>
 PlateauAffichage o--> "-m_datas \n 1" GameManager
 Main .-> PlateauAffichage : <<create>>
 Main .-> GameManager : <<create>>

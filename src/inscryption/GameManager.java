@@ -445,17 +445,17 @@ public class GameManager {
                     proposition.getBone());
             System.out.println(ligneFormatee);
         }
-        String choix;
+        String choice;
         boolean valide = false;
         while(!valide)
         {
-            choix = sc.nextLine();
-            if(choix.equals("1"))
+            choice = sc.nextLine();
+            if(choice.equals("1"))
             {
                 m_player.getDraw().add(propositions.get(0));
                 valide = true;
             }
-            else if(choix.equals("2"))
+            else if(choice.equals("2"))
             {
                 m_player.getDraw().add(propositions.get(1));
                 valide = true;
@@ -465,6 +465,41 @@ public class GameManager {
                 System.out.println("Tapez 1 ou 2 c'est pas compliqué non ?");
             }
         }
+    }
+
+    public void displaySacrificeStone(Scanner sc)
+    {
+        System.out.println("Bien, maintenant vous devez choisir une carte à sacrifier ! (si la carte que vous choisissez à un pouvoir, vous pourrez ajouter ce dernier à une autre carte)");
+        System.out.println("Tapez le numéro de la carte à sacrifier :");
+        String choice;
+        boolean valide = false;
+        while(!valide)
+        {
+            int numChoice;
+            choice = sc.nextLine();
+            try
+            {
+                numChoice = parseInt(choice);
+                if(numChoice > m_player.getHand().size())
+                {
+                    System.out.println("Entrez un numéro valide !");
+                }
+                else
+                {
+                    logicSacrificeStone(numChoice);
+                    valide = true;
+                }
+            }
+            catch (NumberFormatException e)
+            {
+                System.out.println("Entrez un numéro valide !");
+            }
+        }
+    }
+
+    public void logicSacrificeStone(int numChoice)
+    {
+
     }
 
     public void setCard(Cartes carte, int row, int columns)
