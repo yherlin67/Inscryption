@@ -148,25 +148,29 @@ public class PlateauAffichage {
         int ligne = 1;
         int j=rangee;
         Cartes[][] cartes = m_datas.getCards();
-        for(int i=0; i<8; i++)
+        for(int i=0; i<9; i++)
         {
             switch(ligne)
             {
                 case 1:
-                case 8:
+                case 9:
                     for(int l=0; l<4; l++)
                     {
                         if(cartes[j][l] == null)
                         {
-                            chaine += " ************* ";
+                            chaine += " *************** ";
                         }
                         else {
-                            chaine += " *___________* ";
+                            chaine += " *_____________* ";
                         }
                     }
                     if(rangee==1 && ligne == 1)
                     {
                         chaine += "      Partie n°" + m_datas.getGame() + "\n";
+                    }
+                    else if(rangee==1 && ligne == 9)
+                    {
+                        chaine += "      " + message + "\n";
                     }
                     else
                     {
@@ -179,12 +183,12 @@ public class PlateauAffichage {
                     {
                         if(cartes[j][l] == null)
                         {
-                            chaine += " *           * ";
+                            chaine += " *             * ";
                         }
                         else
                         {
                             chaine += " | " + cartes[j][l].getName();
-                            for(int x = 0; x<(10-cartes[j][l].getName().length()); x++)
+                            for(int x = 0; x<(12-cartes[j][l].getName().length()); x++)
                             {
                                 chaine += " ";
                             }
@@ -206,11 +210,11 @@ public class PlateauAffichage {
                     {
                         if(cartes[j][l] == null)
                         {
-                            chaine += " *           * ";
+                            chaine += " *             * ";
                         }
                         else
                         {
-                            chaine += " |-----------| ";
+                            chaine += " |-------------| ";
                         }
                     }
                     if(rangee==1)
@@ -230,20 +234,20 @@ public class PlateauAffichage {
                         {
                             if(rangee == 1)
                             {
-                                chaine += " *    A" + (l+1) + "     * ";
+                                chaine += " *     A" + (l+1) + "      * ";
                             }
                             else if(rangee == 2)
                             {
-                                chaine += " *    B" + (l+1) + "     * ";
+                                chaine += " *     B" + (l+1) + "      * ";
                             }
                             else
                             {
-                                chaine += " *           * ";
+                                chaine += " *             * ";
                             }
                         }
                         else
                         {
-                            chaine += " | PV : " + cartes[j][l].getHealthPoints() + "    | ";
+                            chaine += " | PV : " + cartes[j][l].getHealthPoints() + "      | ";
                         }
                     }
                     if(rangee==1)
@@ -261,25 +265,18 @@ public class PlateauAffichage {
                     {
                         if(cartes[j][l] == null)
                         {
-                            chaine += " *           * ";
+                            chaine += " *             * ";
                         }
                         else if(cartes[j][l].getAnimals() != null && cartes[j][l].getAnimals().getAttack() > 0)
                         {
-                            chaine += " | Att : " + cartes[j][l].getAnimals().getAttack() + "   | ";
+                            chaine += " | Att : " + cartes[j][l].getAnimals().getAttack() + "     | ";
                         }
                         else
                         {
-                            chaine += " |           | ";
+                            chaine += " |             | ";
                         }
                     }
-                    if(rangee==1)
-                    {
-                        chaine += "      " + message + "\n";
-                    }
-                    else
-                    {
-                        chaine += "\n";
-                    }
+                    chaine += "\n";
                     ligne++;
                     break;
                 case 6:
@@ -287,15 +284,15 @@ public class PlateauAffichage {
                     {
                         if(cartes[j][l] == null)
                         {
-                            chaine += " *           * ";
+                            chaine += " *             * ";
                         }
                         else if(cartes[j][l].getAnimals() != null && cartes[j][l].getAnimals().isFlying())
                         {
-                            chaine += " | Volant    | ";
+                            chaine += " | Volant      | ";
                         }
                         else
                         {
-                            chaine += " |           | ";
+                            chaine += " |             | ";
                         }
                     }
                     if(rangee==1)
@@ -314,15 +311,20 @@ public class PlateauAffichage {
                     {
                         if(cartes[j][l] == null)
                         {
-                            chaine += " *           * ";
+                            chaine += " *             * ";
                         }
                         else if(cartes[j][l].getAnimals() != null)
                         {
-                            chaine += " | " + cartes[j][l].getAnimals().getPower().toString() + "| ";
+                            chaine += " | " + cartes[j][l].getAnimals().getPower().toString();
+                            for(int x = 0; x<(12-cartes[j][l].getAnimals().getPower().toString().length()); x++)
+                            {
+                                chaine += " ";
+                            }
+                            chaine += "| ";
                         }
                         else
                         {
-                            chaine += " |           | ";
+                            chaine += " |             | ";
                         }
                     }
                     if(rangee==1 && m_datas.getTurn() == m_actualTurn+1)
@@ -336,6 +338,31 @@ public class PlateauAffichage {
                     {
                         chaine += "\n";
                     }
+                    ligne++;
+
+                    break;
+                case 8:
+                    for(int l=0; l<4; l++)
+                    {
+                        if(cartes[j][l] == null)
+                        {
+                            chaine += " *             * ";
+                        }
+                        else if(cartes[j][l].getAnimals() != null)
+                        {
+                            chaine += " | " + cartes[j][l].getAnimals().getPower().toString();
+                            for(int x = 0; x<(12-cartes[j][l].getAnimals().getPower().toString().length()); x++)
+                            {
+                                chaine += " ";
+                            }
+                            chaine += "| ";
+                        }
+                        else
+                        {
+                            chaine += " |             | ";
+                        }
+                    }
+                    chaine += "\n";
                     ligne++;
 
                     break;

@@ -14,12 +14,12 @@ public enum PowerEnum {
     {
         switch(this)
         {
-            case NOMBREUSES_VIES: return "Nombreuses Vies";
+            case NOMBREUSES_VIES: return "Vies ∞";
             case CROISSANCE: return "Croissance";
             case PUANT: return "Puant";
             case COUREUR: return "Coureur";
-            case CONTACT_MORTEL: return "Contact mortel";
-            case PIQUES_POINTUES: return "Piques pointues";
+            case CONTACT_MORTEL: return "Poison";
+            case PIQUES_POINTUES: return "Pointes";
             case AUCUN: return "Aucun";
             default: return "";
         }
