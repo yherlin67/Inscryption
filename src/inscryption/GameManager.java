@@ -4,6 +4,7 @@ import inscryption.cartes.*;
 import inscryption.players.*;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -66,17 +67,14 @@ public class GameManager {
             {
                 for(int i = 0; i < 4; i++)
                 {
-
-                    if(m_gameboard[2][i] != null)
+                    if(m_gameboard[2][i] != null && m_gameboard[2][i].getAnimals() != null) //refaire ce pouvoir
                     {
                         if(m_gameboard[2][i].getAnimals().getPowerAt(0) == PowerEnum.CROISSANCE || m_gameboard[2][i].getAnimals().getLastPower() == PowerEnum.CROISSANCE)
                         {
                             Cartes_animaux loup = new Loup();
                             m_gameboard[2][i] = loup;
-                            System.out.println("Chouette ! Une de vos cartes s'est transformée en Loup !");
                         }
                     }
-
                 }
             }
             return false;
@@ -151,6 +149,11 @@ public class GameManager {
                 }
                 else if(requiedDrop > 0)
                 {
+                    if (m_gameboard[2][indBoard] != null && "Chat".equals(m_gameboard[2][indBoard].getName())) {
+                        setMessage("Ah non ! Un Chat occupe déjà cette case, placement impossible !");
+                        return true;
+                    }
+
                     String enCours = "";
                     ArrayList<Integer> aSupprimer = new ArrayList<>();
                     int blood = 0;
@@ -230,6 +233,7 @@ public class GameManager {
                     }
                     return true;
                 }
+                setMessage("Placement impossible ! La case ciblée est encore occupée.");
             }
             // CAS 2 : Index de la main à 2 chiffres (ex: placer 10 B1)
             else if(action.length()==12 && action.charAt(10) == 'B')
@@ -254,8 +258,13 @@ public class GameManager {
                         return true;
                     }
                 }
-                else
+                else if(requiedDrop > 0)
                 {
+                    if (m_gameboard[2][indBoard] != null && "Chat".equals(m_gameboard[2][indBoard].getName())) {
+                        setMessage("Ah non ! Un Chat occupe déjà cette case, placement impossible !");
+                        return true;
+                    }
+
                     String enCours = "";
                     ArrayList<Integer> aSupprimer = new ArrayList<>();
                     int blood = 0;
@@ -335,6 +344,7 @@ public class GameManager {
                     }
                     return true;
                 }
+                setMessage("Placement impossible ! La case ciblée est encore occupée.");
             }
             else
             {
@@ -401,8 +411,14 @@ public class GameManager {
         opponent.setGameManager(this);
         m_game = actualGame;
         if (match == 1) {
-            m_gameboard[2][1] = new Rocher();
-            opponent.setFirstMatch();
+            //m_gameboard[2][0] = new Elan();
+            //m_gameboard[2][1] = new Elan();
+            //m_gameboard[2][2] = new Vipere();
+            m_gameboard[2][3] = new Elan();
+            //m_gameboard[1][0] = new Grizzly();
+            //m_gameboard[1][1] = new Grizzly();
+            m_gameboard[1][2] = new Elan();
+            //m_gameboard[1][3] = new Grizzly();
         }
         else if(match == 2)
         {
