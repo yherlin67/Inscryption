@@ -69,7 +69,7 @@ public class Player {
     public int getTurnAttack(){
         int attack = 0;
         for(int i=0; i<4; i++) {
-            if (m_datas.getCards()[2][i] != null && m_datas.getCards()[2][i].getAnimals() != null) {
+            if (m_datas.getCards()[2][i] != null && m_datas.getCards()[2][i].getAnimals() != null && m_datas.getCards()[1][i] == null) { // problème ici !!
                 attack += m_datas.getCards()[2][i].getAnimals().getAttack();
             }
         }
@@ -118,16 +118,16 @@ public class Player {
                             m_datas.getCards()[2][i].takeDamage(1);
                         }
 
-                        if(m_datas.getCards()[2][i].getAnimals().getPower().getFirst() == PowerEnum.COUREUR || m_datas.getCards()[2][i].getAnimals().getPower().getLast() == PowerEnum.COUREUR && m_datas.getCards()[2][i].getAnimals() != null)
+                        if(m_datas.getCards()[2][i].getAnimals().getPower().getFirst() == PowerEnum.COUREUR || m_datas.getCards()[2][i].getAnimals().getPower().getLast() == PowerEnum.COUREUR)
                         {
                             if(m_datas.getCards()[2][i].getAnimals() != null)
                             {
-                                if(i<3 && m_datas.getCards()[2][i+1] != null && m_datas.getCards()[2][i+1].getAnimals() == null)
+                                if(i<3 && m_datas.getCards()[2][i+1] == null)
                                 {
                                     m_datas.getCards()[2][i+1] = m_datas.getCards()[2][i].getAnimals();
                                     m_datas.getCards()[2][i] = null;
                                 }
-                                else if(i>0 && m_datas.getCards()[2][i-1] != null && m_datas.getCards()[2][i-1].getAnimals() == null)
+                                else if(i>0 && m_datas.getCards()[2][i-1] == null)
                                 {
                                     m_datas.getCards()[2][i-1] = m_datas.getCards()[2][i].getAnimals();
                                     m_datas.getCards()[2][i] = null;

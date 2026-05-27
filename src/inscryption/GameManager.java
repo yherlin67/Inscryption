@@ -67,13 +67,17 @@ public class GameManager {
                 for(int i = 0; i < 4; i++)
                 {
 
-                    if(m_gameboard[2][i] != null)
+                    if(m_gameboard[2][i] != null && m_gameboard[2][i].getAnimals() != null) //refaire ce pouvoir
                     {
                         if(m_gameboard[2][i].getAnimals().getPower().getFirst() == PowerEnum.CROISSANCE || m_gameboard[2][i].getAnimals().getPower().getLast() == PowerEnum.CROISSANCE)
                         {
                             Cartes_animaux loup = new Loup();
                             m_gameboard[2][i] = loup;
-                            System.out.println("Chouette ! Une de vos cartes s'est transformée en Loup !");
+                        }
+                        if(m_gameboard[1][i].getAnimals().getPower().getFirst() == PowerEnum.CROISSANCE || m_gameboard[1][i].getAnimals().getPower().getLast() == PowerEnum.CROISSANCE)
+                        {
+                            Cartes_animaux loup = new Loup();
+                            m_gameboard[1][i] = loup;
                         }
                     }
 

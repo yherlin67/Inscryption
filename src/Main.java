@@ -26,6 +26,7 @@ public class Main
             if(nbParties == 3)
             {
                 gameManager.proposeAddToDraw(sc);
+                gameManager.displaySacrificeStone(sc);
             }
             while(matchVictory == null)
             {
