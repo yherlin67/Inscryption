@@ -9,7 +9,6 @@ import java.util.Arrays;
 
 public class Opponent {
     private ArrayList<Cartes>[] m_actions;
-
     private GameManager m_datas;
 
     public Opponent()
@@ -28,19 +27,18 @@ public class Opponent {
 
     public void setFirstMatch()
     {
-        m_actions[0].addAll(Arrays.asList(new Louveteau(), new Moineau(), null, null));
-        m_actions[1].addAll(Arrays.asList(null, null, new Moineau(), null));
-        m_actions[2].addAll(Arrays.asList(new Punaise(), null, null, new Punaise()));
-        m_actions[3].addAll(Arrays.asList(null, null, new Louveteau(), null));
-        m_datas.setCard(m_actions[0].getFirst(), 0, 0);
-        m_datas.setCard(m_actions[1].getFirst(), 0, 1);
-        m_datas.setCard(m_actions[2].getFirst(), 0, 2);
-        m_datas.setCard(m_actions[3].getFirst(), 0, 3);
-        m_actions[0].removeFirst();
-        m_actions[1].removeFirst();
-        m_actions[2].removeFirst();
-        m_actions[3].removeFirst();
-
+        // m_actions[0].addAll(Arrays.asList(new Louveteau(), new Moineau(), null, null));
+        // m_actions[1].addAll(Arrays.asList(null, null, new Moineau(), null));
+        // m_actions[2].addAll(Arrays.asList(new Punaise(), null, null, new Punaise()));
+        // m_actions[3].addAll(Arrays.asList(null, null, new Louveteau(), null));
+        // m_datas.setCard(m_actions[0].getFirst(), 0, 0);
+        // m_datas.setCard(m_actions[1].getFirst(), 0, 1);
+        // m_datas.setCard(m_actions[2].getFirst(), 0, 2);
+        // m_datas.setCard(m_actions[3].getFirst(), 0, 3);
+        // m_actions[0].removeFirst();
+        // m_actions[1].removeFirst();
+        // m_actions[2].removeFirst();
+        // m_actions[3].removeFirst();
     }
 
     public void setSecondMatch()
@@ -95,7 +93,7 @@ public class Opponent {
     public int getTurnAttack(){
         int attack = 0;
         for(int i=0; i<4; i++) {
-            if (m_datas.getCards()[1][i] != null && m_datas.getCards()[1][i].getAnimals() != null && m_datas.getCards()[2][i] == null) { // problème ici aussi
+            if (m_datas.getCards()[1][i] != null && m_datas.getCards()[1][i].getAnimals() != null && m_datas.getCards()[2][i] == null) {
                 attack += m_datas.getCards()[1][i].getAnimals().getAttack();
             }
         }
@@ -130,28 +128,17 @@ public class Opponent {
                     {
                         m_datas.getCards()[2][i].takeDamage(degats);
 
-                        if(m_datas.getCards()[1][i].getAnimals().getPower().getFirst() == PowerEnum.CONTACT_MORTEL || m_datas.getCards()[1][i].getAnimals().getPower().getLast() == PowerEnum.CONTACT_MORTEL && m_datas.getCards()[1][i].getAnimals() != null)
+                        if(m_datas.getCards()[1][i].getAnimals().getPower().getFirst() == PowerEnum.CONTACT_MORTEL || m_datas.getCards()[1][i].getAnimals().getPower().getLast() == PowerEnum.CONTACT_MORTEL)
                         {
                             m_datas.getCards()[2][i].takeDamage(999);
                         }
 
-                        if(m_datas.getCards()[2][i].getAnimals().getPower().getFirst() == PowerEnum.PIQUES_POINTUES || m_datas.getCards()[2][i].getAnimals().getPower().getLast() == PowerEnum.PIQUES_POINTUES && m_datas.getCards()[1][i].getAnimals() != null)
-                        {
-                            m_datas.getCards()[1][i].takeDamage(1);
-                        }
-
-                        if(m_datas.getCards()[1][i].getAnimals().getPower().getFirst() == PowerEnum.COUREUR || m_datas.getCards()[1][i].getAnimals().getPower().getLast() == PowerEnum.COUREUR)
-                        {
-                            if(m_datas.getCards()[1][i].getAnimals() != null)
+                        if(m_datas.getCards()[2][i] != null && m_datas.getCards()[2][i].getAnimals() != null) {
+                            if(m_datas.getCards()[2][i].getAnimals().getPower().getFirst() == PowerEnum.PIQUES_POINTUES || m_datas.getCards()[2][i].getAnimals().getPower().getLast() == PowerEnum.PIQUES_POINTUES)
                             {
-                                if(i<3 && m_datas.getCards()[1][i+1] == null)
-                                {
-                                    m_datas.getCards()[1][i+1] = m_datas.getCards()[1][i].getAnimals();
-                                    m_datas.getCards()[1][i] = null;
-                                }
-                                else if(i>0 && m_datas.getCards()[2][i-1] == null)
-                                {
-                                    m_datas.getCards()[1][i-1] = m_datas.getCards()[1][i].getAnimals();
+                                m_datas.getCards()[1][i].takeDamage(1);
+
+                                if (m_datas.getCards()[1][i].getHealthPoints() <= 0) {
                                     m_datas.getCards()[1][i] = null;
                                 }
                             }
@@ -164,6 +151,33 @@ public class Opponent {
                 }
             }
         }
-    }
+        ArrayList<Integer> indicesBloques = new ArrayList<>();
 
+        for(int i=0; i<4; i++)
+        {
+            if(indicesBloques.contains(i)) {
+                continue;
+            }
+
+            Cartes carteActuelle = m_datas.getCards()[1][i];
+
+            if(carteActuelle != null && carteActuelle.getAnimals() != null)
+            {
+                if(carteActuelle.getAnimals().getPower().getFirst() == PowerEnum.COUREUR || carteActuelle.getAnimals().getPower().getLast() == PowerEnum.COUREUR)
+                {
+                    if(i < 3 && m_datas.getCards()[1][i+1] == null)
+                    {
+                        m_datas.setCard(carteActuelle, 1, i+1);
+                        m_datas.setCard(null, 1, i);
+                        indicesBloques.add(i+1);
+                    }
+                    else if(i > 0 && m_datas.getCards()[1][i-1] == null)
+                    {
+                        m_datas.setCard(carteActuelle, 1, i-1);
+                        m_datas.setCard(null, 1, i);
+                    }
+                }
+            }
+        }
+    }
 }
