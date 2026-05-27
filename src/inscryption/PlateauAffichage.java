@@ -313,7 +313,7 @@ public class PlateauAffichage {
                         {
                             chaine += " *             * ";
                         }
-                        else if(cartes[j][l].getAnimals() != null && cartes[j][l].getAnimals().getPower().size() == 1)
+                        else if(cartes[j][l].getAnimals() != null && cartes[j][l].getAnimals().getPower().size() == 1 && cartes[j][l].getAnimals().getPower().getFirst() != PowerEnum.AUCUN )
                         {
                             chaine += " | " + cartes[j][l].getAnimals().getPower().getFirst().toString();
                             for(int x = 0; x<(12-cartes[j][l].getAnimals().getPower().getFirst().toString().length()); x++)
