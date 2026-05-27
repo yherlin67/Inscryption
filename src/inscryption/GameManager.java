@@ -469,37 +469,103 @@ public class GameManager {
 
     public void displaySacrificeStone(Scanner sc)
     {
+        boolean present = false;
         System.out.println("Bien, maintenant vous devez choisir une carte à sacrifier ! (si la carte que vous choisissez à un pouvoir, vous pourrez ajouter ce dernier à une autre carte)");
-        System.out.println("Tapez le numéro de la carte à sacrifier :");
-        String choice;
-        boolean valide = false;
-        while(!valide)
+        for(int i = 0; i < 4; i++)
         {
-            int numChoice;
-            choice = sc.nextLine();
-            try
+            if(m_gameboard[2][i] != null)
             {
-                numChoice = parseInt(choice);
-                if(numChoice > m_player.getHand().size())
+                present = true;
+            }
+        }
+        if(present)
+        {
+            System.out.println("Tapez l'emplacement' de la carte à sacrifier :");
+            String choice;
+            boolean valide = false;
+            while(!valide)
+            {
+                int numChoice;
+                choice = sc.nextLine();
+                if(choice.charAt(0) == 'B')
                 {
-                    System.out.println("Entrez un numéro valide !");
+                    numChoice = Character.getNumericValue(choice.charAt(1)) - 1;
+                    if(numChoice >= 0 && numChoice < 4 && m_gameboard[2][numChoice] != null && m_gameboard[2][numChoice].getAnimals() != null)
+                    {
+                        valide = true;
+                        logicSacrificeStone(numChoice,sc);
+                    }
+                    else
+                    {
+                        System.out.println("Je crois que vous ne pouvez pas faire ça dans ce jeu.");
+                    }
                 }
                 else
                 {
-                    logicSacrificeStone(numChoice);
-                    valide = true;
+                    setMessage("Je crois que vous ne pouvez pas faire ça dans ce jeu.");
                 }
             }
-            catch (NumberFormatException e)
-            {
-                System.out.println("Entrez un numéro valide !");
-            }
         }
+        else
+        {
+            System.out.println("Oups ! Il n'y a aucune carte à sacrifier sur le plateau !");
+        }
+
     }
 
-    public void logicSacrificeStone(int numChoice)
+    public void logicSacrificeStone(int numChoice, Scanner sc)
     {
-
+        boolean present = false;
+        Cartes_animaux toSacrifice = m_gameboard[2][numChoice].getAnimals();
+        if(toSacrifice.getPower().getFirst() != PowerEnum.AUCUN)
+        {
+            PowerEnum toAttribute = toSacrifice.getPower().getFirst();
+            m_gameboard[2][numChoice] = null;
+            System.out.println("Super, cette carte avait le pouvoir " + toSacrifice.getPower().toString() + " !");
+            for(int i = 0; i < 4; i++)
+            {
+                if(m_gameboard[2][i] != null)
+                {
+                    present = true;
+                }
+            }
+            if(present)
+            {
+                boolean valide = false;
+                String choice;
+                System.out.println("Choisissez à quelle carte vous voulez maintenant attribuer ce pouvoir ");
+                while(!valide)
+                {
+                    int numChoicePow = 0;
+                    choice = sc.nextLine();
+                    if(choice.charAt(0) == 'B')
+                    {
+                        numChoicePow = Character.getNumericValue(choice.charAt(1)) - 1;
+                        if(numChoicePow >= 0 && numChoicePow < 4 && m_gameboard[2][numChoicePow] != null && m_gameboard[2][numChoicePow].getAnimals() != null)
+                        {
+                            valide = true;
+                            m_gameboard[2][numChoicePow].getAnimals().getPower().add(toAttribute);
+                        }
+                        else
+                        {
+                            System.out.println("Je crois que vous ne pouvez pas faire ça dans ce jeu.");
+                        }
+                    }
+                    else
+                    {
+                        setMessage("Je crois que vous ne pouvez pas faire ça dans ce jeu.");
+                    }
+                }
+            }
+            else
+            {
+                System.out.println("Malheureusement il n'y a aucune carte à laquelle vous pouvez attribuer ce pouvoir... tant pis !");
+            }
+        }
+        else
+        {
+            System.out.println("Malheureusement la carte que vous venez de sacrifier n'avait aucun pouvoir à attribuer... tant pis !");
+        }
     }
 
     public void setCard(Cartes carte, int row, int columns)
