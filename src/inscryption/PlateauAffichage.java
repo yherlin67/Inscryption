@@ -15,8 +15,6 @@ public class PlateauAffichage {
     private Opponent m_opponent;
     private Player m_player;
     private Random m_random;
-    private int m_opponentAttack;
-    private int m_playerAttack;
     private int m_actualTurn;
 
     public PlateauAffichage(GameManager gameManager)
@@ -25,8 +23,6 @@ public class PlateauAffichage {
         m_opponent = gameManager.getOpponent();
         m_player = gameManager.getPlayer();
         m_random = new Random();
-        m_opponentAttack = 0;
-        m_playerAttack = 0;
         m_actualTurn = 1;
     }
 
@@ -329,9 +325,11 @@ public class PlateauAffichage {
                     }
                     if(rangee==1 && m_datas.getTurn() == m_actualTurn+1)
                     {
-                        m_playerAttack = m_player.getTurnAttack();
-                        m_opponentAttack = m_opponent.getTurnAttack();
-                        chaine += "      Joueur : " + m_playerAttack + "| Adversaire : " + m_opponentAttack + "\n";
+                        int playerAttack = 0;
+                        int opponentAttack = 0;
+                        playerAttack = m_player.getTurnAttack();
+                        opponentAttack = m_opponent.getTurnAttack();
+                        chaine += "      Joueur : " + playerAttack + "| Adversaire : " + opponentAttack + "\n";
                         m_actualTurn++;
                     }
                     else

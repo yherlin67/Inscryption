@@ -63,20 +63,6 @@ public class GameManager {
             m_opponent.attack();
             nextTurn();
             setMessage("Votre adversaire à joué, à votre tour de jouer maintenant...");
-            if(m_turn == 2)
-            {
-                for(int i = 0; i < 4; i++)
-                {
-                    if(m_gameboard[2][i] != null && m_gameboard[2][i].getAnimals() != null) //refaire ce pouvoir
-                    {
-                        if(m_gameboard[2][i].getAnimals().getPowerAt(0) == PowerEnum.CROISSANCE || m_gameboard[2][i].getAnimals().getLastPower() == PowerEnum.CROISSANCE)
-                        {
-                            Cartes_animaux loup = new Loup();
-                            m_gameboard[2][i] = loup;
-                        }
-                    }
-                }
-            }
             return false;
         }
         if(action.equals("piocher") && m_draw && !m_player.getDraw().isEmpty())
@@ -411,14 +397,14 @@ public class GameManager {
         opponent.setGameManager(this);
         m_game = actualGame;
         if (match == 1) {
-            //m_gameboard[2][0] = new Elan();
-            //m_gameboard[2][1] = new Elan();
-            //m_gameboard[2][2] = new Vipere();
-            m_gameboard[2][3] = new Elan();
-            //m_gameboard[1][0] = new Grizzly();
-            //m_gameboard[1][1] = new Grizzly();
-            m_gameboard[1][2] = new Elan();
-            //m_gameboard[1][3] = new Grizzly();
+            //m_gameboard[2][0] = new Louveteau();
+            //m_gameboard[2][1] = new Louveteau();
+            m_gameboard[2][2] = new Elan();
+            //m_gameboard[2][3] = new Louveteau();
+            //m_gameboard[1][0] = new Louveteau();
+            m_gameboard[1][1] = new Elan();
+            //m_gameboard[1][2] = new Louveteau();
+            //m_gameboard[1][3] = new Punaise();
         }
         else if(match == 2)
         {
@@ -544,11 +530,11 @@ public class GameManager {
                 choice = sc.nextLine();
                 try
                 {
-                    numChoicePow = Integer.parseInt(choice.trim()) - 1;
+                    numChoicePow = Integer.parseInt(choice.trim()) -1;
                 } catch (NumberFormatException e) {
                     numChoicePow = -1;
                 }
-                if(numChoicePow >= 0 && numChoicePow < m_player.getDrawSize() && numChoicePow != numChoice)
+                if(numChoicePow >= 0 && numChoicePow <= m_player.getDrawSize() && numChoicePow != numChoice)
                 {
                     valide = true;
                     System.out.println("Parfait, le pouvoir à bien été ajouté !");

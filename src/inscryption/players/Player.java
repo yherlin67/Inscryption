@@ -14,12 +14,14 @@ public class Player {
     private Random m_random;
     private GameManager m_datas;
     private int m_obtainedBones;
+    private int m_turnAttack;
 
     public Player()
     {
         m_main = new ArrayList<Cartes_animaux>();
         m_gamecards = new ArrayList<Cartes_animaux>();
         m_random = new Random();
+        m_turnAttack = 0;
     }
 
     public void setGameManager(GameManager gameManager) {
@@ -92,18 +94,13 @@ public class Player {
 
 
     public int getTurnAttack(){
-        int attack = 0;
-        for(int i=0; i<4; i++) {
-            if (m_datas.getCards()[2][i] != null && m_datas.getCards()[2][i].getAnimals() != null && m_datas.getCards()[1][i] == null) { // problème ici !!
-                attack += m_datas.getCards()[2][i].getAnimals().getAttack();
-            }
-        }
-        return attack;
+        return m_turnAttack;
     }
 
 
     public void attack()
     {
+        m_turnAttack = 0;
         for(int i=0; i<4; i++)
         {
             if(m_datas.getCards()[2][i] != null)
@@ -113,22 +110,28 @@ public class Player {
                     if (m_datas.getCards()[2][i].getAnimals() != null)
                     {
                         m_datas.setScore(m_datas.getCards()[2][i].getAnimals().getAttack());
+                        m_turnAttack += m_datas.getCards()[2][i].getAnimals().getAttack();
                     }
                 }
                 else
                 {
-                    int degats = m_datas.getCards()[2][i].getAnimals().getAttack();
-
+                    int degats =0;
+                    if(m_datas.getCards()[2][i].getAnimals() != null)
+                    {
+                        degats = m_datas.getCards()[2][i].getAnimals().getAttack();
+                    }
                     if(m_datas.getCards()[1][i].getAnimals() != null)
                     {
                         if(m_datas.getCards()[1][i].getAnimals().getFirstPower() == PowerEnum.PUANT || m_datas.getCards()[1][i].getAnimals().getLastPower() == PowerEnum.PUANT)
                         {
+                            m_turnAttack--;
                             degats --;
                         }
                     }
                     if(m_datas.getCards()[2][i].getAnimals() != null && m_datas.getCards()[2][i].getAnimals().isFlying())
                     {
                         m_datas.setScore(degats);
+                        m_turnAttack += m_datas.getCards()[2][i].getAnimals().getAttack();
                     }
                     else if(m_datas.getCards()[2][i].getAnimals() != null && !m_datas.getCards()[2][i].getAnimals().isFlying())
                     {
@@ -154,6 +157,10 @@ public class Player {
                             m_datas.getCards()[1][i] = null;
                         }
                     }
+                }
+                if(m_datas.getCards()[2][i] != null && m_datas.getCards()[2][i].getAnimals() != null && (m_datas.getCards()[2][i].getAnimals().getFirstPower() == PowerEnum.CROISSANCE || m_datas.getCards()[2][i].getAnimals().getLastPower() == PowerEnum.CROISSANCE))
+                {
+                    m_datas.setCard(new Loup(), 2, i);
                 }
             }
         }
