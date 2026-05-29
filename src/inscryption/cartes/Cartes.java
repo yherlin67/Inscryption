@@ -43,4 +43,8 @@ public abstract class Cartes {
     {
         return m_animals != null;
     }
+
+    public boolean isAnimal() {return m_animals != null;}
+
+    public int getAnimalAttack() {return m_animals.getAttack();}
 }
