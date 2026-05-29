@@ -30,4 +30,8 @@ public abstract class Cartes {
     public Cartes_animaux getAnimals() {
         return m_animals;
     }
+
+    public boolean isAnimal() {return m_animals != null;}
+
+    public int getAnimalAttack() {return m_animals.getAttack();}
 }

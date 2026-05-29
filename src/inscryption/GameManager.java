@@ -385,9 +385,17 @@ public class GameManager {
 
     public Cartes[][] getCards(){return m_gameboard;}
 
-    public boolean hasCards(int i, int j) { return m_gameboard[i][j] == null; }
+    public boolean isCard(int i, int j) { return m_gameboard[i][j] != null; }
+
+    public boolean isCardAnimal(int i, int j) { return m_gameboard[i][j].isAnimal();}
 
     public int getHandSize(){return m_player.getHandSize();}
+
+    public String getCardName(int i, int j) {return m_gameboard[i][j].getName();}
+
+    public int getCardHealthPoints(int i, int j) {return m_gameboard[i][j].getHealthPoints();}
+
+    public int getCardAttack(int i, int j) {return m_gameboard[i][j].getAnimalAttack();}
 
     public Cartes_animaux getHandAt(int index){return m_player.getHandAt(index);}
 

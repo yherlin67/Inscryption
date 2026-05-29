@@ -140,8 +140,8 @@ public class PlateauAffichage {
     {
         int ligne = 1;
         int j=rangee;
-        Cartes[][] cartes = m_datas.getCards();
-        for(int i=0; i<9; i++)
+        StringBuilder chaineBuilder = new StringBuilder(chaine);
+        for(int i = 0; i<9; i++)
         {
             switch(ligne)
             {
@@ -149,127 +149,127 @@ public class PlateauAffichage {
                 case 9:
                     for(int l=0; l<4; l++)
                     {
-                        if(!m_datas.hasCards(i,j))
+                        if(!m_datas.isCard(i,j))
                         {
-                            chaine += " *************** ";
+                            chaineBuilder.append(" *************** ");
                         }
                         else {
-                            chaine += " *_____________* ";
+                            chaineBuilder.append(" *_____________* ");
                         }
                     }
                     if(rangee==1 && ligne == 1)
                     {
-                        chaine += "      Partie n°" + m_datas.getGame() + "\n";
+                        chaineBuilder.append("      Partie n°").append(m_datas.getGame()).append("\n");
                     }
                     else if(rangee==1 && ligne == 9)
                     {
-                        chaine += "      " + message + "\n";
+                        chaineBuilder.append("      ").append(message).append("\n");
                     }
                     else
                     {
-                        chaine += "\n";
+                        chaineBuilder.append("\n");
                     }
                     ligne++;
                     break;
                 case 2:
                     for(int l=0; l<4; l++)
                     {
-                        if(cartes[j][l] == null)
+                        if(m_datas.isCard(i,j))
                         {
-                            chaine += " *             * ";
+                            chaineBuilder.append(" *             * ");
                         }
                         else
                         {
-                            chaine += " | " + cartes[j][l].getName();
-                            for(int x = 0; x<(12-cartes[j][l].getName().length()); x++)
+                            chaineBuilder.append(" | ").append(m_datas.getCardName(i, j));
+                            for(int x = 0; x<(12-m_datas.getCardName(i,j).length()); x++)
                             {
-                                chaine += " ";
+                                chaineBuilder.append(" ");
                             }
-                            chaine += "| ";
+                            chaineBuilder.append("| ");
                         }
                     }
                     if(rangee==1)
                     {
-                        chaine += "      Tour n°" + m_datas.getTurn() + "\n";
+                        chaineBuilder.append("      Tour n°").append(m_datas.getTurn()).append("\n");
                     }
                     else
                     {
-                        chaine += "\n";
+                        chaineBuilder.append("\n");
                     }
                     ligne++;
                     break;
                 case 3:
                     for(int l=0; l<4; l++)
                     {
-                        if(cartes[j][l] == null)
+                        if(m_datas.isCard(i,j))
                         {
-                            chaine += " *             * ";
+                            chaineBuilder.append(" *             * ");
                         }
                         else
                         {
-                            chaine += " |-------------| ";
+                            chaineBuilder.append(" |-------------| ");
                         }
                     }
                     if(rangee==1)
                     {
-                        chaine += "      Score : " + m_datas.getScore() + "\n";
+                        chaineBuilder.append("      Score : ").append(m_datas.getScore()).append("\n");
                     }
                     else
                     {
-                        chaine += "\n";
+                        chaineBuilder.append("\n");
                     }
                     ligne++;
                     break;
                 case 4:
                     for(int l=0; l<4; l++)
                     {
-                        if(cartes[j][l] == null)
+                        if(m_datas.isCard(i,j))
                         {
                             if(rangee == 1)
                             {
-                                chaine += " *     A" + (l+1) + "      * ";
+                                chaineBuilder.append(" *     A").append(l + 1).append("      * ");
                             }
                             else if(rangee == 2)
                             {
-                                chaine += " *     B" + (l+1) + "      * ";
+                                chaineBuilder.append(" *     B").append(l + 1).append("      * ");
                             }
                             else
                             {
-                                chaine += " *             * ";
+                                chaineBuilder.append(" *             * ");
                             }
                         }
                         else
                         {
-                            chaine += " | PV : " + cartes[j][l].getHealthPoints() + "      | ";
+                            chaineBuilder.append(" | PV : ").append(m_datas.getCardHealthPoints(i,j)).append("      | ");
                         }
                     }
                     if(rangee==1)
                     {
-                        chaine += "      Os obtenus : " + m_player.getBones() + "\n";
+                        chaineBuilder.append("      Os obtenus : ").append(m_player.getBones()).append("\n");
                     }
                     else
                     {
-                        chaine += "\n";
+                        chaineBuilder.append("\n");
                     }
                     ligne++;
                     break;
                 case 5:
                     for(int l=0; l<4; l++)
                     {
-                        if(cartes[j][l] == null)
+                        if(m_datas.isCard(i,j))
                         {
-                            chaine += " *             * ";
+                            chaineBuilder.append(" *             * ");
                         }
-                        else if(cartes[j][l].getAnimals() != null && cartes[j][l].getAnimals().getAttack() > 0)
+                        else if(m_datas.isCardAnimal(i,j) && m_datas.getCardAttack(i,j) > 0)
                         {
-                            chaine += " | Att : " + cartes[j][l].getAnimals().getAttack() + "     | ";
+                            chaineBuilder.append(" | Att : ").append(cartes[j][l].getAnimals().getAttack()).append("     | ");
                         }
                         else
                         {
-                            chaine += " |             | ";
+                            chaineBuilder.append(" |             | ");
                         }
                     }
-                    chaine += "\n";
+                    chaineBuilder.append("\n");
                     ligne++;
                     break;
                 case 6:
@@ -277,24 +277,24 @@ public class PlateauAffichage {
                     {
                         if(cartes[j][l] == null)
                         {
-                            chaine += " *             * ";
+                            chaineBuilder.append(" *             * ");
                         }
                         else if(cartes[j][l].getAnimals() != null && cartes[j][l].getAnimals().isFlying())
                         {
-                            chaine += " | Volant      | ";
+                            chaineBuilder.append(" | Volant      | ");
                         }
                         else
                         {
-                            chaine += " |             | ";
+                            chaineBuilder.append(" |             | ");
                         }
                     }
                     if(rangee==1)
                     {
-                        chaine += "      Dégats infligés au tour précédent :\n";
+                        chaineBuilder.append("      Dégats infligés au tour précédent :\n");
                     }
                     else
                     {
-                        chaine += "\n";
+                        chaineBuilder.append("\n");
                     }
                     ligne++;
 
@@ -304,20 +304,20 @@ public class PlateauAffichage {
                     {
                         if(cartes[j][l] == null)
                         {
-                            chaine += " *             * ";
+                            chaineBuilder.append(" *             * ");
                         }
                         else if(cartes[j][l].getAnimals() != null && cartes[j][l].getAnimals().getPowerSize() == 1 && cartes[j][l].getAnimals().getFirstPower() != PowerEnum.AUCUN )
                         {
-                            chaine += " | " + cartes[j][l].getAnimals().getFirstPower().toString();
+                            chaineBuilder.append(" | ").append(cartes[j][l].getAnimals().getFirstPower().toString());
                             for(int x = 0; x<(12-cartes[j][l].getAnimals().getFirstPower().toString().length()); x++)
                             {
-                                chaine += " ";
+                                chaineBuilder.append(" ");
                             }
-                            chaine += "| ";
+                            chaineBuilder.append("| ");
                         }
                         else
                         {
-                            chaine += " |             | ";
+                            chaineBuilder.append(" |             | ");
                         }
                     }
                     if(rangee==1 && m_datas.getTurn() == m_actualTurn+1)
@@ -326,12 +326,12 @@ public class PlateauAffichage {
                         int opponentAttack = 0;
                         playerAttack = m_player.getTurnAttack();
                         opponentAttack = m_opponent.getTurnAttack();
-                        chaine += "      Joueur : " + playerAttack + "| Adversaire : " + opponentAttack + "\n";
+                        chaineBuilder.append("      Joueur : ").append(playerAttack).append("| Adversaire : ").append(opponentAttack).append("\n");
                         m_actualTurn++;
                     }
                     else
                     {
-                        chaine += "\n";
+                        chaineBuilder.append("\n");
                     }
                     ligne++;
 
@@ -341,28 +341,29 @@ public class PlateauAffichage {
                     {
                         if(cartes[j][l] == null)
                         {
-                            chaine += " *             * ";
+                            chaineBuilder.append(" *             * ");
                         }
                         else if(cartes[j][l].getAnimals() != null && cartes[j][l].getAnimals().getPowerSize() == 2)
                         {
-                            chaine += " | " + cartes[j][l].getAnimals().getLastPower().toString();
+                            chaineBuilder.append(" | ").append(cartes[j][l].getAnimals().getLastPower().toString());
                             for(int x = 0; x<(12-cartes[j][l].getAnimals().getLastPower().toString().length()); x++)
                             {
-                                chaine += " ";
+                                chaineBuilder.append(" ");
                             }
-                            chaine += "| ";
+                            chaineBuilder.append("| ");
                         }
                         else
                         {
-                            chaine += " |             | ";
+                            chaineBuilder.append(" |             | ");
                         }
                     }
-                    chaine += "\n";
+                    chaineBuilder.append("\n");
                     ligne++;
 
                     break;
             }
         }
+        chaine = chaineBuilder.toString();
         return chaine;
     }
 
