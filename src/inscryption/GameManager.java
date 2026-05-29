@@ -40,10 +40,7 @@ public class GameManager {
         m_message = "";
         m_player.setGamecards();
         m_random = new Random();
-        for(int j=0; j<4; j++)
-        {
-            m_player.draw();
-        }
+
     }
 
     public boolean manageAction(Scanner sc)
@@ -396,6 +393,10 @@ public class GameManager {
     public void setGame(int match, Opponent opponent, int actualGame) {
         opponent.setGameManager(this);
         m_game = actualGame;
+        for(int j=0; j<4; j++)
+        {
+            m_player.draw();
+        }
         if (match == 1) {
             //m_gameboard[2][0] = new Louveteau();
             //m_gameboard[2][1] = new Louveteau();
@@ -454,12 +455,12 @@ public class GameManager {
             choice = sc.nextLine();
             if(choice.equals("1"))
             {
-                m_player.getDraw().add(propositions.get(0));
+                m_player.addInDraw(propositions.get(0));
                 valide = true;
             }
             else if(choice.equals("2"))
             {
-                m_player.getDraw().add(propositions.get(1));
+                m_player.addInDraw(propositions.get(1));
                 valide = true;
             }
             else
@@ -471,6 +472,7 @@ public class GameManager {
 
     public void displaySacrificeStone(Scanner sc)
     {
+
         System.out.println("Bien, maintenant vous devez choisir une carte à sacrifier ! (si la carte que vous choisissez à un pouvoir, vous pourrez ajouter ce dernier à une autre carte)");
         System.out.println("Tapez le numéro de la carte à sacrifier :");
         for(int i = 0; i < m_player.getDrawSize(); i++)
@@ -516,16 +518,19 @@ public class GameManager {
 
     public void logicSacrificeStone(Cartes_animaux toSacrifice, int numChoice, Scanner sc)
     {
+
         if(toSacrifice.getFirstPower() != PowerEnum.AUCUN)
         {
             PowerEnum toAttribute = toSacrifice.getFirstPower();
-            m_player.removeAtInDraw(numChoice);
+
             System.out.println("Super, cette carte avait le pouvoir " + toSacrifice.getFirstPower().toString() + " !");
             boolean valide = false;
             String choice;
             System.out.println("Choisissez à quelle carte vous voulez maintenant attribuer ce pouvoir :");
+
             while(!valide)
             {
+
                 int numChoicePow;
                 choice = sc.nextLine();
                 try
@@ -534,11 +539,13 @@ public class GameManager {
                 } catch (NumberFormatException e) {
                     numChoicePow = -1;
                 }
-                if(numChoicePow >= 0 && numChoicePow <= m_player.getDrawSize() && numChoicePow != numChoice)
+
+                if(numChoicePow >= 0 && numChoicePow < m_player.getDrawSize() && numChoicePow != numChoice)
                 {
                     valide = true;
                     System.out.println("Parfait, le pouvoir à bien été ajouté !");
                     m_player.getAnimalAtInDraw(numChoicePow).addPower(toAttribute);
+                    m_player.removeAtInDraw(numChoice);
                 }
                 else
                 {
