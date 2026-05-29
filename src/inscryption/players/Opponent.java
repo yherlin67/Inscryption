@@ -30,18 +30,18 @@ public class Opponent {
 
     public void setFirstMatch()
     {
-        // m_actions[0].addAll(Arrays.asList(new Louveteau(), new Moineau(), null, null));
-        // m_actions[1].addAll(Arrays.asList(null, null, new Moineau(), null));
-        // m_actions[2].addAll(Arrays.asList(new Punaise(), null, null, new Punaise()));
-        // m_actions[3].addAll(Arrays.asList(null, null, new Louveteau(), null));
-        // m_datas.setCard(m_actions[0].getFirst(), 0, 0);
-        // m_datas.setCard(m_actions[1].getFirst(), 0, 1);
-        // m_datas.setCard(m_actions[2].getFirst(), 0, 2);
-        // m_datas.setCard(m_actions[3].getFirst(), 0, 3);
-        // m_actions[0].removeFirst();
-        // m_actions[1].removeFirst();
-        // m_actions[2].removeFirst();
-        // m_actions[3].removeFirst();
+        m_actions[0].addAll(Arrays.asList(new Louveteau(), new Moineau(), null, null));
+        m_actions[1].addAll(Arrays.asList(null, null, new Moineau(), null));
+        m_actions[2].addAll(Arrays.asList(new Punaise(), null, null, new Punaise()));
+        m_actions[3].addAll(Arrays.asList(null, null, new Louveteau(), null));
+        m_datas.setCard(m_actions[0].getFirst(), 0, 0);
+        m_datas.setCard(m_actions[1].getFirst(), 0, 1);
+        m_datas.setCard(m_actions[2].getFirst(), 0, 2);
+        m_datas.setCard(m_actions[3].getFirst(), 0, 3);
+        m_actions[0].removeFirst();
+        m_actions[1].removeFirst();
+        m_actions[2].removeFirst();
+        m_actions[3].removeFirst();
     }
 
     public void setSecondMatch()
