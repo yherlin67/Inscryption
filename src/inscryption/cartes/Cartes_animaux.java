@@ -8,7 +8,6 @@ import java.util.ArrayList;
 public abstract class Cartes_animaux extends Cartes{
 
     private final int m_attack;
-
     private final int m_blood;
     private final int m_bone;
     private final boolean m_flying;
@@ -40,8 +39,6 @@ public abstract class Cartes_animaux extends Cartes{
     public boolean isFlying() {
         return m_flying;
     }
-
-    //public ArrayList<PowerEnum> getPower() {return m_powerEnum;}
 
     public PowerEnum getPowerAt(int index)
     {

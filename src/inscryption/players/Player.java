@@ -122,7 +122,7 @@ public class Player {
             {
                 if(m_datas.getCards()[1][i] == null)
                 {
-                    if (m_datas.getCards()[2][i].getAnimals() != null)
+                    if (m_datas.getCards()[2][i].isAnimal())
                     {
                         m_datas.setScore(m_datas.getCards()[2][i].getAnimals().getAttack());
                         m_turnAttack += m_datas.getCards()[2][i].getAnimals().getAttack();
@@ -131,34 +131,34 @@ public class Player {
                 else
                 {
                     int degats =0;
-                    if(m_datas.getCards()[2][i].getAnimals() != null)
+                    if(m_datas.getCards()[2][i].isAnimal())
                     {
                         degats = m_datas.getCards()[2][i].getAnimals().getAttack();
                     }
-                    if(m_datas.getCards()[1][i].getAnimals() != null)
+                    if(m_datas.getCards()[1][i].isAnimal())
                     {
-                        if(m_datas.getCards()[1][i].getAnimals().getFirstPower() == PowerEnum.PUANT || m_datas.getCards()[1][i].getAnimals().getLastPower() == PowerEnum.PUANT)
+                        if(m_datas.getCards()[1][i].getFirstPowerAnimal() == PowerEnum.PUANT || m_datas.getCards()[1][i].getLastPowerAnimal() == PowerEnum.PUANT)
                         {
                             m_turnAttack--;
                             degats --;
                         }
                     }
-                    if(m_datas.getCards()[2][i].getAnimals() != null && m_datas.getCards()[2][i].getAnimals().isFlying())
+                    if(m_datas.getCards()[2][i].isAnimal() && m_datas.getCards()[2][i].isFlying())
                     {
                         m_datas.setScore(degats);
                         m_turnAttack += m_datas.getCards()[2][i].getAnimals().getAttack();
                     }
-                    else if(m_datas.getCards()[2][i].getAnimals() != null && !m_datas.getCards()[2][i].getAnimals().isFlying())
+                    else if(m_datas.getCards()[2][i].isAnimal() && !m_datas.getCards()[2][i].getAnimals().isFlying())
                     {
                         m_datas.getCards()[1][i].takeDamage(degats);
 
-                        if(m_datas.getCards()[2][i].getAnimals().getFirstPower() == PowerEnum.CONTACT_MORTEL || m_datas.getCards()[2][i].getAnimals().getLastPower() == PowerEnum.CONTACT_MORTEL)
+                        if(m_datas.getCards()[2][i].getFirstPowerAnimal() == PowerEnum.CONTACT_MORTEL || m_datas.getCards()[2][i].getLastPowerAnimal() == PowerEnum.CONTACT_MORTEL)
                         {
                             m_datas.getCards()[1][i].takeDamage(999);
                         }
 
                         if(m_datas.getCards()[1][i] != null && m_datas.getCards()[1][i].getAnimals() != null) {
-                            if(m_datas.getCards()[1][i].getAnimals().getFirstPower() == PowerEnum.PIQUES_POINTUES || m_datas.getCards()[1][i].getAnimals().getLastPower() == PowerEnum.PIQUES_POINTUES)
+                            if(m_datas.getCards()[1][i].getFirstPowerAnimal() == PowerEnum.PIQUES_POINTUES || m_datas.getCards()[1][i].getLastPowerAnimal() == PowerEnum.PIQUES_POINTUES)
                             {
                                 m_datas.getCards()[2][i].takeDamage(1);
 
@@ -173,7 +173,7 @@ public class Player {
                         }
                     }
                 }
-                if(m_datas.getCards()[2][i] != null && m_datas.getCards()[2][i].getAnimals() != null && (m_datas.getCards()[2][i].getAnimals().getFirstPower() == PowerEnum.CROISSANCE || m_datas.getCards()[2][i].getAnimals().getLastPower() == PowerEnum.CROISSANCE))
+                if(m_datas.getCards()[2][i] != null && m_datas.getCards()[2][i].isAnimal() && (m_datas.getCards()[2][i].getFirstPowerAnimal() == PowerEnum.CROISSANCE || m_datas.getCards()[2][i].getLastPowerAnimal() == PowerEnum.CROISSANCE))
                 {
                     m_datas.setCard(new Loup(), 2, i);
                 }
@@ -189,9 +189,9 @@ public class Player {
 
             Cartes carteActuelle = m_datas.getCards()[2][i];
 
-            if(carteActuelle != null && carteActuelle.getAnimals() != null)
+            if(carteActuelle != null && carteActuelle.isAnimal())
             {
-                if(carteActuelle.getAnimals().getFirstPower() == PowerEnum.COUREUR || carteActuelle.getAnimals().getLastPower() == PowerEnum.COUREUR)
+                if(carteActuelle.getFirstPowerAnimal() == PowerEnum.COUREUR || carteActuelle.getLastPowerAnimal() == PowerEnum.COUREUR)
                 {
                     if(i < 3 && m_datas.getCards()[2][i+1] == null)
                     {

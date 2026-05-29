@@ -162,7 +162,7 @@ public class GameManager {
                                 {
                                     m_display.print("Vous avez déjà assez de sang ! Validez votre sacrifice.");
                                 }
-                                else if(idxSacrifice >= 0 && idxSacrifice < 4 && m_gameboard[2][idxSacrifice] != null && m_gameboard[2][idxSacrifice].getAnimals() != null)
+                                else if(idxSacrifice >= 0 && idxSacrifice < 4 && m_gameboard[2][idxSacrifice] != null && m_gameboard[2][idxSacrifice].isAnimal())
                                 {
                                     if(aSupprimer.contains(idxSacrifice))
                                     {
@@ -171,7 +171,7 @@ public class GameManager {
                                     else
                                     {
                                         enCours += m_gameboard[2][idxSacrifice].getName() + " ";
-                                        if(m_gameboard[2][idxSacrifice].getAnimals().getPowerAt(0) != PowerEnum.NOMBREUSES_VIES || m_gameboard[2][idxSacrifice].getAnimals().getLastPower() != PowerEnum.NOMBREUSES_VIES)
+                                        if(m_gameboard[2][idxSacrifice].getFirstPowerAnimal() != PowerEnum.NOMBREUSES_VIES || m_gameboard[2][idxSacrifice].getLastPowerAnimal() != PowerEnum.NOMBREUSES_VIES)
                                         {
                                             aSupprimer.add(idxSacrifice);
                                         }
@@ -272,7 +272,7 @@ public class GameManager {
                                 {
                                     m_display.print("Vous avez déjà assez de sang ! Pourquoi sacrifier d'autres pauvres bêtes ?");
                                 }
-                                else if(idxSacrifice >= 0 && idxSacrifice < 4 && m_gameboard[2][idxSacrifice] != null && m_gameboard[2][idxSacrifice].getAnimals() != null)
+                                else if(idxSacrifice >= 0 && idxSacrifice < 4 && m_gameboard[2][idxSacrifice] != null && m_gameboard[2][idxSacrifice].isAnimal())
                                 {
                                     if(aSupprimer.contains(idxSacrifice))
                                     {
@@ -281,7 +281,7 @@ public class GameManager {
                                     else
                                     {
                                         enCours += m_gameboard[2][idxSacrifice].getName() + " ";
-                                        if(m_gameboard[2][idxSacrifice].getAnimals().getPowerAt(0) != PowerEnum.NOMBREUSES_VIES || m_gameboard[2][idxSacrifice].getAnimals().getLastPower() != PowerEnum.NOMBREUSES_VIES)
+                                        if(m_gameboard[2][idxSacrifice].getFirstPowerAnimal() != PowerEnum.NOMBREUSES_VIES || m_gameboard[2][idxSacrifice].getLastPowerAnimal() != PowerEnum.NOMBREUSES_VIES)
                                         {
                                             aSupprimer.add(idxSacrifice);
                                         }

@@ -1,5 +1,7 @@
 package inscryption.cartes;
 
+import inscryption.PowerEnum;
+
 public abstract class Cartes {
     private final String m_name;
     private int m_health_points;
@@ -27,7 +29,18 @@ public abstract class Cartes {
         this.m_animals = animaux;
     }
 
-    public Cartes_animaux getAnimals() {
-        return m_animals;
+    public PowerEnum getFirstPowerAnimal()
+    {
+        return m_animals.getFirstPower();
+    }
+
+    public PowerEnum getLastPowerAnimal()
+    {
+        return m_animals.getLastPower();
+    }
+
+    public boolean isAnimal()
+    {
+        return m_animals != null;
     }
 }
