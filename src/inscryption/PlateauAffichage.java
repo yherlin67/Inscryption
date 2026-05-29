@@ -366,4 +366,8 @@ public class PlateauAffichage {
         return chaine;
     }
 
+    public void print(String chaine)
+    {
+        System.out.println(chaine);
+    }
 }

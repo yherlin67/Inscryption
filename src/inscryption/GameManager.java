@@ -19,12 +19,9 @@ public class GameManager {
     private int m_game;
     private String m_message;
     private Random m_random;
+    private final PlateauAffichage m_display;
 
-    private Cartes m_gameboard[][] = {
-            {null, null, null, null},
-            {null, null, null, null},
-            {null, null, null, null}
-    };
+    private Cartes m_gameboard[][];
 
     public GameManager(Player player, Opponent opponent)
     {
@@ -32,8 +29,14 @@ public class GameManager {
         m_player.setGameManager(this);
         m_opponent = opponent;
         m_opponent.setGameManager(this);
+        m_gameboard = new Cartes[][]{
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+        };
+        m_display = new PlateauAffichage(this);
         m_turn = 1;
-        m_score = 4;
+        m_score = 0;
         m_game = 1;
         m_draw = true;
         m_message = "";
@@ -50,7 +53,6 @@ public class GameManager {
             m_player.attack();
             if(gameReview() != null)
             {
-                setMessage("Vous avez gagné ! Pour l'instant...");
                 return false;
             }
             m_opponent.play();
@@ -67,7 +69,12 @@ public class GameManager {
             setMessage("Vous piochez une carte");
             return false;
         }
-        else if(action.equals("piocher") && !m_draw || m_player.isDrawEmpty())
+        else if(m_player.isDrawEmpty())
+        {
+            setMessage("La pioche est vide !");
+            return true;
+        }
+        else if(action.equals("piocher") && !m_draw)
         {
             setMessage("Vous avez déjà pioché voyons ! Ne soyez pas trop gourmand...");
             return true;
@@ -82,7 +89,6 @@ public class GameManager {
             int indHand = 0;
             int indBoard = 0;
 
-            // CAS 1 : Index de la main à 1 chiffre (ex: placer 3 B1)
             if(action.length()==11 && action.charAt(9) == 'B')
             {
                 try {
@@ -141,9 +147,9 @@ public class GameManager {
 
                     while(!action.equals("valider sacrifice") && !action.equals("annuler"))
                     {
-                        System.out.println("\n [sacrifier <position>]");
-                        System.out.println(" [valider sacrifice] (Sacrifice en cours : " + enCours + " | Récolté : " + blood + "/" + requiedDrop + ")");
-                        System.out.println(" [annuler]");
+                        m_display.print("\n [sacrifier <position>]");
+                        m_display.print(" [valider sacrifice] (Sacrifice en cours : " + enCours + " | Récolté : " + blood + "/" + requiedDrop + ")");
+                        m_display.print(" [annuler]");
                         action = sc.nextLine();
 
                         if (action.startsWith("sacrifier") && action.length() >= 12)
@@ -154,13 +160,13 @@ public class GameManager {
 
                                 if(blood >= requiedDrop)
                                 {
-                                    System.out.println("Vous avez déjà assez de sang ! Validez votre sacrifice.");
+                                    m_display.print("Vous avez déjà assez de sang ! Validez votre sacrifice.");
                                 }
                                 else if(idxSacrifice >= 0 && idxSacrifice < 4 && m_gameboard[2][idxSacrifice] != null && m_gameboard[2][idxSacrifice].getAnimals() != null)
                                 {
                                     if(aSupprimer.contains(idxSacrifice))
                                     {
-                                        System.out.println("Sacrifiez un animal une fois c'est cruel mais deux fois ??");
+                                        m_display.print("Sacrifiez un animal une fois c'est cruel mais deux fois ??");
                                     }
                                     else
                                     {
@@ -174,7 +180,7 @@ public class GameManager {
                                 }
                                 else
                                 {
-                                    System.out.println("Le vide n'est pas un animal à sacrifier.");
+                                    m_display.print("Le vide n'est pas un animal à sacrifier.");
                                 }
                             }
                             else
@@ -188,13 +194,13 @@ public class GameManager {
                         }
                         else if (!action.equals("valider sacrifice"))
                         {
-                            System.out.println("Je crois que vous ne pouvez pas faire ça dans ce jeu..");
+                            m_display.print("Je crois que vous ne pouvez pas faire ça dans ce jeu..");
                         }
                     }
 
                     if(action.equals("valider sacrifice")) {
                         if(blood < requiedDrop) {
-                            System.out.println("Pas assez de sang récolté pour cette carte !");
+                            m_display.print("Pas assez de sang récolté pour cette carte !");
                             return true;
                         }
 
@@ -216,7 +222,6 @@ public class GameManager {
                 }
                 setMessage("Placement impossible ! La case ciblée est encore occupée.");
             }
-            // CAS 2 : Index de la main à 2 chiffres (ex: placer 10 B1)
             else if(action.length()==12 && action.charAt(10) == 'B')
             {
                 try {
@@ -252,9 +257,9 @@ public class GameManager {
 
                     while(!action.equals("valider sacrifice") && !action.equals("annuler"))
                     {
-                        System.out.println("\n [sacrifier <position>]");
-                        System.out.println(" [valider sacrifice] (Sacrifice en cours : " + enCours + " | Récolté : " + blood + "/" + requiedDrop + ")");
-                        System.out.println(" [annuler]");
+                        m_display.print("\n [sacrifier <position>]");
+                        m_display.print(" [valider sacrifice] (Sacrifice en cours : " + enCours + " | Récolté : " + blood + "/" + requiedDrop + ")");
+                        m_display.print(" [annuler]");
                         action = sc.nextLine();
 
                         if (action.startsWith("sacrifier") && action.length() >= 12)
@@ -265,13 +270,13 @@ public class GameManager {
 
                                 if(blood >= requiedDrop)
                                 {
-                                    System.out.println("Vous avez déjà assez de sang ! Pourquoi sacrifier d'autres pauvres bêtes ?");
+                                    m_display.print("Vous avez déjà assez de sang ! Pourquoi sacrifier d'autres pauvres bêtes ?");
                                 }
                                 else if(idxSacrifice >= 0 && idxSacrifice < 4 && m_gameboard[2][idxSacrifice] != null && m_gameboard[2][idxSacrifice].getAnimals() != null)
                                 {
                                     if(aSupprimer.contains(idxSacrifice))
                                     {
-                                        System.out.println("Sacrifiez un animal une fois c'est cruel mais deux fois ??");
+                                        m_display.print("Sacrifiez un animal une fois c'est cruel mais deux fois ??");
                                     }
                                     else
                                     {
@@ -285,7 +290,7 @@ public class GameManager {
                                 }
                                 else
                                 {
-                                    System.out.println("Le vide n'est pas un animal à sacrifier.");
+                                    m_display.print("Le vide n'est pas un animal à sacrifier.");
                                 }
                             }
                             else
@@ -305,7 +310,7 @@ public class GameManager {
 
                     if(action.equals("valider sacrifice")) {
                         if(blood < requiedDrop) {
-                            System.out.println("Pas assez de sang récolté pour cette carte !");
+                            m_display.print("Pas assez de sang récolté pour cette carte !");
                             return true;
                         }
 
@@ -404,14 +409,7 @@ public class GameManager {
             m_player.draw();
         }
         if (match == 1) {
-            //m_gameboard[2][0] = new Louveteau();
-            //m_gameboard[2][1] = new Louveteau();
-            m_gameboard[2][2] = new Elan();
-            //m_gameboard[2][3] = new Louveteau();
-            //m_gameboard[1][0] = new Louveteau();
-            m_gameboard[1][1] = new Elan();
-            //m_gameboard[1][2] = new Louveteau();
-            //m_gameboard[1][3] = new Punaise();
+            opponent.setFirstMatch();
         }
         else if(match == 2)
         {
@@ -425,7 +423,7 @@ public class GameManager {
 
     public void proposeAddToDraw(Scanner sc)
     {
-        System.out.println("Avant de jouer la troisième partie, vous pouvez rajouter une carte dans la pioche parmi les deux cartes ci-dessous ! (tapez 1 ou 2)");
+        m_display.print("Avant de jouer la troisième partie, vous pouvez rajouter une carte dans la pioche parmi les deux cartes ci-dessous ! (tapez 1 ou 2)");
         Cartes_animaux proposition;
         ArrayList<Cartes_animaux> propositions = new ArrayList<Cartes_animaux>();
         ArrayList<Cartes_animaux> temp = new ArrayList<Cartes_animaux>();
@@ -452,7 +450,7 @@ public class GameManager {
                     proposition.getAttack(),
                     proposition.getBlood(),
                     proposition.getBone());
-            System.out.println(ligneFormatee);
+            m_display.print(ligneFormatee);
         }
         String choice;
         boolean valide = false;
@@ -471,7 +469,7 @@ public class GameManager {
             }
             else
             {
-                System.out.println("Tapez 1 ou 2 c'est pas compliqué non ?");
+                m_display.print("Tapez 1 ou 2 c'est pas compliqué non ?");
             }
         }
     }
@@ -479,8 +477,8 @@ public class GameManager {
     public void displaySacrificeStone(Scanner sc)
     {
 
-        System.out.println("Bien, maintenant vous devez choisir une carte à sacrifier ! (si la carte que vous choisissez à un pouvoir, vous pourrez ajouter ce dernier à une autre carte)");
-        System.out.println("Tapez le numéro de la carte à sacrifier :");
+        m_display.print("Bien, maintenant vous devez choisir une carte à sacrifier ! (si la carte que vous choisissez à un pouvoir, vous pourrez ajouter ce dernier à une autre carte)");
+        m_display.print("Tapez le numéro de la carte à sacrifier :");
         for(int i = 0; i < m_player.getDrawSize(); i++)
         {
             String chaine = "";
@@ -495,7 +493,7 @@ public class GameManager {
                     animal.getBone(),
                     animal.getPowerAt(0).toString()
             );
-            System.out.println(ligneFormatee);
+            m_display.print(ligneFormatee);
         }
         String choice;
         boolean valide = false;
@@ -517,7 +515,7 @@ public class GameManager {
             }
             else
             {
-                System.out.println("Je crois que vous ne pouvez pas faire ça dans ce jeu.");
+                m_display.print("Je crois que vous ne pouvez pas faire ça dans ce jeu.");
             }
         }
     }
@@ -529,10 +527,10 @@ public class GameManager {
         {
             PowerEnum toAttribute = toSacrifice.getFirstPower();
 
-            System.out.println("Super, cette carte avait le pouvoir " + toSacrifice.getFirstPower().toString() + " !");
+            m_display.print("Super, cette carte avait le pouvoir " + toSacrifice.getFirstPower().toString() + " !");
             boolean valide = false;
             String choice;
-            System.out.println("Choisissez à quelle carte vous voulez maintenant attribuer ce pouvoir :");
+            m_display.print("Choisissez à quelle carte vous voulez maintenant attribuer ce pouvoir :");
 
             while(!valide)
             {
@@ -549,19 +547,19 @@ public class GameManager {
                 if(numChoicePow >= 0 && numChoicePow < m_player.getDrawSize() && numChoicePow != numChoice)
                 {
                     valide = true;
-                    System.out.println("Parfait, le pouvoir à bien été ajouté !");
+                    m_display.print("Parfait, le pouvoir à bien été ajouté !");
                     m_player.getAnimalAtInDraw(numChoicePow).addPower(toAttribute);
                     m_player.removeAtInDraw(numChoice);
                 }
                 else
                 {
-                    System.out.println("Je crois que vous ne pouvez pas faire ça dans ce jeu.");
+                    m_display.print("Je crois que vous ne pouvez pas faire ça dans ce jeu.");
                 }
             }
         }
         else
         {
-            System.out.println("Malheureusement la carte que vous venez de sacrifier n'avait aucun pouvoir à attribuer... tant pis !");
+            m_display.print("Malheureusement la carte que vous venez de sacrifier n'avait aucun pouvoir à attribuer... tant pis !");
         }
     }
 
