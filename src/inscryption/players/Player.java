@@ -81,10 +81,6 @@ public class Player {
         }
     }
 
-    public void drawAt(int index)
-    {
-        m_gamecards.remove(index);
-    }
 
     public int getDrawSize()
     {
@@ -104,6 +100,11 @@ public class Player {
     public void removeAtInDraw(int index)
     {
         m_gamecards.remove(index);
+    }
+
+    public void addInDraw(Cartes_animaux animal)
+    {
+        m_gamecards.add(animal);
     }
 
 
