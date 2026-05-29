@@ -9,7 +9,7 @@ import java.util.Random;
 
 public class Player {
 
-    private ArrayList<Cartes_animaux> m_main;
+    private ArrayList<Cartes_animaux> m_hand;
     private ArrayList<Cartes_animaux> m_gamecards;
     private ArrayList<Cartes_animaux> m_gamecards_copy;
     private Random m_random;
@@ -19,9 +19,9 @@ public class Player {
 
     public Player()
     {
-        m_main = new ArrayList<Cartes_animaux>();
+        m_hand = new ArrayList<Cartes_animaux>();
         m_gamecards_copy = new ArrayList<Cartes_animaux>();
-        m_gamecards = m_gamecards_copy;
+        m_gamecards = new ArrayList<Cartes_animaux>();
         m_random = new Random();
         m_turnAttack = 0;
         this.createDraw();
@@ -67,10 +67,19 @@ public class Player {
     public void draw()
     {
         Cartes_animaux carte = m_gamecards.removeLast();
-        m_main.add(carte);
+        m_hand.add(carte);
     }
 
-    public void setGamecards(){m_gamecards = m_gamecards_copy;}
+    public void setGamecards(){
+        m_hand.clear();
+        m_gamecards.clear();
+        ArrayList<Cartes_animaux> tempDeck = new ArrayList<>(m_gamecards_copy);
+        while (!tempDeck.isEmpty())
+        {
+            int aleatoireIndex = m_random.nextInt(tempDeck.size());
+            m_gamecards.add(tempDeck.remove(aleatoireIndex));
+        }
+    }
 
     public void drawAt(int index)
     {
@@ -202,10 +211,10 @@ public class Player {
 
     public Cartes removeCard(int indHand)
     {
-        return m_main.remove(indHand);
+        return m_hand.remove(indHand);
     }
 
-    public ArrayList<Cartes_animaux> getHand(){return m_main;}
+    public ArrayList<Cartes_animaux> getHand(){return m_hand;}
 
     public ArrayList<Cartes_animaux> getDraw(){return m_gamecards;}
 

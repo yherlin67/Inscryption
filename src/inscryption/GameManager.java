@@ -34,16 +34,12 @@ public class GameManager {
         m_opponent = opponent;
         m_opponent.setGameManager(this);
         m_turn = 1;
-        m_score = 0;
+        m_score = 4;
         m_game = 1;
         m_draw = true;
         m_message = "";
         m_player.setGamecards();
         m_random = new Random();
-        for(int j=0; j<4; j++)
-        {
-            m_player.draw();
-        }
     }
 
     public boolean manageAction(Scanner sc)
@@ -396,6 +392,10 @@ public class GameManager {
     public void setGame(int match, Opponent opponent, int actualGame) {
         opponent.setGameManager(this);
         m_game = actualGame;
+        for(int j=0; j<4; j++)
+        {
+            m_player.draw();
+        }
         if (match == 1) {
             //m_gameboard[2][0] = new Louveteau();
             //m_gameboard[2][1] = new Louveteau();

@@ -124,12 +124,12 @@ public class PlateauAffichage {
             {
                 for(int j=0; j<4; j++)
                 {
-                    chaine += "      ||       ";
+                    chaine += "        ||       ";
                 }
                 chaine += "\n";
                 for(int j=0; j<4; j++)
                 {
-                    chaine += "      \\/       ";
+                    chaine += "        \\/       ";
                 }
                 System.out.println(chaine);
                 chaine = "";
