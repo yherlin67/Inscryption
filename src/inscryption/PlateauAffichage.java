@@ -4,9 +4,6 @@ import inscryption.cartes.*;
 import inscryption.players.Opponent;
 import inscryption.players.Player;
 
-import java.util.ArrayList;
-import java.util.Random;
-
 import java.util.Random;
 
 public class PlateauAffichage {
@@ -31,17 +28,17 @@ public class PlateauAffichage {
             displayCards(message);
             System.out.println("Votre main :                                                                       Pioche");
             System.out.println("                                                                                *___________*");
-            int pourlaboucle = (6-m_datas.getHand().size());
+            int pourlaboucle = (6-m_datas.getHandSize());
             if(pourlaboucle<0)
             {
                 pourlaboucle = 0;
             }
-            for(int j=0; j<m_datas.getHand().size()+pourlaboucle; j++)
+            for(int j=0; j<m_datas.getHandSize()+pourlaboucle; j++)
             {
                 String chaine = "";
-                if(m_datas.getHand().size() > j)
+                if(m_datas.getHandSize() > j)
                 {
-                    Cartes_animaux animal = m_datas.getHand().get(j);
+                    Cartes_animaux animal = m_datas.getHandAt(j);
 
                     String ligneFormatee = String.format("%-1d. %-12s PV: %-3d Att: %-2d Sang: %-2d Os: %-2d Pouvoir: %-15s",
                             (j + 1),
@@ -54,13 +51,13 @@ public class PlateauAffichage {
                     );
                     if(j==2)
                     {
-                        if(m_datas.getDraw().size() >= 10)
+                        if(m_datas.getDrawSize() >= 10)
                         {
-                            chaine += ligneFormatee + "        |     " + m_datas.getDraw().size() + "    |";
+                            chaine += ligneFormatee + "        |     " + m_datas.getDrawSize() + "    |";
                         }
                         else
                         {
-                            chaine += ligneFormatee + "        |     " + m_datas.getDraw().size() + "     |";
+                            chaine += ligneFormatee + "        |     " + m_datas.getDrawSize() + "     |";
                         }
                     }
                     else if(j==3)
@@ -84,7 +81,7 @@ public class PlateauAffichage {
                 {
                     if(j==2)
                     {
-                        if(m_datas.getDraw().size() >= 10)
+                        if(m_datas.getDrawSize() >= 10)
                         {
                             chaine += "                                                                                |     " + m_datas.getDraw().size() + "    |";
                         }
@@ -152,7 +149,7 @@ public class PlateauAffichage {
                 case 9:
                     for(int l=0; l<4; l++)
                     {
-                        if(cartes[j][l] == null)
+                        if(!m_datas.hasCards(i,j))
                         {
                             chaine += " *************** ";
                         }
@@ -248,7 +245,7 @@ public class PlateauAffichage {
                     }
                     if(rangee==1)
                     {
-                        chaine += "      Os obtenus : " + m_player.getPlayerBones() + "\n";
+                        chaine += "      Os obtenus : " + m_player.getBones() + "\n";
                     }
                     else
                     {

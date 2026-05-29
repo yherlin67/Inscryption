@@ -217,11 +217,26 @@ public class Player {
 
     public ArrayList<Cartes_animaux> getHand(){return m_hand;}
 
+    public Cartes_animaux getHandAt(int index)
+    {
+        return m_hand.get(index);
+    }
+
+    public int getHandSize()
+    {
+        return m_hand.size();
+    }
+
+    public boolean isDrawEmpty()
+    {
+        return m_gamecards.isEmpty();
+    }
+
     public ArrayList<Cartes_animaux> getDraw(){return m_gamecards;}
 
-    public int getPlayerBones() { return m_obtainedBones; }
+    public int getBones() { return m_obtainedBones; }
 
-    public void setPlayerBones(int nb) {m_obtainedBones = nb;}
+    public void setBones(int nb) {m_obtainedBones = nb;}
 
     public void increaseBones() { m_obtainedBones ++; }
 

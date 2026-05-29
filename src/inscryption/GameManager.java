@@ -4,7 +4,6 @@ import inscryption.cartes.*;
 import inscryption.players.*;
 
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -61,14 +60,14 @@ public class GameManager {
             setMessage("Votre adversaire à joué, à votre tour de jouer maintenant...");
             return false;
         }
-        if(action.equals("piocher") && m_draw && !m_player.getDraw().isEmpty())
+        if(action.equals("piocher") && m_draw && !m_player.isDrawEmpty())
         {
             m_player.draw();
             m_draw = false;
             setMessage("Vous piochez une carte");
             return false;
         }
-        else if(action.equals("piocher") && !m_draw || m_player.getDraw().isEmpty())
+        else if(action.equals("piocher") && !m_draw || m_player.isDrawEmpty())
         {
             setMessage("Vous avez déjà pioché voyons ! Ne soyez pas trop gourmand...");
             return true;
@@ -93,8 +92,8 @@ public class GameManager {
                     return true;
                 }
 
-                int requiedDrop = m_player.getHand().get(indHand).getBlood();
-                int requiedBones = m_player.getHand().get(indHand).getBone();
+                int requiedDrop = m_player.getHandAt(indHand).getBlood();
+                int requiedBones = m_player.getHandAt(indHand).getBone();
 
                 if(requiedDrop == 0 && requiedBones == 0)
                 {
@@ -109,12 +108,12 @@ public class GameManager {
                 }
                 else if(requiedBones > 0)
                 {
-                    int os = m_player.getPlayerBones();
+                    int os = m_player.getBones();
                     if(os >= requiedBones)
                     {
                         if (m_gameboard[2][indBoard] == null) {
                             os -= requiedBones;
-                            m_player.setPlayerBones(os);
+                            m_player.setBones(os);
                             setMessage("Vous placer la carte");
                             placeCard(indHand, indBoard);
                             return false;
@@ -227,7 +226,7 @@ public class GameManager {
                     return true;
                 }
 
-                int requiedDrop = m_player.getHand().get(indHand).getBlood();
+                int requiedDrop = m_player.getHandAt(indHand).getBlood();
 
                 if(requiedDrop == 0)
                 {
@@ -381,9 +380,17 @@ public class GameManager {
 
     public Cartes[][] getCards(){return m_gameboard;}
 
+    public boolean hasCards(int i, int j) { return m_gameboard[i][j] == null; }
+
+    public int getHandSize(){return m_player.getHandSize();}
+
+    public Cartes_animaux getHandAt(int index){return m_player.getHandAt(index);}
+
     public ArrayList<Cartes_animaux> getHand(){return m_player.getHand();}
 
     public ArrayList<Cartes_animaux> getDraw(){return m_player.getDraw();}
+
+    public int getDrawSize() {return m_player.getDrawSize();}
 
     public Player getPlayer(){return m_player;}
 
