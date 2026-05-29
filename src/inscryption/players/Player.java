@@ -11,6 +11,7 @@ public class Player {
 
     private ArrayList<Cartes_animaux> m_main;
     private ArrayList<Cartes_animaux> m_gamecards;
+    private ArrayList<Cartes_animaux> m_gamecards_copy;
     private Random m_random;
     private GameManager m_datas;
     private int m_obtainedBones;
@@ -19,9 +20,11 @@ public class Player {
     public Player()
     {
         m_main = new ArrayList<Cartes_animaux>();
-        m_gamecards = new ArrayList<Cartes_animaux>();
+        m_gamecards_copy = new ArrayList<Cartes_animaux>();
+        m_gamecards = m_gamecards_copy;
         m_random = new Random();
         m_turnAttack = 0;
+        this.createDraw();
     }
 
     public void setGameManager(GameManager gameManager) {
@@ -56,7 +59,7 @@ public class Player {
         for(int k=0; k<15; k++)
         {
             int aleatoireIndex = m_random.nextInt(temp.size());
-            m_gamecards.add(temp.get(aleatoireIndex));
+            m_gamecards_copy.add(temp.get(aleatoireIndex));
             temp.remove(aleatoireIndex);
         }
     }
@@ -66,6 +69,8 @@ public class Player {
         Cartes_animaux carte = m_gamecards.removeLast();
         m_main.add(carte);
     }
+
+    public void setGamecards(){m_gamecards = m_gamecards_copy;}
 
     public void drawAt(int index)
     {

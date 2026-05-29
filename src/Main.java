@@ -16,18 +16,18 @@ public class Main
         boolean continueGame = true;
         Scanner sc = new Scanner(System.in);
 
+        Player player = new Player();
+        Opponent opponent = new Opponent();
         while(nbParties <= 3 && continueGame)
         {
-            Opponent opponent = new Opponent();
-            Player player = new Player();
             GameManager gameManager = new GameManager(player, opponent);
-            gameManager.setGame(nbParties, opponent, nbParties);
-            PlateauAffichage plateau = new PlateauAffichage(gameManager);
             if(nbParties == 3)
             {
                 gameManager.proposeAddToDraw(sc);
                 gameManager.displaySacrificeStone(sc);
             }
+            gameManager.setGame(nbParties, opponent, nbParties);
+            PlateauAffichage plateau = new PlateauAffichage(gameManager);
             while(matchVictory == null)
             {
                 plateau.displayGameboard(gameManager.getMessage());

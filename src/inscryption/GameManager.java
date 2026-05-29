@@ -38,7 +38,7 @@ public class GameManager {
         m_game = 1;
         m_draw = true;
         m_message = "";
-        m_player.createDraw();
+        m_player.setGamecards();
         m_random = new Random();
         for(int j=0; j<4; j++)
         {
