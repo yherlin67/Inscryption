@@ -60,7 +60,7 @@ public abstract class Cartes_animaux extends Cartes{
         return m_powerEnum.getFirst();
     }
 
-    public int getPowerSize()
+    public int getPowerSizeAnimal()
     {
         return m_powerEnum.size();
     }

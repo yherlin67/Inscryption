@@ -397,6 +397,14 @@ public class GameManager {
 
     public int getCardAttack(int i, int j) {return m_gameboard[i][j].getAnimalAttack();}
 
+    public boolean getCardFly(int i, int j){return m_gameboard[i][j].getAnimalFly();}
+
+    public int getCardPowerSize(int i, int j){return m_gameboard[i][j].getPowerSizeAnimal();}
+
+    public PowerEnum getCardPowerFirst(int i, int j){return m_gameboard[i][j].getFirstPowerAnimal();}
+
+    public PowerEnum getCardPowerLast(int i, int j){return m_gameboard[i][j].getLastPowerAnimal();}
+
     public Cartes_animaux getHandAt(int index){return m_player.getHandAt(index);}
 
     public ArrayList<Cartes_animaux> getHand(){return m_player.getHand();}

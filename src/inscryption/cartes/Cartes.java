@@ -39,12 +39,14 @@ public abstract class Cartes {
         return m_animals.getLastPower();
     }
 
-    public boolean isAnimal()
+    public int getPowerSizeAnimal()
     {
-        return m_animals != null;
+        return m_animals.getPowerSizeAnimal();
     }
 
     public boolean isAnimal() {return m_animals != null;}
 
     public int getAnimalAttack() {return m_animals.getAttack();}
+
+    public boolean getAnimalFly() {return m_animals.isFlying();}
 }

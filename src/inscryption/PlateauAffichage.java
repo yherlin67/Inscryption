@@ -4,14 +4,11 @@ import inscryption.cartes.*;
 import inscryption.players.Opponent;
 import inscryption.players.Player;
 
-import java.util.Random;
-
 public class PlateauAffichage {
 
-    private GameManager m_datas;
-    private Opponent m_opponent;
-    private Player m_player;
-    private Random m_random;
+    private final GameManager m_datas;
+    private final Opponent m_opponent;
+    private final Player m_player;
     private int m_actualTurn;
 
     public PlateauAffichage(GameManager gameManager)
@@ -19,7 +16,6 @@ public class PlateauAffichage {
         m_datas = gameManager;
         m_opponent = gameManager.getOpponent();
         m_player = gameManager.getPlayer();
-        m_random = new Random();
         m_actualTurn = 1;
     }
 
@@ -115,21 +111,15 @@ public class PlateauAffichage {
     {
         for(int i=0; i<3; i++)
         {
-            String chaine = "";
-            chaine = displayRow(chaine, i, message);
+            StringBuilder chaine = new StringBuilder();
+            chaine = new StringBuilder(displayRow(chaine.toString(), i, message));
             if(i==0)
             {
-                for(int j=0; j<4; j++)
-                {
-                    chaine += "        ||       ";
-                }
-                chaine += "\n";
-                for(int j=0; j<4; j++)
-                {
-                    chaine += "        \\/       ";
-                }
+                chaine.append("        ||       ".repeat(4));
+                chaine.append("\n");
+                chaine.append("        \\/       ".repeat(4));
                 System.out.println(chaine);
-                chaine = "";
+                chaine = new StringBuilder();
             }
             System.out.println(chaine);
         }
@@ -139,7 +129,6 @@ public class PlateauAffichage {
     public String displayRow(String chaine, int rangee, String message)
     {
         int ligne = 1;
-        int j=rangee;
         StringBuilder chaineBuilder = new StringBuilder(chaine);
         for(int i = 0; i<9; i++)
         {
@@ -149,7 +138,7 @@ public class PlateauAffichage {
                 case 9:
                     for(int l=0; l<4; l++)
                     {
-                        if(!m_datas.isCard(i,j))
+                        if(!m_datas.isCard(rangee,l))
                         {
                             chaineBuilder.append(" *************** ");
                         }
@@ -161,7 +150,7 @@ public class PlateauAffichage {
                     {
                         chaineBuilder.append("      Partie n°").append(m_datas.getGame()).append("\n");
                     }
-                    else if(rangee==1 && ligne == 9)
+                    else if(rangee == 1)
                     {
                         chaineBuilder.append("      ").append(message).append("\n");
                     }
@@ -174,17 +163,14 @@ public class PlateauAffichage {
                 case 2:
                     for(int l=0; l<4; l++)
                     {
-                        if(m_datas.isCard(i,j))
+                        if(m_datas.isCard(rangee,l))
                         {
                             chaineBuilder.append(" *             * ");
                         }
                         else
                         {
-                            chaineBuilder.append(" | ").append(m_datas.getCardName(i, j));
-                            for(int x = 0; x<(12-m_datas.getCardName(i,j).length()); x++)
-                            {
-                                chaineBuilder.append(" ");
-                            }
+                            chaineBuilder.append(" | ").append(m_datas.getCardName(i, rangee));
+                            chaineBuilder.append(" ".repeat(Math.max(0, (12 - m_datas.getCardName(i, rangee).length()))));
                             chaineBuilder.append("| ");
                         }
                     }
@@ -201,7 +187,7 @@ public class PlateauAffichage {
                 case 3:
                     for(int l=0; l<4; l++)
                     {
-                        if(m_datas.isCard(i,j))
+                        if(m_datas.isCard(rangee,l))
                         {
                             chaineBuilder.append(" *             * ");
                         }
@@ -223,7 +209,7 @@ public class PlateauAffichage {
                 case 4:
                     for(int l=0; l<4; l++)
                     {
-                        if(m_datas.isCard(i,j))
+                        if(m_datas.isCard(rangee,l))
                         {
                             if(rangee == 1)
                             {
@@ -240,7 +226,7 @@ public class PlateauAffichage {
                         }
                         else
                         {
-                            chaineBuilder.append(" | PV : ").append(m_datas.getCardHealthPoints(i,j)).append("      | ");
+                            chaineBuilder.append(" | PV : ").append(m_datas.getCardHealthPoints(i, rangee)).append("      | ");
                         }
                     }
                     if(rangee==1)
@@ -256,13 +242,13 @@ public class PlateauAffichage {
                 case 5:
                     for(int l=0; l<4; l++)
                     {
-                        if(m_datas.isCard(i,j))
+                        if(m_datas.isCard(rangee,l))
                         {
                             chaineBuilder.append(" *             * ");
                         }
-                        else if(m_datas.isCardAnimal(i,j) && m_datas.getCardAttack(i,j) > 0)
+                        else if(m_datas.isCardAnimal(i, rangee) && m_datas.getCardAttack(i, rangee) > 0)
                         {
-                            chaineBuilder.append(" | Att : ").append(cartes[j][l].getAnimals().getAttack()).append("     | ");
+                            chaineBuilder.append(" | Att : ").append(m_datas.getCardAttack(i, rangee)).append("     | ");
                         }
                         else
                         {
@@ -275,11 +261,11 @@ public class PlateauAffichage {
                 case 6:
                     for(int l=0; l<4; l++)
                     {
-                        if(cartes[j][l] == null)
+                        if(m_datas.isCard(rangee,l))
                         {
                             chaineBuilder.append(" *             * ");
                         }
-                        else if(cartes[j][l].getAnimals() != null && cartes[j][l].getAnimals().isFlying())
+                        else if(m_datas.isCard(rangee,l) && m_datas.getCardFly(rangee,l))
                         {
                             chaineBuilder.append(" | Volant      | ");
                         }
@@ -302,17 +288,14 @@ public class PlateauAffichage {
                 case 7:
                     for(int l=0; l<4; l++)
                     {
-                        if(cartes[j][l] == null)
+                        if(!m_datas.isCard(rangee,l))
                         {
                             chaineBuilder.append(" *             * ");
                         }
-                        else if(cartes[j][l].getAnimals() != null && cartes[j][l].getAnimals().getPowerSize() == 1 && cartes[j][l].getAnimals().getFirstPower() != PowerEnum.AUCUN )
+                        else if(m_datas.isCard(i, rangee) && m_datas.getCardPowerSize(rangee,l) == 1 && m_datas.getCardPowerFirst(rangee,l) != PowerEnum.AUCUN )
                         {
-                            chaineBuilder.append(" | ").append(cartes[j][l].getAnimals().getFirstPower().toString());
-                            for(int x = 0; x<(12-cartes[j][l].getAnimals().getFirstPower().toString().length()); x++)
-                            {
-                                chaineBuilder.append(" ");
-                            }
+                            chaineBuilder.append(" | ").append(m_datas.getCardPowerFirst(i, rangee).toString());
+                            chaineBuilder.append(" ".repeat(Math.max(0, (12 - m_datas.getCardPowerFirst(rangee, l).toString().length()))));
                             chaineBuilder.append("| ");
                         }
                         else
@@ -322,8 +305,8 @@ public class PlateauAffichage {
                     }
                     if(rangee==1 && m_datas.getTurn() == m_actualTurn+1)
                     {
-                        int playerAttack = 0;
-                        int opponentAttack = 0;
+                        int playerAttack;
+                        int opponentAttack;
                         playerAttack = m_player.getTurnAttack();
                         opponentAttack = m_opponent.getTurnAttack();
                         chaineBuilder.append("      Joueur : ").append(playerAttack).append("| Adversaire : ").append(opponentAttack).append("\n");
@@ -339,17 +322,14 @@ public class PlateauAffichage {
                 case 8:
                     for(int l=0; l<4; l++)
                     {
-                        if(cartes[j][l] == null)
+                        if(!m_datas.isCard(rangee,l))
                         {
                             chaineBuilder.append(" *             * ");
                         }
-                        else if(cartes[j][l].getAnimals() != null && cartes[j][l].getAnimals().getPowerSize() == 2)
+                        else if(m_datas.isCard(rangee,l) && m_datas.getCardPowerSize(rangee,l) == 2)
                         {
-                            chaineBuilder.append(" | ").append(cartes[j][l].getAnimals().getLastPower().toString());
-                            for(int x = 0; x<(12-cartes[j][l].getAnimals().getLastPower().toString().length()); x++)
-                            {
-                                chaineBuilder.append(" ");
-                            }
+                            chaineBuilder.append(" | ").append(m_datas.getCardPowerLast(rangee,l).toString());
+                            chaineBuilder.append(" ".repeat(Math.max(0, (12 - m_datas.getCardPowerLast(rangee, l).toString().length()))));
                             chaineBuilder.append("| ");
                         }
                         else

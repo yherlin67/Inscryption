@@ -236,7 +236,7 @@ public class Player {
 
     public int getBones() { return m_obtainedBones; }
 
-    public int getAttack() {return m_hand}
+    public int getAttack() {return m_hand;}
 
     public void setBones(int nb) {m_obtainedBones = nb;}
 
