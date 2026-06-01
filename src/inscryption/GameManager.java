@@ -585,4 +585,11 @@ public class GameManager {
     }
 
     public int getGame(){return m_game;}
+
+    public int getAnimalAttack(int row, int columns)
+    {
+       return m_gameboard[row][columns].getAnimalAttack();
+    }
+
+    public Cartes getAnimal(int row, int columns){return m_gameboard[row][columns];}
 }
