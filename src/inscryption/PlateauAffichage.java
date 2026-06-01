@@ -8,14 +8,12 @@ public class PlateauAffichage {
 
     private final GameManager m_datas;
     private final Opponent m_opponent;
-    private final Player m_player;
     private int m_actualTurn;
 
     public PlateauAffichage(GameManager gameManager)
     {
         m_datas = gameManager;
         m_opponent = gameManager.getOpponent();
-        m_player = gameManager.getPlayer();
         m_actualTurn = 1;
     }
 
@@ -79,11 +77,11 @@ public class PlateauAffichage {
                     {
                         if(m_datas.getDrawSize() >= 10)
                         {
-                            chaine += "                                                                                |     " + m_datas.getDraw().size() + "    |";
+                            chaine += "                                                                                |     " + m_datas.getDrawSize() + "    |";
                         }
                         else
                         {
-                            chaine +=  "                                                                                |     " + m_datas.getDraw().size() + "     |";
+                            chaine +=  "                                                                                |     " + m_datas.getDrawSize() + "     |";
                         }
                     }
                     else if(j==3)
@@ -231,7 +229,7 @@ public class PlateauAffichage {
                     }
                     if(rangee==1)
                     {
-                        chaineBuilder.append("      Os obtenus : ").append(m_player.getBones()).append("\n");
+                        chaineBuilder.append("      Os obtenus : ").append(m_datas.getPlayerBones()).append("\n");
                     }
                     else
                     {
@@ -307,8 +305,8 @@ public class PlateauAffichage {
                     {
                         int playerAttack;
                         int opponentAttack;
-                        playerAttack = m_player.getTurnAttack();
-                        opponentAttack = m_opponent.getTurnAttack();
+                        playerAttack = m_datas.getPlayerTurnAttack();
+                        opponentAttack = m_datas.getOpponentTurnAttack();
                         chaineBuilder.append("      Joueur : ").append(playerAttack).append("| Adversaire : ").append(opponentAttack).append("\n");
                         m_actualTurn++;
                     }

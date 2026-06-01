@@ -98,8 +98,8 @@ public class GameManager {
                     return true;
                 }
 
-                int requiedDrop = m_player.getHandAt(indHand).getBlood();
-                int requiedBones = m_player.getHandAt(indHand).getBone();
+                int requiedDrop = m_player.getBloodAt(indHand);
+                int requiedBones = m_player.getBonesAt(indHand);
 
                 if(requiedDrop == 0 && requiedBones == 0)
                 {
@@ -231,7 +231,7 @@ public class GameManager {
                     return true;
                 }
 
-                int requiedDrop = m_player.getHandAt(indHand).getBlood();
+                int requiedDrop = m_player.getBloodAt(indHand);
 
                 if(requiedDrop == 0)
                 {
@@ -353,8 +353,7 @@ public class GameManager {
 
     public void placeCard(int indHand,int indBoard)
     {
-        Cartes maCard = m_player.removeCard(indHand);
-        m_gameboard[2][indBoard] = maCard;
+        m_gameboard[2][indBoard] = m_player.removeCard(indHand);
     }
 
     public void setMessage(String message){m_message = message;}
@@ -387,7 +386,7 @@ public class GameManager {
 
     public boolean isCard(int i, int j) { return m_gameboard[i][j] != null; }
 
-    public boolean isCardAnimal(int i, int j) { return m_gameboard[i][j].isAnimal();}
+    public boolean isCardAnimal(int i, int j) { return m_gameboard[i][j].isAnimal() && m_gameboard[i][j] != null;}
 
     public int getHandSize(){return m_player.getHandSize();}
 
@@ -405,17 +404,35 @@ public class GameManager {
 
     public PowerEnum getCardPowerLast(int i, int j){return m_gameboard[i][j].getLastPowerAnimal();}
 
+    public void cardTakeDamage(int i, int j, int degats) {m_gameboard[i][j].takeDamage(degats);}
+
     public Cartes_animaux getHandAt(int index){return m_player.getHandAt(index);}
-
-    public ArrayList<Cartes_animaux> getHand(){return m_player.getHand();}
-
-    public ArrayList<Cartes_animaux> getDraw(){return m_player.getDraw();}
 
     public int getDrawSize() {return m_player.getDrawSize();}
 
     public Player getPlayer(){return m_player;}
 
     public Opponent getOpponent(){return m_opponent;}
+
+    public void moveCardToRow1(int col) {m_gameboard[1][col] = m_gameboard[0][col];}
+
+    public void moveCard(int row, int fromCol, int toCol) {
+        m_gameboard[row][toCol] = m_gameboard[row][fromCol];
+        m_gameboard[row][fromCol] = null;
+    }
+
+    public int getGame(){return m_game;}
+
+    public int getAnimalAttack(int row, int columns)
+    {
+        return m_gameboard[row][columns].getAnimalAttack();
+    }
+
+    public int getPlayerBones() {return m_player.getBones();}
+
+    public int getPlayerTurnAttack() {return m_player.getTurnAttack();}
+
+    public int getOpponentTurnAttack() { return m_opponent.getTurnAttack();}
 
     public void setGame(int match, Opponent opponent, int actualGame) {
         opponent.setGameManager(this);
@@ -519,15 +536,14 @@ public class GameManager {
             choice = sc.nextLine();
             try
             {
-                numChoice = Integer.parseInt(choice.trim()) - 1;
+                numChoice = parseInt(choice.trim()) - 1;
             } catch (NumberFormatException e) {
                 numChoice = -1;
             }
             if(numChoice >= 0 && numChoice < m_player.getDrawSize())
             {
                 valide = true;
-                Cartes_animaux toSacrifice = m_player.getDraw().get(numChoice);
-                logicSacrificeStone(toSacrifice,numChoice,sc);
+                logicSacrificeStone(numChoice,sc);
             }
             else
             {
@@ -536,14 +552,14 @@ public class GameManager {
         }
     }
 
-    public void logicSacrificeStone(Cartes_animaux toSacrifice, int numChoice, Scanner sc)
+    public void logicSacrificeStone(int numChoice, Scanner sc)
     {
 
-        if(toSacrifice.getFirstPower() != PowerEnum.AUCUN)
+        if(m_player.getCardPowerFirst(numChoice) != PowerEnum.AUCUN)
         {
-            PowerEnum toAttribute = toSacrifice.getFirstPower();
+            PowerEnum toAttribute = m_player.getCardPowerFirst(numChoice);
 
-            m_display.print("Super, cette carte avait le pouvoir " + toSacrifice.getFirstPower().toString() + " !");
+            m_display.print("Super, cette carte avait le pouvoir " + toAttribute.toString() + " !");
             boolean valide = false;
             String choice;
             m_display.print("Choisissez à quelle carte vous voulez maintenant attribuer ce pouvoir :");
@@ -555,7 +571,7 @@ public class GameManager {
                 choice = sc.nextLine();
                 try
                 {
-                    numChoicePow = Integer.parseInt(choice.trim()) -1;
+                    numChoicePow = parseInt(choice.trim()) -1;
                 } catch (NumberFormatException e) {
                     numChoicePow = -1;
                 }
@@ -584,12 +600,7 @@ public class GameManager {
         m_gameboard[row][columns] = carte;
     }
 
-    public int getGame(){return m_game;}
 
-    public int getAnimalAttack(int row, int columns)
-    {
-       return m_gameboard[row][columns].getAnimalAttack();
-    }
 
     public Cartes getAnimal(int row, int columns){return m_gameboard[row][columns];}
 }

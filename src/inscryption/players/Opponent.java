@@ -80,12 +80,12 @@ public class Opponent {
     {
         for(int i=0; i<4; i++)
         {
-            if(m_datas.getCards()[1][i] == null)
+            if(!m_datas.isCard(1,i))
             {
-                m_datas.setCard(m_datas.getCards()[0][i], 1, i);
+                m_datas.moveCardToRow1(i);
                 m_datas.setCard(null, 0, i);
             }
-            if (m_datas.getCards()[0][i] == null && !m_actions[i].isEmpty())
+            if (!m_datas.isCard(0,i) && !m_actions[i].isEmpty())
             {
                 m_datas.setCard(m_actions[i].getFirst(), 0, i);
                 m_actions[i].removeFirst();
@@ -102,83 +102,64 @@ public class Opponent {
         m_turnAttack = 0;
         for(int i=0; i<4; i++)
         {
-            if(m_datas.getCards()[1][i] != null)
-            {
-                if(m_datas.getCards()[2][i] == null)
-                {
-                    m_datas.setScore(-m_datas.getAnimalAttack(1,i));
-                    m_turnAttack += m_datas.getAnimalAttack(1,i);
-                }
-                else
-                {
-                    int degats = m_datas.getAnimalAttack(1,i);
-                    if(m_datas.getAnimal(2,i) != null)
-                    {
-                        if(m_datas.getCards()[2][i].getFirstPowerAnimal() == PowerEnum.PUANT || m_datas.getCards()[2][i].getLastPowerAnimal() == PowerEnum.PUANT)
-                        {
+            if(m_datas.isCard(1,i)) {
+                if (!m_datas.isCard(2, i)) {
+                    m_datas.setScore(-m_datas.getAnimalAttack(1, i));
+                    m_turnAttack += m_datas.getAnimalAttack(1, i);
+                } else {
+                    int degats = m_datas.getAnimalAttack(1, i);
+                    if (m_datas.isCard(2, i)) {
+                        if (m_datas.getCardPowerFirst(2, i) == PowerEnum.PUANT || m_datas.getCardPowerLast(2, i) == PowerEnum.PUANT) {
                             m_turnAttack--;
-                            degats --;
+                            degats--;
                         }
                     }
-                    if(m_datas.getAnimal(1,i) != null && m_datas.getAnimal(1,i).getAnimalFly())
-                    {
+                    if (m_datas.isCard(1, i) && m_datas.getCardFly(1, i)) {
                         m_datas.setScore(degats);
-                        m_turnAttack += m_datas.getAnimalAttack(1,i);
-                    }
-                    else if(m_datas.getAnimal(1,i) != null && !m_datas.getAnimal(1,i).getAnimalFly())
-                    {
-                        m_datas.getCards()[2][i].takeDamage(degats);
+                        m_turnAttack += m_datas.getAnimalAttack(1, i);
+                    } else if (m_datas.isCard(1, i) && !m_datas.getCardFly(1, i)) {
+                        m_datas.cardTakeDamage(2, i, degats);
 
-                        if(m_datas.getCards()[1][i].getFirstPowerAnimal() == PowerEnum.CONTACT_MORTEL || m_datas.getCards()[1][i].getLastPowerAnimal() == PowerEnum.CONTACT_MORTEL)
-                        {
-                            m_datas.getCards()[2][i].takeDamage(999);
+                        if (m_datas.getCardPowerFirst(1, i) == PowerEnum.CONTACT_MORTEL || m_datas.getCardPowerLast(1, i) == PowerEnum.CONTACT_MORTEL) {
+                            m_datas.cardTakeDamage(2, i, 999);
                         }
-                        if(m_datas.getAnimal(2,i) != null && m_datas.getAnimal(2,i) != null) {
-                            if(m_datas.getCards()[2][i].getFirstPowerAnimal() == PowerEnum.PIQUES_POINTUES || m_datas.getCards()[2][i].getLastPowerAnimal() == PowerEnum.PIQUES_POINTUES)
-                            {
-                                m_datas.getCards()[1][i].takeDamage(1);
 
-                                if (m_datas.getCards()[1][i].getHealthPoints() <= 0) {
-                                    m_datas.getCards()[1][i] = null;
+                        if (m_datas.isCard(2, i) && m_datas.isCardAnimal(2, i)) {
+                            if (m_datas.getCardPowerFirst(2, i) == PowerEnum.PIQUES_POINTUES || m_datas.getCardPowerLast(2, i) == PowerEnum.PIQUES_POINTUES) {
+                                m_datas.cardTakeDamage(1, i, 1);
+
+                                if (m_datas.getCardHealthPoints(1, i) <= 0) {
+                                    m_datas.setCard(null, 1, i);
                                 }
                             }
                         }
 
-                        if (m_datas.getCards()[2][i] != null && m_datas.getCards()[2][i].getHealthPoints() <= 0) {
-                            m_datas.getCards()[2][i] = null;
+                        if (m_datas.isCard(2, i) && m_datas.getCardHealthPoints(2, i) <= 0) {
+                            m_datas.setCard(null, 2, i);
                         }
                     }
-                }
-                if(m_datas.getCards()[1][i] != null && m_datas.getAnimal(1,i) != null && (m_datas.getCards()[1][i].getFirstPowerAnimal() == PowerEnum.CROISSANCE || m_datas.getCards()[1][i].getLastPowerAnimal() == PowerEnum.CROISSANCE))
-                {
-                    m_datas.setCard(new Loup(), 1, i);
-                }
-            }
-        }
-        ArrayList<Integer> indicesBloques = new ArrayList<>();
 
-        for(int i=0; i<4; i++)
-        {
-            if(indicesBloques.contains(i)) {
-                continue;
-            }
-
-            Cartes carteActuelle = m_datas.getAnimal(1,i);
-
-            if((carteActuelle != null) && carteActuelle.isAnimal())
-            {
-                if(carteActuelle.getFirstPowerAnimal() == PowerEnum.COUREUR || carteActuelle.getLastPowerAnimal() == PowerEnum.COUREUR)
-                {
-                    if(i < 3 && m_datas.getCards()[1][i+1] == null)
-                    {
-                        m_datas.setCard(carteActuelle, 1, i+1);
-                        m_datas.setCard(null, 1, i);
-                        indicesBloques.add(i+1);
+                    if (m_datas.isCard(1, i) && m_datas.isCardAnimal(1, i) && (m_datas.getCardPowerFirst(1, i) == PowerEnum.CROISSANCE || m_datas.getCardPowerLast(1, i) == PowerEnum.CROISSANCE)) {
+                        m_datas.setCard(new Loup(), 1, i);
                     }
-                    else if(i > 0 && m_datas.getCards()[1][i-1] == null)
-                    {
-                        m_datas.setCard(carteActuelle, 1, i-1);
-                        m_datas.setCard(null, 1, i);
+
+                    ArrayList<Integer> indicesBloques = new ArrayList<>();
+
+                    for (int j = 0; j < 4; j++) {
+                        if (indicesBloques.contains(j)) {
+                            continue;
+                        }
+
+                        if (m_datas.isCard(1, j) && m_datas.isCardAnimal(1, j)) {
+                            if (m_datas.getCardPowerFirst(1, j) == PowerEnum.COUREUR || m_datas.getCardPowerLast(1, j) == PowerEnum.COUREUR) {
+                                if (j < 3 && !m_datas.isCard(1, j + 1)) {
+                                    m_datas.moveCard(1, j, j + 1);
+                                    indicesBloques.add(j + 1);
+                                } else if (j > 0 && !m_datas.isCard(1, j - 1)) {
+                                    m_datas.moveCard(1, j, j - 1);
+                                }
+                            }
+                        }
                     }
                 }
             }
