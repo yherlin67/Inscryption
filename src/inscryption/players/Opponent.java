@@ -5,10 +5,9 @@ import inscryption.PowerEnum;
 import inscryption.cartes.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Opponent {
-    private ArrayList<Cartes>[] m_actions;
+    private final ArrayList<Cartes>[] m_actions;
     private GameManager m_datas;
     private int m_turnAttack;
 
@@ -30,14 +29,18 @@ public class Opponent {
 
     public void setMatch(ArrayList<Cartes> actions0, ArrayList<Cartes> actions1, ArrayList<Cartes> actions2, ArrayList<Cartes> actions3)
     {
-         m_datas.setCard(m_actions[0].getFirst(), 0, 0);
-         m_datas.setCard(m_actions[1].getFirst(), 0, 1);
-         m_datas.setCard(m_actions[2].getFirst(), 0, 2);
-         m_datas.setCard(m_actions[3].getFirst(), 0, 3);
-         m_actions[0].removeFirst();
-         m_actions[1].removeFirst();
-         m_actions[2].removeFirst();
-         m_actions[3].removeFirst();
+        m_datas.setCard(actions0.getFirst(), 0, 0);
+        m_datas.setCard(actions1.getFirst(), 0, 1);
+        m_datas.setCard(actions2.getFirst(), 0, 2);
+        m_datas.setCard(actions3.getFirst(), 0, 3);
+        m_actions[0] = actions0;
+        m_actions[1] = actions1;
+        m_actions[2] = actions2;
+        m_actions[3] = actions3;
+        m_actions[0].removeFirst();
+        m_actions[1].removeFirst();
+        m_actions[2].removeFirst();
+        m_actions[3].removeFirst();
     }
 
     public void play()
@@ -132,6 +135,6 @@ public class Opponent {
 
     @Override
     public String toString(){
-        return "Oponnent";
+        return "Opponent";
     }
 }

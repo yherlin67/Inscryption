@@ -9,19 +9,19 @@ import java.util.Random;
 
 public class Player {
 
-    private ArrayList<Cartes_animaux> m_hand;
-    private ArrayList<Cartes_animaux> m_gamecards;
-    private ArrayList<Cartes_animaux> m_gamecards_copy;
-    private Random m_random;
+    private final ArrayList<Cartes_animaux> m_hand;
+    private final ArrayList<Cartes_animaux> m_gamecards;
+    private final ArrayList<Cartes_animaux> m_gamecards_copy;
+    private final Random m_random;
     private GameManager m_datas;
     private int m_obtainedBones;
     private int m_turnAttack;
 
     public Player()
     {
-        m_hand = new ArrayList<Cartes_animaux>();
-        m_gamecards_copy = new ArrayList<Cartes_animaux>();
-        m_gamecards = new ArrayList<Cartes_animaux>();
+        m_hand = new ArrayList<>();
+        m_gamecards_copy = new ArrayList<>();
+        m_gamecards = new ArrayList<>();
         m_random = new Random();
         m_turnAttack = 0;
         this.createDraw();
@@ -33,7 +33,7 @@ public class Player {
 
     public void createDraw()
     {
-        ArrayList<Cartes_animaux> temp = new ArrayList<Cartes_animaux>();
+        ArrayList<Cartes_animaux> temp = new ArrayList<>();
         temp.add(new Chat());
         temp.add(new Corbeau());
         temp.add(new Coyote());
@@ -85,11 +85,6 @@ public class Player {
     public int getDrawSize()
     {
         return m_gamecards.size();
-    }
-
-    public void setAnimalAtInDraw(int index, Cartes_animaux animal)
-    {
-        m_gamecards.set(index, animal);
     }
 
     public Cartes_animaux getAnimalAtInDraw(int index)

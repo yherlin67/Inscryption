@@ -12,17 +12,15 @@ public enum PowerEnum {
     @Override
     public String toString()
     {
-        switch(this)
-        {
-            case NOMBREUSES_VIES: return "Vies ∞";
-            case CROISSANCE: return "Croissance";
-            case PUANT: return "Puant";
-            case COUREUR: return "Coureur";
-            case CONTACT_MORTEL: return "Poison";
-            case PIQUES_POINTUES: return "Pointes";
-            case AUCUN: return "Aucun";
-            default: return "";
-        }
+        return switch (this) {
+            case NOMBREUSES_VIES -> "Vies ∞";
+            case CROISSANCE -> "Croissance";
+            case PUANT -> "Puant";
+            case COUREUR -> "Coureur";
+            case CONTACT_MORTEL -> "Poison";
+            case PIQUES_POINTUES -> "Pointes";
+            case AUCUN -> "Aucun";
+        };
     }
 
 }
