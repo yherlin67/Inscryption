@@ -12,23 +12,23 @@ class GameManagerTest {
 
     @Test
     void SetGameTest() {
-        Player joueur = new Player();
-        Opponent adversaire = new Opponent();
-        GameManager gm = new GameManager(joueur, adversaire);
+        Player player = new Player();
+        Opponent opponent = new Opponent();
+        GameManager gm = new GameManager(player, opponent);
 
         gm.setGame(1);
 
         assertTrue(gm.isCard(2, 1), "Il devrait y avoir une carte en (2,1) pour la game 1");
         assertEquals("Sapin", gm.getCardName(2, 1), "La carte en (2,1) devrait être un Sapin");
 
-        assertEquals(4, gm.getHandSize(), "Le joueur devrait avoir 4 cartes en main après le début de la partie");
+        assertEquals(4, gm.getHandSize(), "Le player devrait avoir 4 cartes en main après le début de la partie");
     }
 
     @Test
     void VictoryTest() {
-        Player joueur = new Player();
-        Opponent adversaire = new Opponent();
-        GameManager gm = new GameManager(joueur, adversaire);
+        Player player = new Player();
+        Opponent opponent = new Opponent();
+        GameManager gm = new GameManager(player, opponent);
 
         assertEquals(0, gm.getScore(), "Le score initial doit être de 0");
         assertNull(gm.gameReview(), "La partie ne devrait être ni gagnée ni perdue à 0 de score");
@@ -45,9 +45,9 @@ class GameManagerTest {
 
     @Test
     void CardPlacementTest() {
-        Player joueur = new Player();
-        Opponent adversaire = new Opponent();
-        GameManager gm = new GameManager(joueur, adversaire);
+        Player player = new Player();
+        Opponent opponent = new Opponent();
+        GameManager gm = new GameManager(player, opponent);
 
         Loup loup = new Loup();
         gm.setCard(loup, 2, 0);
@@ -61,15 +61,15 @@ class GameManagerTest {
 
     @Test
     void AttackAndDamageTest() {
-        Player joueur = new Player();
-        Opponent adversaire = new Opponent();
-        GameManager gm = new GameManager(joueur, adversaire);
+        Player player = new Player();
+        Opponent opponent = new Opponent();
+        GameManager gm = new GameManager(player, opponent);
 
-        Loup loupJoueur = new Loup();
-        Loup loupAdversaire = new Loup();
+        Loup loupplayer = new Loup();
+        Loup loupopponent = new Loup();
 
-        gm.setCard(loupAdversaire, 1, 0);
-        gm.setCard(loupJoueur, 2, 0);
+        gm.setCard(loupopponent, 1, 0);
+        gm.setCard(loupplayer, 2, 0);
 
         int degats = gm.getCardAttack(2, 0);
         gm.cardTakeDamage(1, 0, degats);
@@ -79,18 +79,18 @@ class GameManagerTest {
 
     @Test
     void EndTurnTest() {
-        Player joueur = new Player();
-        Opponent adversaire = new Opponent();
-        GameManager gm = new GameManager(joueur, adversaire);
+        Player player = new Player();
+        Opponent opponent = new Opponent();
+        GameManager gm = new GameManager(player, opponent);
 
         Loup loup1 = new Loup();
         Loup loup2 = new Loup();
         gm.setCard(loup1, 2, 0);
         gm.setCard(loup2, 2, 2);
 
-        joueur.attack();
+        player.attack();
 
         assertEquals(6, gm.getScore(), "Les deux loups (3+3) devraient infliger 6 points au score global");
-        assertEquals(6, joueur.getTurnAttack(), "Le récapitulatif des dégâts du tour devrait être de 6");
+        assertEquals(6, player.getTurnAttack(), "Le récapitulatif des dégâts du tour devrait être de 6");
     }
 }

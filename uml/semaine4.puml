@@ -19,6 +19,7 @@ package inscryption
             + displayGameBoard() : void
             + displayCards() : void
             + displayRows() : String
+            + print(chaine : String) : void
             + toString() : String
 
         }
