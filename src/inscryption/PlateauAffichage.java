@@ -7,13 +7,11 @@ import inscryption.players.Player;
 public class PlateauAffichage {
 
     private final GameManager m_datas;
-    private final Opponent m_opponent;
     private int m_actualTurn;
 
     public PlateauAffichage(GameManager gameManager)
     {
         m_datas = gameManager;
-        m_opponent = gameManager.getOpponent();
         m_actualTurn = 1;
     }
 
@@ -357,5 +355,10 @@ public class PlateauAffichage {
     public void print(String chaine)
     {
         System.out.println(chaine);
+    }
+
+    @Override
+    public String toString(){
+        return "PlateauAffichage";
     }
 }

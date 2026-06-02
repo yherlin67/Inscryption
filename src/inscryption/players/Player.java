@@ -211,8 +211,6 @@ public class Player {
 
     public Cartes removeCard(int indHand) {return m_hand.remove(indHand);}
 
-    public Cartes_animaux getHandAt(int index) {return m_hand.get(index);}
-
     public int getHandSize()
     {
         return m_hand.size();
@@ -245,5 +243,10 @@ public class Player {
     public PowerEnum getCardFirstPowerInHand(int i){return m_hand.get(i).getFirstPower();}
 
     public PowerEnum getCardLastPowerInHand(int i){return m_hand.get(i).getLastPower();}
+
+    @Override
+    public String toString(){
+        return "Player";
+    }
 
 }

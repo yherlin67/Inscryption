@@ -8,4 +8,9 @@ import java.util.List;
 public class Louveteau extends Cartes_animaux{
 
     public Louveteau() { super("Louveteau", 1, 1, 1, 0, false, new ArrayList<>(List.of(PowerEnum.CROISSANCE))); }
+
+    @Override
+    public String toString(){
+        return "Louveteau("+this.getName()+")";
+    }
 }

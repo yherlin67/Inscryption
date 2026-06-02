@@ -7,4 +7,9 @@ import java.util.List;
 
 public class Loup extends Cartes_animaux{
     public Loup() { super("Loup", 3, 2, 2, 0, false, new ArrayList<>(List.of(PowerEnum.AUCUN))); }
+
+    @Override
+    public String toString(){
+        return "Loup("+this.getName()+")";
+    }
 }
