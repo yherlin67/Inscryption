@@ -14,8 +14,8 @@ public class DisplayBoard {
     public void displayGameboard(String message)
     {
             displayCards(message);
-            System.out.println("Votre main :                                                                             Pioche");
-            System.out.println("                                                                                      *___________*");
+            System.out.println("Votre main :                                                                                          Pioche");
+            System.out.println("                                                                                                   *___________*");
             int pourlaboucle = (6-m_datas.getHandSize());
             if(pourlaboucle<0)
             {
@@ -27,11 +27,11 @@ public class DisplayBoard {
                 if(m_datas.getHandSize() > j)
                 {
                     String power = "";
-                    String ligne = "%-1d. %-12s PV: %-3d Att: %-2d Sang: %-2d Os: %-33d";
+                    String ligne = "%-1d. %-12s PV: %-3d Att: %-2d Sang: %-2d Os: %-2d Volant: %-35s";
                     if(m_datas.getCardFirstPowerInHand(j) != PowerEnum.AUCUN)
                     {
                         power += m_datas.getCardFirstPowerInHand(j);
-                        ligne = "%-1d. %-12s PV: %-3d Att: %-2d Sang: %-2d Os: %-2d Pouvoir: %-21s";
+                        ligne = "%-1d. %-12s PV: %-3d Att: %-2d Sang: %-2d Os: %-2d Volant: %-3s  Pouvoir: %-21s";
                     }
                     if(m_datas.getCardLastPowerInHand(j) != PowerEnum.AUCUN && m_datas.getCardFirstPowerInHand(j) != m_datas.getCardLastPowerInHand(j))
                     {
@@ -44,6 +44,7 @@ public class DisplayBoard {
                             m_datas.getCardAttackInHand(j),
                             m_datas.getCardBloodInHand(j),
                             m_datas.getCardBonesInHand(j),
+                            m_datas.getCardFlyInHand(j),
                             power
                     );
                     if(j==2)
@@ -80,24 +81,24 @@ public class DisplayBoard {
                     {
                         if(m_datas.getDrawSize() >= 10)
                         {
-                            chaine += "                                                                                      |     " + m_datas.getDrawSize() + "    |";
+                            chaine += "                                                                                                  |     " + m_datas.getDrawSize() + "    |";
                         }
                         else
                         {
-                            chaine += "                                                                                      |     " + m_datas.getDrawSize() + "     |";
+                            chaine += "                                                                                                   |     " + m_datas.getDrawSize() + "     |";
                         }
                     }
                     else if(j==3)
                     {
-                        chaine += "                                                                                      |  carte(s) |";
+                        chaine += "                                                                                                   |  carte(s) |";
                     }
                     else if(j!=5)
                     {
-                        chaine += "                                                                                      |           |";
+                        chaine += "                                                                                                   |           |";
                     }
                     else
                     {
-                        chaine += "                                                                                      *___________*";
+                        chaine += "                                                                                                   *___________*";
                     }
                 }
                 System.out.println(chaine);

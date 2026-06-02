@@ -132,7 +132,7 @@ public class GameManager {
                 }
                 else if(requiedDrop > 0)
                 {
-                    if (m_gameboard[2][indBoard] != null && m_gameboard[2][indBoard].getFirstPowerAnimal() == PowerEnum.NOMBREUSES_VIES || m_gameboard[2][indBoard].getLastPowerAnimal() == PowerEnum.NOMBREUSES_VIES) {
+                    if (m_gameboard[2][indBoard] != null  && m_gameboard[2][indBoard].isAnimal() && (m_gameboard[2][indBoard].getFirstPowerAnimal() == PowerEnum.NOMBREUSES_VIES || m_gameboard[2][indBoard].getLastPowerAnimal() == PowerEnum.NOMBREUSES_VIES)) {
                         setMessage("Ah non ! Un Chat occupe déjà cette case, placement impossible !");
                         return;
                     }
@@ -239,7 +239,7 @@ public class GameManager {
                 }
                 else if(requiedDrop > 0)
                 {
-                    if (m_gameboard[2][indBoard] != null && m_gameboard[2][indBoard].getFirstPowerAnimal() == PowerEnum.NOMBREUSES_VIES || m_gameboard[2][indBoard].getLastPowerAnimal() == PowerEnum.NOMBREUSES_VIES) {
+                    if (m_gameboard[2][indBoard] != null && m_gameboard[2][indBoard].isAnimal() &&  (m_gameboard[2][indBoard].getFirstPowerAnimal() == PowerEnum.NOMBREUSES_VIES || m_gameboard[2][indBoard].getLastPowerAnimal() == PowerEnum.NOMBREUSES_VIES)) {
                         setMessage("Ah non ! Un Chat occupe déjà cette case, placement impossible !");
                         return;
                     }
@@ -446,6 +446,8 @@ public class GameManager {
     public int getCardBloodInHand(int index){return m_player.getCardBloodInHand(index);}
 
     public int getCardBonesInHand(int index){return m_player.getCardBonesInHand(index);}
+
+    public String getCardFlyInHand(int index){return m_player.getCardFlyInHand(index);}
 
     public PowerEnum getCardFirstPowerInHand(int index){return m_player.getCardFirstPowerInHand(index);}
 

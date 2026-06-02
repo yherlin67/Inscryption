@@ -235,6 +235,18 @@ public class Player {
 
     public int getCardBonesInHand(int i){return m_hand.get(i).getBone();}
 
+    public String getCardFlyInHand(int i)
+    {
+        if(m_hand.get(i).isFlying())
+        {
+            return "Oui";
+        }
+        else
+        {
+            return "Non";
+        }
+    }
+
     public PowerEnum getCardFirstPowerInHand(int i){return m_hand.get(i).getFirstPower();}
 
     public PowerEnum getCardLastPowerInHand(int i){return m_hand.get(i).getLastPower();}

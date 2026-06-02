@@ -14,9 +14,6 @@ public class Main
 {
     public static void main(String[] args)
     {
-        System.out.println("Another challenger... It has been ages.");
-        //Déclaration d'un plateau, qui symbolise l'affichage d'une partie
-
         int nbParties = 1;
         Boolean matchVictory = null;
         boolean continueGame = true;
@@ -74,10 +71,6 @@ public class Main
             continueGame = matchVictory;
             matchVictory = null;
             nbParties ++;
-//            if(nbParties == 3)
-//            {
-//                System.out.flush();
-//            }
         }
         if (continueGame)
         {
