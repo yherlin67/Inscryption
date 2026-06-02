@@ -8,13 +8,11 @@ import java.util.ArrayList;
 
 public class Opponent {
     private final ArrayList<Cards>[] m_actions;
-    private GameManager m_datas;
     private int m_turnAttack;
 
     public Opponent()
     {
         m_actions = new ArrayList[]{
-                new ArrayList<>(),
                 new ArrayList<>(),
                 new ArrayList<>(),
                 new ArrayList<>()
@@ -23,38 +21,25 @@ public class Opponent {
         m_turnAttack = 0;
     }
 
-    public void setGameManager(GameManager gameManager) {
-        this.m_datas = gameManager;
-    }
-
-    public void setMatch(ArrayList<Cards> actions0, ArrayList<Cards> actions1, ArrayList<Cards> actions2, ArrayList<Cards> actions3)
+    public void setMatch(ArrayList<Cards> actions0, ArrayList<Cards> actions1, ArrayList<Cards> actions2)
     {
-        m_datas.setCard(actions0.getFirst(), 0, 0);
-        m_datas.setCard(actions1.getFirst(), 0, 1);
-        m_datas.setCard(actions2.getFirst(), 0, 2);
-        m_datas.setCard(actions3.getFirst(), 0, 3);
         m_actions[0] = actions0;
         m_actions[1] = actions1;
         m_actions[2] = actions2;
-        m_actions[3] = actions3;
-        m_actions[0].removeFirst();
-        m_actions[1].removeFirst();
-        m_actions[2].removeFirst();
-        m_actions[3].removeFirst();
     }
 
-    public void play()
+    public void play(GameManager gameManager)
     {
         for(int i=0; i<4; i++)
         {
-            if(!m_datas.isCard(1,i))
+            if(!gameManager.isCard(1,i))
             {
-                m_datas.moveCardToRow1(i);
-                m_datas.setCard(null, 0, i);
+                gameManager.moveCardToRow1(i);
+                gameManager.setCard(null, 0, i);
             }
-            if (!m_datas.isCard(0,i) && !m_actions[i].isEmpty())
+            if (!gameManager.isCard(0,i) && !m_actions[i].isEmpty())
             {
-                m_datas.setCard(m_actions[i].getFirst(), 0, i);
+                gameManager.setCard(m_actions[i].getFirst(), 0, i);
                 m_actions[i].removeFirst();
             }
         }
@@ -64,50 +49,50 @@ public class Opponent {
         return m_turnAttack;
     }
 
-    public void attack()
+    public void attack(GameManager gameManager)
     {
         m_turnAttack = 0;
         for(int i=0; i<4; i++)
         {
-            if(m_datas.isCard(1,i)) {
-                if (!m_datas.isCard(2, i)) {
-                    m_datas.setScore(-m_datas.getAnimalAttack(1, i));
-                    m_turnAttack += m_datas.getAnimalAttack(1, i);
+            if(gameManager.isCard(1,i)) {
+                if (!gameManager.isCard(2, i)) {
+                    gameManager.setScore(-gameManager.getAnimalAttack(1, i));
+                    m_turnAttack += gameManager.getAnimalAttack(1, i);
                 } else {
-                    int degats = m_datas.getAnimalAttack(1, i);
-                    if (m_datas.isCard(2, i)) {
-                        if (m_datas.getCardPowerFirst(2, i) == PowerEnum.PUANT || m_datas.getCardPowerLast(2, i) == PowerEnum.PUANT) {
+                    int degats = gameManager.getAnimalAttack(1, i);
+                    if (gameManager.isCard(2, i)) {
+                        if (gameManager.getCardPowerFirst(2, i) == PowerEnum.PUANT || gameManager.getCardPowerLast(2, i) == PowerEnum.PUANT) {
                             m_turnAttack--;
                             degats--;
                         }
                     }
-                    if (m_datas.isCard(1, i) && m_datas.getCardFly(1, i)) {
-                        m_datas.setScore(degats);
-                        m_turnAttack += m_datas.getAnimalAttack(1, i);
-                    } else if (m_datas.isCard(1, i) && !m_datas.getCardFly(1, i)) {
-                        m_datas.cardTakeDamage(2, i, degats);
+                    if (gameManager.isCard(1, i) && gameManager.getCardFly(1, i)) {
+                        gameManager.setScore(degats);
+                        m_turnAttack += gameManager.getAnimalAttack(1, i);
+                    } else if (gameManager.isCard(1, i) && !gameManager.getCardFly(1, i)) {
+                        gameManager.cardTakeDamage(2, i, degats);
 
-                        if (m_datas.getCardPowerFirst(1, i) == PowerEnum.CONTACT_MORTEL || m_datas.getCardPowerLast(1, i) == PowerEnum.CONTACT_MORTEL) {
-                            m_datas.cardTakeDamage(2, i, 999);
+                        if (gameManager.getCardPowerFirst(1, i) == PowerEnum.CONTACT_MORTEL || gameManager.getCardPowerLast(1, i) == PowerEnum.CONTACT_MORTEL) {
+                            gameManager.cardTakeDamage(2, i, 999);
                         }
 
-                        if (m_datas.isCard(2, i) && m_datas.isCardAnimal(2, i)) {
-                            if (m_datas.getCardPowerFirst(2, i) == PowerEnum.PIQUES_POINTUES || m_datas.getCardPowerLast(2, i) == PowerEnum.PIQUES_POINTUES) {
-                                m_datas.cardTakeDamage(1, i, 1);
+                        if (gameManager.isCard(2, i) && gameManager.isCardAnimal(2, i)) {
+                            if (gameManager.getCardPowerFirst(2, i) == PowerEnum.PIQUES_POINTUES || gameManager.getCardPowerLast(2, i) == PowerEnum.PIQUES_POINTUES) {
+                                gameManager.cardTakeDamage(1, i, 1);
 
-                                if (m_datas.getCardHealthPoints(1, i) <= 0) {
-                                    m_datas.setCard(null, 1, i);
+                                if (gameManager.getCardHealthPoints(1, i) <= 0) {
+                                    gameManager.setCard(null, 1, i);
                                 }
                             }
                         }
 
-                        if (m_datas.isCard(2, i) && m_datas.getCardHealthPoints(2, i) <= 0) {
-                            m_datas.setCard(null, 2, i);
+                        if (gameManager.isCard(2, i) && gameManager.getCardHealthPoints(2, i) <= 0) {
+                            gameManager.setCard(null, 2, i);
                         }
                     }
 
-                    if (m_datas.isCard(1, i) && m_datas.isCardAnimal(1, i) && (m_datas.getCardPowerFirst(1, i) == PowerEnum.CROISSANCE || m_datas.getCardPowerLast(1, i) == PowerEnum.CROISSANCE)) {
-                        m_datas.setCard(new Loup(), 1, i);
+                    if (gameManager.isCard(1, i) && gameManager.isCardAnimal(1, i) && (gameManager.getCardPowerFirst(1, i) == PowerEnum.CROISSANCE || gameManager.getCardPowerLast(1, i) == PowerEnum.CROISSANCE)) {
+                        gameManager.setCard(new Loup(), 1, i);
                     }
 
                     ArrayList<Integer> indicesBloques = new ArrayList<>();
@@ -117,13 +102,13 @@ public class Opponent {
                             continue;
                         }
 
-                        if (m_datas.isCard(1, j) && m_datas.isCardAnimal(1, j)) {
-                            if (m_datas.getCardPowerFirst(1, j) == PowerEnum.COUREUR || m_datas.getCardPowerLast(1, j) == PowerEnum.COUREUR) {
-                                if (j < 3 && !m_datas.isCard(1, j + 1)) {
-                                    m_datas.moveCard(1, j, j + 1);
+                        if (gameManager.isCard(1, j) && gameManager.isCardAnimal(1, j)) {
+                            if (gameManager.getCardPowerFirst(1, j) == PowerEnum.COUREUR || gameManager.getCardPowerLast(1, j) == PowerEnum.COUREUR) {
+                                if (j < 3 && !gameManager.isCard(1, j + 1)) {
+                                    gameManager.moveCard(1, j, j + 1);
                                     indicesBloques.add(j + 1);
-                                } else if (j > 0 && !m_datas.isCard(1, j - 1)) {
-                                    m_datas.moveCard(1, j, j - 1);
+                                } else if (j > 0 && !gameManager.isCard(1, j - 1)) {
+                                    gameManager.moveCard(1, j, j - 1);
                                 }
                             }
                         }

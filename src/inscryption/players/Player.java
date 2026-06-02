@@ -23,6 +23,7 @@ public class Player {
         m_gamecards_copy = new ArrayList<>();
         m_gamecards = new ArrayList<>();
         m_random = new Random();
+        m_obtainedBones = 0;
         m_turnAttack = 0;
         this.createDraw();
     }

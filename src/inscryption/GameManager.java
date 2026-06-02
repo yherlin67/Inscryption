@@ -26,15 +26,13 @@ public class GameManager {
     public GameManager(Player player, Opponent opponent)
     {
         m_player = player;
-        m_player.setGameManager(this);
         m_opponent = opponent;
-        m_opponent.setGameManager(this);
         m_gameboard = new Cards[][]{
                 {null, null, null, null},
                 {null, null, null, null},
                 {null, null, null, null}
         };
-        m_display = new DisplayBoard(this);
+        m_display = new DisplayBoard();
         m_turn = 1;
         m_score = 0;
         m_game = 1;
@@ -55,9 +53,9 @@ public class GameManager {
             {
                 return;
             }
-            m_opponent.play();
+            m_opponent.play(this);
             m_draw = true;
-            m_opponent.attack();
+            m_opponent.attack(this);
             nextTurn();
             setMessage("Votre adversaire à joué, à votre tour de jouer maintenant...");
             return;
@@ -432,6 +430,10 @@ public class GameManager {
         {
             return null;
         }}
+
+    public void showBoard() {
+        m_display.displayGameboard(m_message, m_player, m_opponent, m_gameboard, m_game, m_turn, m_score);
+    }
 
     public void cardTakeDamage(int i, int j, int degats) {m_gameboard[i][j].takeDamage(degats);}
 

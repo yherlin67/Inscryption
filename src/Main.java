@@ -54,17 +54,20 @@ public class Main
                 actions3 = new ArrayList<>(Arrays.asList(null, null, new Louveteau(), null));
             }
             GameManager gameManager = new GameManager(player, opponent);
-            opponent.setMatch(actions0,actions1,actions2,actions3);
+            for(int i=0; i<4; i++)
+            {
+                gameManager.setCard(actions0.get(i), 0, i);
+            }
+            opponent.setMatch(actions1,actions2,actions3);
             if(nbParties == 3)
             {
                 gameManager.proposeAddToDraw(sc);
                 gameManager.displaySacrificeStone(sc);
             }
             gameManager.setGame(nbParties);
-            DisplayBoard plateau = new DisplayBoard(gameManager);
             while(matchVictory == null)
             {
-                plateau.displayGameboard(gameManager.getMessage());
+                gameManager.showBoard();
                 gameManager.manageAction(sc);
                 matchVictory = gameManager.gameReview();
             }
