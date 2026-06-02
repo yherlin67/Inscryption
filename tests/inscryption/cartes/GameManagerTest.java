@@ -1,6 +1,7 @@
 package inscryption.cartes;
 
 import inscryption.GameManager;
+import inscryption.cards.*;
 import inscryption.players.Opponent;
 import inscryption.players.Player;
 import org.junit.jupiter.api.Test;

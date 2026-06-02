@@ -3,6 +3,7 @@ package inscryption.cartes;
 import inscryption.GameManager;
 import inscryption.players.Opponent;
 import inscryption.players.Player;
+import inscryption.cards.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -24,10 +25,10 @@ class OpponentTest {
         Opponent adversaire = new Opponent();
         GameManager gm = new GameManager(joueur, adversaire);
 
-        ArrayList<Cartes> col0 = new ArrayList<>(); col0.add(new Loup()); col0.add(new Ecureuil());
-        ArrayList<Cartes> col1 = new ArrayList<>(); col1.add(new Loup());
-        ArrayList<Cartes> col2 = new ArrayList<>(); col2.add(new Loup());
-        ArrayList<Cartes> col3 = new ArrayList<>(); col3.add(new Loup());
+        ArrayList<Cards> col0 = new ArrayList<>(); col0.add(new Loup()); col0.add(new Ecureuil());
+        ArrayList<Cards> col1 = new ArrayList<>(); col1.add(new Loup());
+        ArrayList<Cards> col2 = new ArrayList<>(); col2.add(new Loup());
+        ArrayList<Cards> col3 = new ArrayList<>(); col3.add(new Loup());
 
         adversaire.setMatch(col0, col1, col2, col3);
 
@@ -43,10 +44,10 @@ class OpponentTest {
         Opponent adversaire = new Opponent();
         GameManager gm = new GameManager(joueur, adversaire);
 
-        ArrayList<Cartes> col0 = new ArrayList<>(); col0.add(new Loup()); col0.add(new Ecureuil());
-        ArrayList<Cartes> col1 = new ArrayList<>(); col1.add(new Loup());
-        ArrayList<Cartes> col2 = new ArrayList<>(); col2.add(new Loup());
-        ArrayList<Cartes> col3 = new ArrayList<>(); col3.add(new Loup());
+        ArrayList<Cards> col0 = new ArrayList<>(); col0.add(new Loup()); col0.add(new Ecureuil());
+        ArrayList<Cards> col1 = new ArrayList<>(); col1.add(new Loup());
+        ArrayList<Cards> col2 = new ArrayList<>(); col2.add(new Loup());
+        ArrayList<Cards> col3 = new ArrayList<>(); col3.add(new Loup());
 
         adversaire.setMatch(col0, col1, col2, col3);
 
