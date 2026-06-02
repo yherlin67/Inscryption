@@ -59,7 +59,7 @@ public class DisplayBoard {
                     }
                     else if(j==3)
                     {
-                        chaine += ligneFormatee + "        |   cartes  |";
+                        chaine += ligneFormatee + "        |  carte(s) |";
                     }
                     else if(j==5)
                     {
@@ -89,7 +89,7 @@ public class DisplayBoard {
                     }
                     else if(j==3)
                     {
-                        chaine += "                                                                                      |   cartes  |";
+                        chaine += "                                                                                      |  carte(s) |";
                     }
                     else if(j!=5)
                     {

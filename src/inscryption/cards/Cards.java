@@ -5,7 +5,7 @@ import inscryption.PowerEnum;
 public abstract class Cards {
     private final String m_name;
     private int m_health_points;
-    private Animals_cards m_animals;
+    private AnimalsCards m_animals;
 
     public Cards(String nom, int pdv)
     {
@@ -25,7 +25,7 @@ public abstract class Cards {
         this.m_health_points -= degats;
     }
 
-    public void setAnimals(Animals_cards animaux) {
+    public void setAnimals(AnimalsCards animaux) {
         this.m_animals = animaux;
     }
 

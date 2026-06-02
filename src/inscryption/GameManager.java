@@ -132,7 +132,7 @@ public class GameManager {
                 }
                 else if(requiedDrop > 0)
                 {
-                    if (m_gameboard[2][indBoard] != null && "Chat".equals(m_gameboard[2][indBoard].getName())) {
+                    if (m_gameboard[2][indBoard] != null && m_gameboard[2][indBoard].getFirstPowerAnimal() == PowerEnum.NOMBREUSES_VIES || m_gameboard[2][indBoard].getLastPowerAnimal() == PowerEnum.NOMBREUSES_VIES) {
                         setMessage("Ah non ! Un Chat occupe déjà cette case, placement impossible !");
                         return;
                     }
@@ -239,7 +239,7 @@ public class GameManager {
                 }
                 else if(requiedDrop > 0)
                 {
-                    if (m_gameboard[2][indBoard] != null && "Chat".equals(m_gameboard[2][indBoard].getName())) {
+                    if (m_gameboard[2][indBoard] != null && m_gameboard[2][indBoard].getFirstPowerAnimal() == PowerEnum.NOMBREUSES_VIES || m_gameboard[2][indBoard].getLastPowerAnimal() == PowerEnum.NOMBREUSES_VIES) {
                         setMessage("Ah non ! Un Chat occupe déjà cette case, placement impossible !");
                         return;
                     }
@@ -496,9 +496,9 @@ public class GameManager {
     public void proposeAddToDraw(Scanner sc)
     {
         m_display.print("Avant de jouer la troisième partie, vous pouvez rajouter une carte dans la pioche parmi les deux cartes ci-dessous ! (tapez 1 ou 2)");
-        Animals_cards proposition;
-        ArrayList<Animals_cards> propositions = new ArrayList<>();
-        ArrayList<Animals_cards> temp = new ArrayList<>();
+        AnimalsCards proposition;
+        ArrayList<AnimalsCards> propositions = new ArrayList<>();
+        ArrayList<AnimalsCards> temp = new ArrayList<>();
         temp.add(new Ecureuil());
         temp.add(new Chat());
         temp.add(new Corbeau());
@@ -553,7 +553,7 @@ public class GameManager {
         m_display.print("Tapez le numéro de la carte à sacrifier :");
         for(int i = 0; i < m_player.getDrawSize(); i++)
         {
-            Animals_cards animal = m_player.getAnimalAtInDraw(i);
+            AnimalsCards animal = m_player.getAnimalAtInDraw(i);
 
             String ligneFormatee = String.format("%-1d. %-12s PV: %-3d Att: %-2d Sang: %-2d Os: %-2d Pouvoir: %-15s",
                     (i + 1),
