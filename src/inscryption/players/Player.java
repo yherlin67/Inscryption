@@ -21,6 +21,7 @@ public class Player {
         m_gamecards_copy = new ArrayList<>();
         m_gamecards = new ArrayList<>();
         m_random = new Random();
+        m_obtainedBones = 0;
         m_turnAttack = 0;
         this.createDraw();
     }
@@ -239,6 +240,18 @@ public class Player {
     public int getCardBloodInHand(int i){return m_hand.get(i).getBlood();}
 
     public int getCardBonesInHand(int i){return m_hand.get(i).getBone();}
+
+    public String getCardFlyInHand(int i)
+    {
+        if(m_hand.get(i).isFlying())
+        {
+            return "Oui";
+        }
+        else
+        {
+            return "Non";
+        }
+    }
 
     public PowerEnum getCardFirstPowerInHand(int i){return m_hand.get(i).getFirstPower();}
 
