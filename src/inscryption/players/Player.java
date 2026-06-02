@@ -9,9 +9,9 @@ import java.util.Random;
 
 public class Player {
 
-    private final ArrayList<Animals_cards> m_hand;
-    private final ArrayList<Animals_cards> m_gamecards;
-    private final ArrayList<Animals_cards> m_gamecards_copy;
+    private final ArrayList<AnimalsCards> m_hand;
+    private final ArrayList<AnimalsCards> m_gamecards;
+    private final ArrayList<AnimalsCards> m_gamecards_copy;
     private final Random m_random;
     private GameManager m_datas;
     private int m_obtainedBones;
@@ -33,7 +33,7 @@ public class Player {
 
     public void createDraw()
     {
-        ArrayList<Animals_cards> temp = new ArrayList<>();
+        ArrayList<AnimalsCards> temp = new ArrayList<>();
         temp.add(new Chat());
         temp.add(new Corbeau());
         temp.add(new Coyote());
@@ -66,14 +66,14 @@ public class Player {
 
     public void draw()
     {
-        Animals_cards carte = m_gamecards.removeLast();
+        AnimalsCards carte = m_gamecards.removeLast();
         m_hand.add(carte);
     }
 
     public void setGamecards(){
         m_hand.clear();
         m_gamecards.clear();
-        ArrayList<Animals_cards> tempDeck = new ArrayList<>(m_gamecards_copy);
+        ArrayList<AnimalsCards> tempDeck = new ArrayList<>(m_gamecards_copy);
         while (!tempDeck.isEmpty())
         {
             int aleatoireIndex = m_random.nextInt(tempDeck.size());
@@ -87,7 +87,7 @@ public class Player {
         return m_gamecards.size();
     }
 
-    public Animals_cards getAnimalAtInDraw(int index)
+    public AnimalsCards getAnimalAtInDraw(int index)
     {
         return m_gamecards.get(index);
     }
@@ -97,7 +97,7 @@ public class Player {
         m_gamecards.remove(index);
     }
 
-    public void addInDraw(Animals_cards animal)
+    public void addInDraw(AnimalsCards animal)
     {
         m_gamecards.add(animal);
     }
