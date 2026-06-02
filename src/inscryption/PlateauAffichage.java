@@ -1,8 +1,6 @@
 package inscryption;
 
 import inscryption.cartes.*;
-import inscryption.players.Opponent;
-import inscryption.players.Player;
 
 public class PlateauAffichage {
 

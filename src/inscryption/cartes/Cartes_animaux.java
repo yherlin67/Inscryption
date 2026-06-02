@@ -11,7 +11,7 @@ public abstract class Cartes_animaux extends Cartes{
     private final int m_blood;
     private final int m_bone;
     private final boolean m_flying;
-    private ArrayList<PowerEnum> m_powerEnum;
+    private final ArrayList<PowerEnum> m_powerEnum;
 
     public Cartes_animaux(String nom, int att, int pdv, int gds, int os, boolean vol, ArrayList<PowerEnum> powerEnum)
     {
