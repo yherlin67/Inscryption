@@ -37,24 +37,24 @@ public class Main
             }
             if(nbParties == 1)
             {
-                actions0 = new ArrayList(Arrays.asList(new Louveteau(), new Moineau(), null, null));
-                actions1 = new ArrayList(Arrays.asList(null, null, new Moineau(), null));
-                actions2 = new ArrayList(Arrays.asList(new Punaise(), null, null, new Punaise()));
-                actions3 = new ArrayList(Arrays.asList(null, null, new Louveteau(), null));
+                actions0 = new ArrayList<>(Arrays.asList(new Louveteau(), new Moineau(), null, null));
+                actions1 = new ArrayList<>(Arrays.asList(null, null, new Moineau(), null));
+                actions2 = new ArrayList<>(Arrays.asList(new Punaise(), null, null, new Punaise()));
+                actions3 = new ArrayList<>(Arrays.asList(null, null, new Louveteau(), null));
             }
             else if(nbParties == 2)
             {
-                actions0 = new ArrayList(Arrays.asList(new Louveteau(), new Moineau(), null, null));
-                actions1 = new ArrayList(Arrays.asList(null, null, new Moineau(), null));
-                actions2 = new ArrayList(Arrays.asList(new Punaise(), null, null, new Punaise()));
-                actions3 = new ArrayList(Arrays.asList(null, null, new Louveteau(), null));
+                actions0 = new ArrayList<>(Arrays.asList(new Louveteau(), new Moineau(), null, null));
+                actions1 = new ArrayList<>(Arrays.asList(null, null, new Moineau(), null));
+                actions2 = new ArrayList<>(Arrays.asList(new Punaise(), null, null, new Punaise()));
+                actions3 = new ArrayList<>(Arrays.asList(null, null, new Louveteau(), null));
             }
             else
             {
-                actions0 = new ArrayList(Arrays.asList(new Louveteau(), new Moineau(), null, null));
-                actions1 = new ArrayList(Arrays.asList(null, null, new Moineau(), null));
-                actions2 = new ArrayList(Arrays.asList(new Punaise(), null, null, new Punaise()));
-                actions3 = new ArrayList(Arrays.asList(null, null, new Louveteau(), null));
+                actions0 = new ArrayList<>(Arrays.asList(new Louveteau(), new Moineau(), null, null));
+                actions1 = new ArrayList<>(Arrays.asList(null, null, new Moineau(), null));
+                actions2 = new ArrayList<>(Arrays.asList(new Punaise(), null, null, new Punaise()));
+                actions3 = new ArrayList<>(Arrays.asList(null, null, new Louveteau(), null));
             }
             opponent.setMatch(actions0,actions1,actions2,actions3);
             GameManager gameManager = new GameManager(player, opponent);
@@ -63,7 +63,7 @@ public class Main
                 gameManager.proposeAddToDraw(sc);
                 gameManager.displaySacrificeStone(sc);
             }
-            gameManager.setGame(nbParties, opponent, nbParties);
+            gameManager.setGame(nbParties);
             PlateauAffichage plateau = new PlateauAffichage(gameManager);
             while(matchVictory == null)
             {
