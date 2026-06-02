@@ -28,12 +28,8 @@ public class Opponent {
         this.m_datas = gameManager;
     }
 
-    public void setFirstMatch()
+    public void setMatch(ArrayList<Cartes> actions0, ArrayList<Cartes> actions1, ArrayList<Cartes> actions2, ArrayList<Cartes> actions3)
     {
-         m_actions[0].addAll(Arrays.asList(new Louveteau(), new Moineau(), null, null));
-         m_actions[1].addAll(Arrays.asList(null, null, new Moineau(), null));
-         m_actions[2].addAll(Arrays.asList(new Punaise(), null, null, new Punaise()));
-         m_actions[3].addAll(Arrays.asList(null, null, new Louveteau(), null));
          m_datas.setCard(m_actions[0].getFirst(), 0, 0);
          m_datas.setCard(m_actions[1].getFirst(), 0, 1);
          m_datas.setCard(m_actions[2].getFirst(), 0, 2);
@@ -42,38 +38,6 @@ public class Opponent {
          m_actions[1].removeFirst();
          m_actions[2].removeFirst();
          m_actions[3].removeFirst();
-    }
-
-    public void setSecondMatch()
-    {
-        m_actions[0].addAll(Arrays.asList(new Loup(), null, new Corbeau(), null));
-        m_actions[1].addAll(Arrays.asList(null, new Hermine(), null, new Hermine()));
-        m_actions[2].addAll(Arrays.asList(new Coyote(), null, new Loup(), null));
-        m_actions[3].addAll(Arrays.asList(null, new Corbeau(), null, new Coyote()));
-        m_datas.setCard(m_actions[0].getFirst(), 0, 0);
-        m_datas.setCard(m_actions[1].getFirst(), 0, 1);
-        m_datas.setCard(m_actions[2].getFirst(), 0, 2);
-        m_datas.setCard(m_actions[3].getFirst(), 0, 3);
-        m_actions[0].removeFirst();
-        m_actions[1].removeFirst();
-        m_actions[2].removeFirst();
-        m_actions[3].removeFirst();
-    }
-
-    public void setThirdMatch()
-    {
-        m_actions[0].addAll(Arrays.asList(new Grizzly(), null, new Loup(), new Corbeau()));
-        m_actions[1].addAll(Arrays.asList(new Loup(), new Grizzly(), null, null));
-        m_actions[2].addAll(Arrays.asList(null, new Corbeau(), new Grizzly(), new Loup()));
-        m_actions[3].addAll(Arrays.asList(new Corbeau(), null, new Loup(), new Grizzly()));
-        m_datas.setCard(m_actions[0].getFirst(), 0, 0);
-        m_datas.setCard(m_actions[1].getFirst(), 0, 1);
-        m_datas.setCard(m_actions[2].getFirst(), 0, 2);
-        m_datas.setCard(m_actions[3].getFirst(), 0, 3);
-        m_actions[0].removeFirst();
-        m_actions[1].removeFirst();
-        m_actions[2].removeFirst();
-        m_actions[3].removeFirst();
     }
 
     public void play()
@@ -164,5 +128,10 @@ public class Opponent {
                 }
             }
         }
+    }
+
+    @Override
+    public String toString(){
+        return "Oponnent";
     }
 }

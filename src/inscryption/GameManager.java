@@ -382,8 +382,6 @@ public class GameManager {
 
     public int getTurn(){return m_turn;}
 
-    public Cartes[][] getCards(){return m_gameboard;}
-
     public boolean isCard(int i, int j) { return m_gameboard[i][j] != null; }
 
     public boolean isCardAnimal(int i, int j) { return m_gameboard[i][j].isAnimal() && m_gameboard[i][j] != null;}
@@ -406,13 +404,7 @@ public class GameManager {
 
     public void cardTakeDamage(int i, int j, int degats) {m_gameboard[i][j].takeDamage(degats);}
 
-    public Cartes_animaux getHandAt(int index){return m_player.getHandAt(index);}
-
     public int getDrawSize() {return m_player.getDrawSize();}
-
-    public Player getPlayer(){return m_player;}
-
-    public Opponent getOpponent(){return m_opponent;}
 
     public void moveCardToRow1(int col) {m_gameboard[1][col] = m_gameboard[0][col];}
 
@@ -440,17 +432,6 @@ public class GameManager {
         for(int j=0; j<4; j++)
         {
             m_player.draw();
-        }
-        if (match == 1) {
-            opponent.setFirstMatch();
-        }
-        else if(match == 2)
-        {
-            opponent.setSecondMatch();
-        }
-        else
-        {
-            opponent.setThirdMatch();
         }
     }
 
@@ -600,7 +581,8 @@ public class GameManager {
         m_gameboard[row][columns] = carte;
     }
 
-
-
-    public Cartes getAnimal(int row, int columns){return m_gameboard[row][columns];}
+    @Override
+    public String toString(){
+        return "GameManager";
+    }
 }

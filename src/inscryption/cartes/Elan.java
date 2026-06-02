@@ -7,4 +7,9 @@ import java.util.List;
 
 public class Elan extends Cartes_animaux{
     public Elan() { super("Elan", 2, 4, 2, 0, false, new ArrayList<>(List.of(PowerEnum.COUREUR))); }
+
+    @Override
+    public String toString(){
+        return "Elan("+this.getName()+")";
+    }
 }
