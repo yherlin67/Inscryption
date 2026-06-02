@@ -56,8 +56,8 @@ public class Main
                 actions2 = new ArrayList<>(Arrays.asList(new Punaise(), null, null, new Punaise()));
                 actions3 = new ArrayList<>(Arrays.asList(null, null, new Louveteau(), null));
             }
-            opponent.setMatch(actions0,actions1,actions2,actions3);
             GameManager gameManager = new GameManager(player, opponent);
+            opponent.setMatch(actions0,actions1,actions2,actions3);
             if(nbParties == 3)
             {
                 gameManager.proposeAddToDraw(sc);

@@ -371,7 +371,7 @@ public class GameManager {
 
     public boolean isCard(int i, int j) { return m_gameboard[i][j] != null; }
 
-    public boolean isCardAnimal(int i, int j) { return m_gameboard[i][j].isAnimal() && m_gameboard[i][j] != null;}
+    public boolean isCardAnimal(int i, int j) { return m_gameboard[i][j] != null && m_gameboard[i][j].isAnimal();}
 
     public int getHandSize(){return m_player.getHandSize();}
 
