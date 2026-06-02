@@ -188,6 +188,7 @@ package inscryption
 Cartes_animaux --> "m_power \n 1" PowerEnum
 Player *--> "- m_main \n 0..*" Cartes_animaux
 Player *--> "- m_gamecards \n 10" Cartes_animaux
+Player *--> "- m_gamecards \n 10" Cartes_animaux
 Player o--> "-m_datas \n 1" GameManager
 Player ..> PowerEnum : <<uses>>
 Opponent o--> "- m_actions : Cartes[0..4] \n 4" Cartes

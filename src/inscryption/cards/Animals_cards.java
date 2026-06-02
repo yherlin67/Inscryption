@@ -1,11 +1,11 @@
-package inscryption.cartes;
+package inscryption.cards;
 
 import inscryption.PowerEnum;
 
 import java.util.ArrayList;
 
 
-public abstract class Cartes_animaux extends Cartes{
+public abstract class Animals_cards extends Cards {
 
     private final int m_attack;
     private final int m_blood;
@@ -13,7 +13,7 @@ public abstract class Cartes_animaux extends Cartes{
     private final boolean m_flying;
     private final ArrayList<PowerEnum> m_powerEnum;
 
-    public Cartes_animaux(String nom, int att, int pdv, int gds, int os, boolean vol, ArrayList<PowerEnum> powerEnum)
+    public Animals_cards(String nom, int att, int pdv, int gds, int os, boolean vol, ArrayList<PowerEnum> powerEnum)
     {
         super(nom,pdv);
         this.setAnimals(this);

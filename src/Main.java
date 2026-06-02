@@ -1,8 +1,8 @@
 import inscryption.*;
-import inscryption.cartes.Cartes;
-import inscryption.cartes.Louveteau;
-import inscryption.cartes.Moineau;
-import inscryption.cartes.Punaise;
+import inscryption.cards.Cards;
+import inscryption.cards.Louveteau;
+import inscryption.cards.Moineau;
+import inscryption.cards.Punaise;
 import inscryption.players.Opponent;
 import inscryption.players.Player;
 
@@ -22,10 +22,10 @@ public class Main
         boolean continueGame = true;
         Scanner sc = new Scanner(System.in);
 
-        ArrayList<Cartes> actions0;
-        ArrayList<Cartes> actions1;
-        ArrayList<Cartes> actions2;
-        ArrayList<Cartes> actions3;
+        ArrayList<Cards> actions0;
+        ArrayList<Cards> actions1;
+        ArrayList<Cards> actions2;
+        ArrayList<Cards> actions3;
         Player player = new Player();
         Opponent opponent = new Opponent();
         while(nbParties <= 3 && continueGame)
@@ -64,7 +64,7 @@ public class Main
                 gameManager.displaySacrificeStone(sc);
             }
             gameManager.setGame(nbParties);
-            PlateauAffichage plateau = new PlateauAffichage(gameManager);
+            DisplayBoard plateau = new DisplayBoard(gameManager);
             while(matchVictory == null)
             {
                 plateau.displayGameboard(gameManager.getMessage());

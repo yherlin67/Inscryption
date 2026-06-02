@@ -1,6 +1,6 @@
-package inscryption.cartes;
+package inscryption.cards;
 
-public class Rocher extends Cartes{
+public class Rocher extends Cards {
 
     public Rocher() {super("Rocher",5);}
 

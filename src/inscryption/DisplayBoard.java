@@ -1,13 +1,11 @@
 package inscryption;
 
-import inscryption.cartes.*;
-
-public class PlateauAffichage {
+public class DisplayBoard {
 
     private final GameManager m_datas;
     private int m_actualTurn;
 
-    public PlateauAffichage(GameManager gameManager)
+    public DisplayBoard(GameManager gameManager)
     {
         m_datas = gameManager;
         m_actualTurn = 1;

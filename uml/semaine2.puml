@@ -14,8 +14,6 @@ package inscryption
 {
     class PlateauAffichage {
             - m_datas : GameManager
-            - m_player : Player
-            - m_opponent : Opponent
             + displayGameBoard() : void
             + displayCards() : void
             + displayRows() : String
@@ -148,7 +146,8 @@ package inscryption
 
 
 Player *--> "- m_main \n 0..*" Cartes_animaux
-Player *--> "- m_gamecards \n 10" Cartes_animaux
+Player *--> "- m_gamecards \n 15" Cartes_animaux
+Player *--> "- m_hand \n 0..15" Cartes_animaux
 Player o--> "-m_datas \n 1" GameManager
 Opponent o--> "- m_actions : Cartes[0..*] \n 4" Cartes
 Opponent o--> "-m_datas \n 1" GameManager

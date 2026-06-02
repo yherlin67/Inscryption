@@ -1,13 +1,13 @@
-package inscryption.cartes;
+package inscryption.cards;
 
 import inscryption.PowerEnum;
 
-public abstract class Cartes {
+public abstract class Cards {
     private final String m_name;
     private int m_health_points;
-    private Cartes_animaux m_animals;
+    private Animals_cards m_animals;
 
-    public Cartes(String nom, int pdv)
+    public Cards(String nom, int pdv)
     {
         m_name = nom;
         m_health_points = pdv;
@@ -25,7 +25,7 @@ public abstract class Cartes {
         this.m_health_points -= degats;
     }
 
-    public void setAnimals(Cartes_animaux animaux) {
+    public void setAnimals(Animals_cards animaux) {
         this.m_animals = animaux;
     }
 

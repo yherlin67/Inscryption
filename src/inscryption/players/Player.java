@@ -2,16 +2,16 @@ package inscryption.players;
 
 import inscryption.GameManager;
 import inscryption.PowerEnum;
-import inscryption.cartes.*;
+import inscryption.cards.*;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 public class Player {
 
-    private final ArrayList<Cartes_animaux> m_hand;
-    private final ArrayList<Cartes_animaux> m_gamecards;
-    private final ArrayList<Cartes_animaux> m_gamecards_copy;
+    private final ArrayList<Animals_cards> m_hand;
+    private final ArrayList<Animals_cards> m_gamecards;
+    private final ArrayList<Animals_cards> m_gamecards_copy;
     private final Random m_random;
     private GameManager m_datas;
     private int m_obtainedBones;
@@ -33,7 +33,7 @@ public class Player {
 
     public void createDraw()
     {
-        ArrayList<Cartes_animaux> temp = new ArrayList<>();
+        ArrayList<Animals_cards> temp = new ArrayList<>();
         temp.add(new Chat());
         temp.add(new Corbeau());
         temp.add(new Coyote());
@@ -66,14 +66,14 @@ public class Player {
 
     public void draw()
     {
-        Cartes_animaux carte = m_gamecards.removeLast();
+        Animals_cards carte = m_gamecards.removeLast();
         m_hand.add(carte);
     }
 
     public void setGamecards(){
         m_hand.clear();
         m_gamecards.clear();
-        ArrayList<Cartes_animaux> tempDeck = new ArrayList<>(m_gamecards_copy);
+        ArrayList<Animals_cards> tempDeck = new ArrayList<>(m_gamecards_copy);
         while (!tempDeck.isEmpty())
         {
             int aleatoireIndex = m_random.nextInt(tempDeck.size());
@@ -87,7 +87,7 @@ public class Player {
         return m_gamecards.size();
     }
 
-    public Cartes_animaux getAnimalAtInDraw(int index)
+    public Animals_cards getAnimalAtInDraw(int index)
     {
         return m_gamecards.get(index);
     }
@@ -97,7 +97,7 @@ public class Player {
         m_gamecards.remove(index);
     }
 
-    public void addInDraw(Cartes_animaux animal)
+    public void addInDraw(Animals_cards animal)
     {
         m_gamecards.add(animal);
     }
@@ -204,7 +204,7 @@ public class Player {
         }
     }
 
-    public Cartes removeCard(int indHand) {return m_hand.remove(indHand);}
+    public Cards removeCard(int indHand) {return m_hand.remove(indHand);}
 
     public int getHandSize()
     {

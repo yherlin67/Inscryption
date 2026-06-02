@@ -1,6 +1,6 @@
 package inscryption;
 
-import inscryption.cartes.*;
+import inscryption.cards.*;
 import inscryption.players.*;
 
 import java.util.ArrayList;
@@ -19,9 +19,9 @@ public class GameManager {
     private int m_game;
     private String m_message;
     private final Random m_random;
-    private final PlateauAffichage m_display;
+    private final DisplayBoard m_display;
 
-    private final Cartes[][] m_gameboard;
+    private final Cards[][] m_gameboard;
 
     public GameManager(Player player, Opponent opponent)
     {
@@ -29,12 +29,12 @@ public class GameManager {
         m_player.setGameManager(this);
         m_opponent = opponent;
         m_opponent.setGameManager(this);
-        m_gameboard = new Cartes[][]{
+        m_gameboard = new Cards[][]{
                 {null, null, null, null},
                 {null, null, null, null},
                 {null, null, null, null}
         };
-        m_display = new PlateauAffichage(this);
+        m_display = new DisplayBoard(this);
         m_turn = 1;
         m_score = 0;
         m_game = 1;
@@ -454,9 +454,9 @@ public class GameManager {
     public void proposeAddToDraw(Scanner sc)
     {
         m_display.print("Avant de jouer la troisième partie, vous pouvez rajouter une carte dans la pioche parmi les deux cartes ci-dessous ! (tapez 1 ou 2)");
-        Cartes_animaux proposition;
-        ArrayList<Cartes_animaux> propositions = new ArrayList<>();
-        ArrayList<Cartes_animaux> temp = new ArrayList<>();
+        Animals_cards proposition;
+        ArrayList<Animals_cards> propositions = new ArrayList<>();
+        ArrayList<Animals_cards> temp = new ArrayList<>();
         temp.add(new Ecureuil());
         temp.add(new Chat());
         temp.add(new Corbeau());
@@ -511,7 +511,7 @@ public class GameManager {
         m_display.print("Tapez le numéro de la carte à sacrifier :");
         for(int i = 0; i < m_player.getDrawSize(); i++)
         {
-            Cartes_animaux animal = m_player.getAnimalAtInDraw(i);
+            Animals_cards animal = m_player.getAnimalAtInDraw(i);
 
             String ligneFormatee = String.format("%-1d. %-12s PV: %-3d Att: %-2d Sang: %-2d Os: %-2d Pouvoir: %-15s",
                     (i + 1),
@@ -591,7 +591,7 @@ public class GameManager {
         }
     }
 
-    public void setCard(Cartes carte, int row, int columns)
+    public void setCard(Cards carte, int row, int columns)
     {
         m_gameboard[row][columns] = carte;
     }

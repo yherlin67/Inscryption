@@ -1,6 +1,6 @@
-package inscryption.cartes;
+package inscryption.cards;
 
-public class Sapin extends Cartes{
+public class Sapin extends Cards {
 
     public Sapin() {super("Sapin",3);}
 
