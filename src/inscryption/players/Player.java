@@ -232,4 +232,18 @@ public class Player {
 
     public PowerEnum getCardPowerFirst(int i){return m_gamecards.get(i).getFirstPowerAnimal();}
 
+    public String getCardNameInHand(int i){return m_hand.get(i).getName();}
+
+    public int getCardAttackInHand(int i){return m_hand.get(i).getAttack();}
+
+    public int getCardHealthPointInHand(int i){return m_hand.get(i).getAttack();}
+
+    public int getCardBloodInHand(int i){return m_hand.get(i).getBlood();}
+
+    public int getCardBonesInHand(int i){return m_hand.get(i).getBone();}
+
+    public PowerEnum getCardFirstPowerInHand(int i){return m_hand.get(i).getFirstPower();}
+
+    public PowerEnum getCardLastPowerInHand(int i){return m_hand.get(i).getLastPower();}
+
 }

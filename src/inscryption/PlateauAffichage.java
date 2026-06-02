@@ -20,8 +20,8 @@ public class PlateauAffichage {
     public void displayGameboard(String message)
     {
             displayCards(message);
-            System.out.println("Votre main :                                                                       Pioche");
-            System.out.println("                                                                                *___________*");
+            System.out.println("Votre main :                                                                             Pioche");
+            System.out.println("                                                                                      *___________*");
             int pourlaboucle = (6-m_datas.getHandSize());
             if(pourlaboucle<0)
             {
@@ -32,16 +32,25 @@ public class PlateauAffichage {
                 String chaine = "";
                 if(m_datas.getHandSize() > j)
                 {
-                    Cartes_animaux animal = m_datas.getHandAt(j);
-
-                    String ligneFormatee = String.format("%-1d. %-12s PV: %-3d Att: %-2d Sang: %-2d Os: %-2d Pouvoir: %-15s",
+                    String power = "";
+                    String ligne = "%-1d. %-12s PV: %-3d Att: %-2d Sang: %-2d Os: %-33d";
+                    if(m_datas.getCardFirstPowerInHand(j) != PowerEnum.AUCUN)
+                    {
+                        power += m_datas.getCardFirstPowerInHand(j);
+                        ligne = "%-1d. %-12s PV: %-3d Att: %-2d Sang: %-2d Os: %-2d Pouvoir: %-21s";
+                    }
+                    if(m_datas.getCardLastPowerInHand(j) != PowerEnum.AUCUN && m_datas.getCardFirstPowerInHand(j) != m_datas.getCardLastPowerInHand(j))
+                    {
+                        power += " / " + m_datas.getCardLastPowerInHand(j);
+                    }
+                    String ligneFormatee = String.format(ligne,
                             (j + 1),
-                            animal.getName(),
-                            animal.getHealthPoints(),
-                            animal.getAttack(),
-                            animal.getBlood(),
-                            animal.getBone(),
-                            animal.getFirstPower().toString()
+                            m_datas.getCardNameInHand(j),
+                            m_datas.getCardHealthPointInHand(j),
+                            m_datas.getCardAttackInHand(j),
+                            m_datas.getCardBloodInHand(j),
+                            m_datas.getCardBonesInHand(j),
+                            power
                     );
                     if(j==2)
                     {
@@ -77,24 +86,24 @@ public class PlateauAffichage {
                     {
                         if(m_datas.getDrawSize() >= 10)
                         {
-                            chaine += "                                                                                |     " + m_datas.getDrawSize() + "    |";
+                            chaine += "                                                                                      |     " + m_datas.getDrawSize() + "    |";
                         }
                         else
                         {
-                            chaine +=  "                                                                                |     " + m_datas.getDrawSize() + "     |";
+                            chaine += "                                                                                      |     " + m_datas.getDrawSize() + "     |";
                         }
                     }
                     else if(j==3)
                     {
-                        chaine += "                                                                                |   cartes  |";
+                        chaine += "                                                                                      |   cartes  |";
                     }
                     else if(j!=5)
                     {
-                        chaine += "                                                                                |           |";
+                        chaine += "                                                                                      |           |";
                     }
                     else
                     {
-                        chaine += "                                                                                *___________*";
+                        chaine += "                                                                                      *___________*";
                     }
                 }
                 System.out.println(chaine);
@@ -161,14 +170,14 @@ public class PlateauAffichage {
                 case 2:
                     for(int l=0; l<4; l++)
                     {
-                        if(m_datas.isCard(rangee,l))
+                        if(!m_datas.isCard(rangee,l))
                         {
                             chaineBuilder.append(" *             * ");
                         }
                         else
                         {
-                            chaineBuilder.append(" | ").append(m_datas.getCardName(i, rangee));
-                            chaineBuilder.append(" ".repeat(Math.max(0, (12 - m_datas.getCardName(i, rangee).length()))));
+                            chaineBuilder.append(" | ").append(m_datas.getCardName(rangee, l));
+                            chaineBuilder.append(" ".repeat(Math.max(0, (12 - m_datas.getCardName(rangee, l).length()))));
                             chaineBuilder.append("| ");
                         }
                     }
@@ -185,7 +194,7 @@ public class PlateauAffichage {
                 case 3:
                     for(int l=0; l<4; l++)
                     {
-                        if(m_datas.isCard(rangee,l))
+                        if(!m_datas.isCard(rangee,l))
                         {
                             chaineBuilder.append(" *             * ");
                         }
@@ -207,7 +216,7 @@ public class PlateauAffichage {
                 case 4:
                     for(int l=0; l<4; l++)
                     {
-                        if(m_datas.isCard(rangee,l))
+                        if(!m_datas.isCard(rangee,l))
                         {
                             if(rangee == 1)
                             {
@@ -224,7 +233,7 @@ public class PlateauAffichage {
                         }
                         else
                         {
-                            chaineBuilder.append(" | PV : ").append(m_datas.getCardHealthPoints(i, rangee)).append("      | ");
+                            chaineBuilder.append(" | PV : ").append(m_datas.getCardHealthPoints(rangee, l)).append("      | ");
                         }
                     }
                     if(rangee==1)
@@ -240,13 +249,13 @@ public class PlateauAffichage {
                 case 5:
                     for(int l=0; l<4; l++)
                     {
-                        if(m_datas.isCard(rangee,l))
+                        if(!m_datas.isCard(rangee,l))
                         {
                             chaineBuilder.append(" *             * ");
                         }
-                        else if(m_datas.isCardAnimal(i, rangee) && m_datas.getCardAttack(i, rangee) > 0)
+                        else if(m_datas.isCardAnimal(rangee, l) && m_datas.getCardAttack(rangee, l) > 0)
                         {
-                            chaineBuilder.append(" | Att : ").append(m_datas.getCardAttack(i, rangee)).append("     | ");
+                            chaineBuilder.append(" | Att : ").append(m_datas.getCardAttack(rangee, l)).append("     | ");
                         }
                         else
                         {
@@ -259,7 +268,7 @@ public class PlateauAffichage {
                 case 6:
                     for(int l=0; l<4; l++)
                     {
-                        if(m_datas.isCard(rangee,l))
+                        if(!m_datas.isCard(rangee,l))
                         {
                             chaineBuilder.append(" *             * ");
                         }
@@ -290,9 +299,9 @@ public class PlateauAffichage {
                         {
                             chaineBuilder.append(" *             * ");
                         }
-                        else if(m_datas.isCard(i, rangee) && m_datas.getCardPowerSize(rangee,l) == 1 && m_datas.getCardPowerFirst(rangee,l) != PowerEnum.AUCUN )
+                        else if(m_datas.isCard(rangee, l) && m_datas.getCardPowerSize(rangee,l) == 1 && m_datas.getCardPowerFirst(rangee,l) != PowerEnum.AUCUN )
                         {
-                            chaineBuilder.append(" | ").append(m_datas.getCardPowerFirst(i, rangee).toString());
+                            chaineBuilder.append(" | ").append(m_datas.getCardPowerFirst(rangee, l).toString());
                             chaineBuilder.append(" ".repeat(Math.max(0, (12 - m_datas.getCardPowerFirst(rangee, l).toString().length()))));
                             chaineBuilder.append("| ");
                         }

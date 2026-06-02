@@ -390,7 +390,9 @@ public class GameManager {
 
     public int getHandSize(){return m_player.getHandSize();}
 
-    public String getCardName(int i, int j) {return m_gameboard[i][j].getName();}
+    public String getCardName(int i, int j) {
+        return m_gameboard[i][j].getName();
+    }
 
     public int getCardHealthPoints(int i, int j) {return m_gameboard[i][j].getHealthPoints();}
 
@@ -410,9 +412,21 @@ public class GameManager {
 
     public int getDrawSize() {return m_player.getDrawSize();}
 
-    public Player getPlayer(){return m_player;}
-
     public Opponent getOpponent(){return m_opponent;}
+
+    public String getCardNameInHand(int index){return m_player.getCardNameInHand(index);}
+
+    public int getCardAttackInHand(int index){return m_player.getCardAttackInHand(index);}
+
+    public int getCardHealthPointInHand(int index){return m_player.getCardHealthPointInHand(index);}
+
+    public int getCardBloodInHand(int index){return m_player.getCardBloodInHand(index);}
+
+    public int getCardBonesInHand(int index){return m_player.getCardBonesInHand(index);}
+
+    public PowerEnum getCardFirstPowerInHand(int index){return m_player.getCardFirstPowerInHand(index);}
+
+    public PowerEnum getCardLastPowerInHand(int index){return m_player.getCardLastPowerInHand(index);}
 
     public void moveCardToRow1(int col) {m_gameboard[1][col] = m_gameboard[0][col];}
 
@@ -599,8 +613,4 @@ public class GameManager {
     {
         m_gameboard[row][columns] = carte;
     }
-
-
-
-    public Cartes getAnimal(int row, int columns){return m_gameboard[row][columns];}
 }
