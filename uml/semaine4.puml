@@ -16,65 +16,77 @@ package inscryption
             - m_datas : GameManager
             - m_player : Player
             - m_opponent : Opponent
-            + displayGameBoard() : void
-            + displayCards() : void
+            + displayGameBoard() 
+            + displayCards() 
             + displayRows() : String
-            + print(chaine : String) : void
+            + prInteger(chaine : String) 
             + toString() : String
 
         }
 
         class GameManager {
-            -m_score : Integer
-            -m_turn : Integer
+            -m_score : Integereger
+            -m_turn : Integereger
             -m_draw : Boolean
-            -m_game : Integer
+            -m_game : Integereger
             -m_message : String
 
             +<<create>>GameManager(player : Player, opponent : Opponent)
-            + manageAction(s : Scanner) : void
-            + nextTurn() : void
-            + placeCard(i : int, j : int) : void
-            + setMessage(msg : String) : void
+            + manageAction(s : Scanner) 
+            + nextTurn() 
+            + placeCard(i : Integer, j : Integer) 
+            + setMessage(msg : String) 
             + getMessage() : String
             + gameReview() : Boolean
-            + getScore() : int
-            + setScore(score : int) : void
-            + getTurn() : int
-            + isCard(i : int, j : int) : Boolean
-            + isCardAnimal(i : int, j : int) : Boolean
-            + getHandSize() : int
-            + getCardName(i : int, j : int) : String
-            + getCardHealthPoints(i : int, j : int) : int
-            + getCardAttack(i : int, j : int) : int
-            + getCardFly(i : int, j : int) : Boolean
-            + getCardPowerSize(i : int, j : int) : int
-            + getCardPowerFirst(i : int, j : int) : PowerEnum
-            + getCardPowerLast(i : int, j : int) : PowerEnum
-            + cardTakeDamage(i : int, j : int, k : int) : void
-            + getDrawSize() : int
-            + getCardNameInHand(i : int) : String
-            + getCardAttackInHand(i : int) : int
-            + getCardHealthPointInHand(i : int) : int
-            + getCardBloodInHand(i : int) : int
-            + getCardBonesInHand(i : int) : int
-            + getCardFirstPowerInHand(i : int) : PowerEnum
-            + getCardLastPowerInHand(i : int) : PowerEnum
-            + getCardFlyInHand(i : int) : Boolean
-            + moveCardToRow1(i : int) : void
-            + moveCard(i : int, j : int, k : int) : void
-            + getGame() : int
-            + getAnimalAttack(i : int, j : int) : int
-            + getPlayerBones() : int
-            + getPlayerTurnAttack() : int
-            + getOpponentTurnAttack() : int
-            + setGame(game : int) : void
-            + proposeAddToDraw(s : Scanner) : void
-            + displaySacrificeStone(s : Scanner) : void
-            + logicSacrificeStone(i : int, s : Scanner) : void
-            + setCard(c : Cards, i : int, j : int) : void
+            + getScore() : Integer
+            + setScore(score : Integer) 
+            + getTurn() : Integer
+            + isCard(i : Integer, j : Integer) : Boolean
+            + isCardAnimal(i : Integer, j : Integer) : Boolean
+            + getHandSize() : Integer
+            + getCardName(i : Integer, j : Integer) : String
+            + getCardHealthPoIntegers(i : Integer, j : Integer) : Integer
+            + getCardAttack(i : Integer, j : Integer) : Integer
+            + getCardFly(i : Integer, j : Integer) : Boolean
+            + getCardPowerSize(i : Integer, j : Integer) : Integer
+            + getCardPowerFirst(i : Integer, j : Integer) : PowerEnum
+            + getCardPowerLast(i : Integer, j : Integer) : PowerEnum
+            + cardTakeDamage(i : Integer, j : Integer, k : Integer) 
+            + getDrawSize() : Integer
+            + getCardNameInHand(i : Integer) : String
+            + getCardAttackInHand(i : Integer) : Integer
+            + getCardHealthPoIntegerInHand(i : Integer) : Integer
+            + getCardBloodInHand(i : Integer) : Integer
+            + getCardBonesInHand(i : Integer) : Integer
+            + getCardFirstPowerInHand(i : Integer) : PowerEnum
+            + getCardLastPowerInHand(i : Integer) : PowerEnum
+            + getCardFlyInHand(i : Integer) : Boolean
+            + moveCardToRow1(i : Integer) 
+            + moveCard(i : Integer, j : Integer, k : Integer) 
+            + getGame() : Integer
+            + getAnimalAttack(i : Integer, j : Integer) : Integer
+            + getPlayerBones() : Integer
+            + getPlayerTurnAttack() : Integer
+            + getOpponentTurnAttack() : Integer
+            + setGame(game : Integer) 
+            + proposeAddToDraw(s : Scanner) 
+            + displaySacrificeStone(s : Scanner) 
+            + logicSacrificeStone(i : Integer, s : Scanner) 
+            + setCard(c : Cards, i : Integer, j : Integer) 
             + toString() : String
         }
+
+        class Location{
+            -m_x : Integer
+            -m_y : Integer
+            -m_damage : Integer
+            -m_damageAction : Boolean
+        }
+
+        class AttackResult{
+            -m_score : Integer
+        }
+
 
         enum PowerEnum <<enumeration>> {
             Many_Lives
@@ -91,46 +103,45 @@ package inscryption
         package players {
 
         class Player {
-            -m_random : Random
-            -m_obtainedBones : int
+            -m_obtainedBones : Integer
             +<<create>>Player()
-            + setGameManager(gameManager : GameManager) : void
-            + createDraw() : void
-            + draw() : void
-            + setGamecards() : void
-            + getDrawSize() : int
-            + getAnimalAtInDraw(i : int) : Animals_cards
-            + removeAtInDraw(i : int) : void
-            + addInDraw(ca : Animals_cards) : void
-            + getTurnAttack() : int
-            + attack() : void
-            + removeCard(i : int) : Cards
-            + getHandSize() : int
+            + setGameManager(gameManager : GameManager) 
+            + createDraw() 
+            + draw() 
+            + setGamecards() 
+            + getDrawSize() : Integer
+            + getAnimalAtInDraw(i : Integer) : Animals_cards
+            + removeAtInDraw(i : Integer) 
+            + addInDraw(ca : Animals_cards) 
+            + getTurnAttack() : Integer
+            + attack(gameboard : Cards[][]) : AttackResult
+            + removeCard(i : Integer) : Cards
+            + getHandSize() : Integer
             + isDrawEmpty() : boolean
-            + getBones() : int
-            + getBloodAt(i : int) : int
-            + getBonesAt(i : int) : int
-            + setBones(bones : int) : void
-            + increaseBones() : void
-            + getCardPowerFirst(i : int) : PowerEnum
-            + getCardNameInHand(i : int) : String
-            + getCardAttackInHand(i : int) : int
-            + getCardHealthPointInHand(i : int) : int
-            + getCardBloodInHand(i : int) : int
-            + getCardBonesInHand(i : int) : int
-            + getCardFirstPowerInHand(i : int) : PowerEnum
-            + getCardLastPowerInHand(i : int) : PowerEnum
-            + getCardFlyInHand(i : int) : Boolean
+            + getBones() : Integer
+            + getBloodAt(i : Integer) : Integer
+            + getBonesAt(i : Integer) : Integer
+            + setBones(bones : Integer) 
+            + increaseBones() 
+            + getCardPowerFirst(i : Integer) : PowerEnum
+            + getCardNameInHand(i : Integer) : String
+            + getCardAttackInHand(i : Integer) : Integer
+            + getCardHealthPoIntegerInHand(i : Integer) : Integer
+            + getCardBloodInHand(i : Integer) : Integer
+            + getCardBonesInHand(i : Integer) : Integer
+            + getCardFirstPowerInHand(i : Integer) : PowerEnum
+            + getCardLastPowerInHand(i : Integer) : PowerEnum
+            + getCardFlyInHand(i : Integer) : Boolean
             + toString() : String
 
         }
         class Opponent {
 
-            +setGameManager(gameManager : GameManager) : void
-            + setMatch() : Void
-            + play() : void
-            + getTurnAttack() : int
-            + attack() : void
+            +setGameManager(gameManager : GameManager) 
+            + setMatch() 
+            + play() 
+            + getTurnAttack() : Integer
+            + attack() 
             + toString() : String
 
         }
@@ -144,28 +155,30 @@ package inscryption
 
         abstract class Cards <<abstract>>{
             -m_name : String
-            -m_health_points : Integer
+            -m_health_poIntegers : Integereger
             -m_animals : Animals_cards
-            +<<create>> Cards_obstacles(nom : String , pdv : Integer)
+            +<<create>> Cards_obstacles(nom : String , pdv : Integereger)
             +getName() : String
-            +getHealthPoints() : Integer
-            +takeDamage() : void
-            +setAnimals(animal : Animals_cards) : void
+            +getHealthPoIntegers() : Integereger
+            +takeDamage() 
+            +setAnimals(animal : Animals_cards) 
             +getAnimals() : Animals_cards
+            + {abstract} isCardAnimal() : boolean
             + toString() : String
 
         }
 
         abstract class Animals_cards<<abstract>> extends Cards{
-        -m_attack : Integer
-        -m_blood : Integer
-        -m_bones : Integer
+        -m_attack : Integereger
+        -m_blood : Integereger
+        -m_bones : Integereger
         -m_flying : Boolean
-        +<<create>>Animals_cards(nom : String, att : Integer, pdv : Integer, gds : Integer, os : Integer, vol : Boolean)
-        +getAttack() : Integer
-        +getBlood(): Integer
-        +getBones() : Integer
+        +<<create>>Animals_cards(nom : String, att : Integereger, pdv : Integereger, gds : Integereger, os : Integereger, vol : Boolean)
+        +getAttack() : Integereger
+        +getBlood(): Integereger
+        +getBones() : Integereger
         +isFlying() : Boolean
+        +isCardAnimal() : Boolean
         }
         class Chat extends Animals_cards{
             +<<create>>Chat()
@@ -234,17 +247,18 @@ Animals_cards --> "m_power \n 1" PowerEnum
 Player o--> "- m_hand \n 0..15*" Animals_cards
 Player o--> "- m_gamecards \n 15" Animals_cards
 Player o--> "- m_gamecards_copy \n 15" Animals_cards
-Player *--> "-m_datas \n 1" GameManager
 Player ..> PowerEnum : <<uses>>
-Opponent o--> "- m_actions : Cards[0..4] \n 4" Cards
-Opponent *--> "-m_datas \n 1" GameManager
+Player ..> Location : <<uses>>
+Player ..> AttackResult : <<uses>>
+Opponent o--> "- m_actions : AnimalCards \n 12" Cards
 Opponent ..> PowerEnum : <<uses>>
 GameManager *--> "-m_player \n 1" Player
 GameManager *--> "-m_opponent \n 1" Opponent
-GameManager *--> "-m_gameboard : Cards[0..4] \n 3" Cards
+GameManager *--> "-m_gameboard : Cards \n 9" Cards
 GameManager ..> PowerEnum : <<uses>>
 GameManager o--> "-m_display \n 1" DisplayBoard
-DisplayBoard o--> "-m_datas \n 1" GameManager
+Location o--> "-m_card \n 1" Cards
+AttackResult o--> "m_locs \n 0..*" Location
 Main .-> DisplayBoard : <<create>>
 Main .-> GameManager : <<create>>
 Main .-> Player : <<create>>

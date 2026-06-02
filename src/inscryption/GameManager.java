@@ -48,14 +48,38 @@ public class GameManager {
         String action = sc.nextLine();
         if(action.equals("fin"))
         {
-            m_player.attack(m_gameboard);
             if(gameReview() != null)
             {
                 return;
             }
-            //m_opponent.play();
+
+            //------- Attaque du player -------
+            Cards[][] gamebordCopy = new Cards[m_gameboard.length][m_gameboard[0].length];
+            for (int i = 0; i < m_gameboard.length; i++) {
+                System.arraycopy(m_gameboard[i], 0, gamebordCopy[i], 0, m_gameboard[i].length);
+            }
+            AttackResult result = m_player.attack(gamebordCopy);
+
+            this.m_score += result.getScore();
+
+            for (Location loc : result.getImpactedLocations()) {
+                int x = loc.getX();
+                int y = loc.getY();
+
+                if (loc.isDamageAction()) {
+                    if (this.m_gameboard[x][y] != null) {
+                        this.m_gameboard[x][y].takeDamage(loc.getDamage());
+                    }
+                }
+                else {
+                    this.m_gameboard[x][y] = loc.getCard();
+                }
+            }
+            //------Attaque de l'opponent---------
+
+            m_opponent.play(m_gameboard);
             m_canDraw = true;
-            //m_opponent.attack();
+            m_opponent.attack(m_gameboard);
             nextTurn();
             setMessage("Votre adversaire à joué, à votre tour de jouer maintenant...");
             return;
@@ -343,8 +367,6 @@ public class GameManager {
 
     public void setMessage(String message){m_message = message;}
 
-    public String getMessage(){return m_message;}
-
     public Boolean gameReview()
     {
         if(m_score <= -5)
@@ -364,8 +386,6 @@ public class GameManager {
     public int getScore(){return m_score;}
 
     public void setScore(int attack){m_score+=attack;}
-
-    public int getTurn(){return m_turn;}
 
     public boolean isCard(int i, int j) { return m_gameboard[i][j] != null; }
 
@@ -400,80 +420,18 @@ public class GameManager {
         }
     }
 
-    public boolean getCardFly(int i, int j){return m_gameboard[i][j] != null && m_gameboard[i][j].getAnimalFly();}
-
-    public int getCardPowerSize(int i, int j){if(m_gameboard[i][j] != null)
-    {
-        return m_gameboard[i][j].getPowerSizeAnimal();
-    }
-    else
-    {
-        return 0;
-    }}
-
-    public PowerEnum getCardPowerFirst(int i, int j){
-        if(m_gameboard[i][j] != null)
-        {
-            return m_gameboard[i][j].getFirstPowerAnimal();
-        }
-        else
-        {
-            return null;
-        }}
-
-    public PowerEnum getCardPowerLast(int i, int j){
-        if(m_gameboard[i][j] != null)
-        {
-            return m_gameboard[i][j].getLastPowerAnimal();
-        }
-        else
-        {
-            return null;
-        }}
-
     public void showBoard() {
-        m_display.displayGameboard(m_message, m_player, m_opponent, m_gameboard, m_game, m_turn, m_score);
+        Cards[][] gamebordCopy = new Cards[m_gameboard.length][m_gameboard[0].length];
+        for (int i = 0; i < m_gameboard.length; i++) {
+            System.arraycopy(m_gameboard[i], 0, gamebordCopy[i], 0, m_gameboard[i].length);
+        }
+        Player playerCopy = new Player(m_player);
+        Opponent opponentCopy = new Opponent(m_opponent);
+        m_display.displayGameboard(m_message, playerCopy, opponentCopy, gamebordCopy, m_game, m_turn, m_score);
     }
 
     public void cardTakeDamage(int i, int j, int degats) {m_gameboard[i][j].takeDamage(degats);}
 
-    public int getDrawSize() {return m_player.getDrawSize();}
-
-    public String getCardNameInHand(int index){return m_player.getCardNameInHand(index);}
-
-    public int getCardAttackInHand(int index){return m_player.getCardAttackInHand(index);}
-
-    public int getCardHealthPointInHand(int index){return m_player.getCardHealthPointInHand(index);}
-
-    public int getCardBloodInHand(int index){return m_player.getCardBloodInHand(index);}
-
-    public int getCardBonesInHand(int index){return m_player.getCardBonesInHand(index);}
-
-    public String getCardFlyInHand(int index){return m_player.getCardFlyInHand(index);}
-
-    public PowerEnum getCardFirstPowerInHand(int index){return m_player.getCardFirstPowerInHand(index);}
-
-    public PowerEnum getCardLastPowerInHand(int index){return m_player.getCardLastPowerInHand(index);}
-
-    public void moveCardToRow1(int col) {m_gameboard[1][col] = m_gameboard[0][col];}
-
-    public void moveCard(int row, int fromCol, int toCol) {
-        m_gameboard[row][toCol] = m_gameboard[row][fromCol];
-        m_gameboard[row][fromCol] = null;
-    }
-
-    public int getGame(){return m_game;}
-
-    public int getAnimalAttack(int row, int columns)
-    {
-        return m_gameboard[row][columns].getAnimalAttack();
-    }
-
-    public int getPlayerBones() {return m_player.getBones();}
-
-    public int getPlayerTurnAttack() {return m_player.getTurnAttack();}
-
-    public int getOpponentTurnAttack() { return m_opponent.getTurnAttack();}
 
     public void setGame(int actualGame) {
         m_game = actualGame;

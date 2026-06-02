@@ -16,7 +16,6 @@ public abstract class AnimalsCards extends Cards {
     public AnimalsCards(String nom, int att, int pdv, int gds, int os, boolean vol, ArrayList<PowerEnum> powerEnum)
     {
         super(nom,pdv);
-        this.setAnimals(this);
         m_attack = att;
         m_blood = gds;
         m_bone = os;
@@ -66,5 +65,6 @@ public abstract class AnimalsCards extends Cards {
     }
 
     public boolean isAnimal() {return true;}
+
 
 }

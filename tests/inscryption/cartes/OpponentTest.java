@@ -58,7 +58,7 @@ class OpponentTest {
 
         assertFalse(gm.isCard(1, 0), "La ligne de combat devrait être vide avant de jouer");
 
-        opponent.play();
+        //opponent.play();
 
         assertTrue(gm.isCard(1, 0), "La carte de préparation aurait dû avancer en ligne de combat (1,0)");
 

@@ -1,6 +1,8 @@
 package inscryption.players;
 
+import inscryption.Location;
 import inscryption.PowerEnum;
+import inscryption.AttackResult;
 import inscryption.cards.*;
 
 import java.util.ArrayList;
@@ -24,6 +26,31 @@ public class Player {
         m_obtainedBones = 0;
         m_turnAttack = 0;
         this.createDraw();
+    }
+
+    public Player(Player other)
+    {
+        m_hand = new ArrayList<>();
+        for(AnimalsCards card : other.m_hand)
+        {
+            m_hand.add(card);
+        }
+
+        m_gamecards = new ArrayList<>();
+        for(AnimalsCards card : other.m_gamecards)
+        {
+            m_gamecards.add(card);
+        }
+
+        m_gamecards_copy = new ArrayList<>();
+        for(AnimalsCards card : other.m_gamecards_copy)
+        {
+            m_gamecards_copy.add(card);
+        }
+
+        m_random = new Random();
+        m_obtainedBones = other.m_obtainedBones;
+        m_turnAttack = other.m_turnAttack;
     }
 
     public void createDraw()
@@ -103,9 +130,11 @@ public class Player {
     }
 
 
-    public int attack(Cards[][] gameboard)
+    public AttackResult attack(Cards[][] gameboard)
     {
-        //Renvoie le score à ajouter à celui existant dans le gameManager
+        // Création de la liste pour stocker toutes les positions modifiées ce tour-ci
+        ArrayList<Location> impactedLocations = new ArrayList<>();
+
         int score = 0;
         m_turnAttack = 0;
         for(int i=0; i<4; i++)
@@ -142,13 +171,13 @@ public class Player {
                     }
                     else if(gameboard[2][i].isAnimal() && !gameboard[2][i].getAnimalFly())
                     {
-                        gameboard[1][i].takeDamage(degats);
-                        //gameManager.cardTakeDamage(1,i,degats);
+                        impactedLocations.add(new Location(1, i, degats));
+                        gameboard[2][i].takeDamage(degats);
 
                         if(gameboard[2][i].getFirstPowerAnimal() == PowerEnum.CONTACT_MORTEL || gameboard[2][i].getLastPowerAnimal() == PowerEnum.CONTACT_MORTEL)
                         {
-                            gameboard[1][i].takeDamage(999);
-                            //gameManager.cardTakeDamage(1,i,999);
+                            impactedLocations.add(new Location(1, i, 999));
+                            gameboard[2][i].takeDamage(999);
                         }
 
                         if(gameboard[1][i] != null && gameboard[1][i].isAnimal())
@@ -156,12 +185,12 @@ public class Player {
                             if(gameboard[1][i].getFirstPowerAnimal() == PowerEnum.PIQUES_POINTUES || gameboard[1][i].getLastPowerAnimal() == PowerEnum.PIQUES_POINTUES)
                             {
                                 gameboard[2][i].takeDamage(999);
-                                //gameManager.cardTakeDamage(2,i,1);
+                                impactedLocations.add(new Location(2, i, 999));
 
                                 if(gameboard[2][i].getHealthPoints() <= 0)
                                 {
                                     gameboard[2][i] = null;
-                                    //gameManager.setCard(null, 2, i);
+                                    impactedLocations.add(new Location(2, i, (Cards) null));
                                 }
                             }
                         }
@@ -169,13 +198,14 @@ public class Player {
                         if(gameboard[1][i] != null && gameboard[1][i].getHealthPoints() <= 0)
                         {
                             gameboard[1][i] = null;
-                            //gameManager.setCard(null, 1, i);
+                            impactedLocations.add(new Location(1, i, (Cards) null));
                         }
                     }
                 }
                 if(gameboard[2][i] != null && gameboard[2][i].isAnimal() && (gameboard[2][i].getFirstPowerAnimal() == PowerEnum.CROISSANCE || gameboard[2][i].getLastPowerAnimal() == PowerEnum.CROISSANCE))
                 {
                     gameboard[2][i] = new Loup();
+                    impactedLocations.add(new Location(2, i, new Loup()));
                 }
             }
         }
@@ -197,17 +227,25 @@ public class Player {
                         gameboard[2][j+1] = gameboard[2][j];
                         gameboard[2][j] = null;
                         indicesBloques.add(j+1);
+
+                        impactedLocations.add(new Location(2, j+1, gameboard[2][j]));
+                        impactedLocations.add(new Location(2, j, (Cards) null));
                     }
                     else if(j > 0 && gameboard[2][j-1] == null)
                     {
+
                         gameboard[2][j-1] = gameboard[2][j];
                         gameboard[2][j] = null;
+
+                        impactedLocations.add(new Location(2, j-1, gameboard[2][j]));
+                        impactedLocations.add(new Location(2, j, (Cards) null));
+
                     }
                 }
             }
         }
 
-        return score;
+        return new AttackResult(score, impactedLocations);
     }
 
     public Cards removeCard(int indHand) {return m_hand.remove(indHand);}

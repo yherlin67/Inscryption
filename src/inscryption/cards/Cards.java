@@ -25,10 +25,6 @@ public abstract class Cards {
         this.m_health_points -= degats;
     }
 
-    public void setAnimals(AnimalsCards animaux) {
-        this.m_animals = animaux;
-    }
-
     public abstract boolean isAnimal();
 
     public int getAnimalAttack() {
