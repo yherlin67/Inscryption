@@ -15,7 +15,7 @@ public class GameManager {
     private final Opponent m_opponent;
     private int m_score;
     private int m_turn;
-    private boolean m_draw;
+    private boolean m_canDraw;
     private int m_game;
     private String m_message;
     private final Random m_random;
@@ -26,7 +26,6 @@ public class GameManager {
     public GameManager(Player player, Opponent opponent)
     {
         m_player = player;
-        m_player.setGameManager(this);
         m_opponent = opponent;
         m_opponent.setGameManager(this);
         m_gameboard = new Cards[][]{
@@ -38,7 +37,7 @@ public class GameManager {
         m_turn = 1;
         m_score = 0;
         m_game = 1;
-        m_draw = true;
+        m_canDraw = true;
         m_message = "";
         m_player.setGamecards();
         m_random = new Random();
@@ -50,29 +49,29 @@ public class GameManager {
         String action = sc.nextLine();
         if(action.equals("fin"))
         {
-            m_player.attack();
+            m_player.attack(m_gameboard);
             if(gameReview() != null)
             {
                 return;
             }
             m_opponent.play();
-            m_draw = true;
+            m_canDraw = true;
             m_opponent.attack();
             nextTurn();
             setMessage("Votre adversaire à joué, à votre tour de jouer maintenant...");
             return;
         }
-        if(action.equals("piocher") && m_draw && !m_player.isDrawEmpty())
+        if(action.equals("piocher") && m_canDraw && !m_player.isDrawEmpty())
         {
             m_player.draw();
-            m_draw = false;
+            m_canDraw = false;
             setMessage("Vous piochez une carte");
         }
         else if(m_player.isDrawEmpty())
         {
             setMessage("La pioche est vide !");
         }
-        else if(action.equals("piocher") && !m_draw)
+        else if(action.equals("piocher") && !m_canDraw)
         {
             setMessage("Vous avez déjà pioché voyons ! Ne soyez pas trop gourmand...");
         }

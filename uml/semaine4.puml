@@ -30,7 +30,6 @@ package inscryption
             -m_draw : Boolean
             -m_game : Integer
             -m_message : String
-            -m_random : Random
 
             +<<create>>GameManager(player : Player, opponent : Opponent)
             + manageAction(s : Scanner) : void
@@ -61,6 +60,7 @@ package inscryption
             + getCardBonesInHand(i : int) : int
             + getCardFirstPowerInHand(i : int) : PowerEnum
             + getCardLastPowerInHand(i : int) : PowerEnum
+            + getCardFlyInHand(i : int) : Boolean
             + moveCardToRow1(i : int) : void
             + moveCard(i : int, j : int, k : int) : void
             + getGame() : int
@@ -120,6 +120,7 @@ package inscryption
             + getCardBonesInHand(i : int) : int
             + getCardFirstPowerInHand(i : int) : PowerEnum
             + getCardLastPowerInHand(i : int) : PowerEnum
+            + getCardFlyInHand(i : int) : Boolean
             + toString() : String
 
         }

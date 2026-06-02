@@ -8,4 +8,6 @@ public class Sapin extends Cards {
     public String toString(){
         return "Sapin("+this.getName()+")";
     }
+
+    public boolean isAnimal() {return false;}
 }

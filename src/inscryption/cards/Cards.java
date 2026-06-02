@@ -29,9 +29,7 @@ public abstract class Cards {
         this.m_animals = animaux;
     }
 
-    public boolean isAnimal() {
-        return m_animals != null;
-    }
+    public abstract boolean isAnimal();
 
     public int getAnimalAttack() {
         return m_animals != null ? m_animals.getAttack() : 0;

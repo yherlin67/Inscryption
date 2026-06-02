@@ -8,4 +8,6 @@ public class Rocher extends Cards {
     public String toString(){
         return "Rocher("+this.getName()+")";
     }
+
+    public boolean isAnimal() {return false;}
 }

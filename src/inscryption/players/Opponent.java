@@ -7,7 +7,7 @@ import inscryption.cards.*;
 import java.util.ArrayList;
 
 public class Opponent {
-    private final ArrayList<Cards>[] m_actions;
+    private final ArrayList<AnimalsCards>[] m_actions;
     private GameManager m_datas;
     private int m_turnAttack;
 
@@ -27,7 +27,7 @@ public class Opponent {
         this.m_datas = gameManager;
     }
 
-    public void setMatch(ArrayList<Cards> actions0, ArrayList<Cards> actions1, ArrayList<Cards> actions2, ArrayList<Cards> actions3)
+    public void setMatch(ArrayList<AnimalsCards> actions0, ArrayList<AnimalsCards> actions1, ArrayList<AnimalsCards> actions2, ArrayList<AnimalsCards> actions3)
     {
         m_datas.setCard(actions0.getFirst(), 0, 0);
         m_datas.setCard(actions1.getFirst(), 0, 1);

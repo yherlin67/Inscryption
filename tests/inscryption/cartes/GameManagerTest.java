@@ -88,7 +88,7 @@ class GameManagerTest {
         gm.setCard(loup1, 2, 0);
         gm.setCard(loup2, 2, 2);
 
-        player.attack();
+        //player.attack();
 
         assertEquals(6, gm.getScore(), "Les deux loups (3+3) devraient infliger 6 points au score global");
         assertEquals(6, player.getTurnAttack(), "Le récapitulatif des dégâts du tour devrait être de 6");

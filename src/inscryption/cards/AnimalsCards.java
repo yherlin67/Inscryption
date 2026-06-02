@@ -65,4 +65,6 @@ public abstract class AnimalsCards extends Cards {
         return m_powerEnum.size();
     }
 
+    public boolean isAnimal() {return true;}
+
 }
