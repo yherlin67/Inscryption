@@ -29,24 +29,27 @@ public abstract class Cards {
         this.m_animals = animaux;
     }
 
-    public PowerEnum getFirstPowerAnimal()
-    {
-        return m_animals.getFirstPower();
+    public boolean isAnimal() {
+        return m_animals != null;
     }
 
-    public PowerEnum getLastPowerAnimal()
-    {
-        return m_animals.getLastPower();
+    public int getAnimalAttack() {
+        return m_animals != null ? m_animals.getAttack() : 0;
     }
 
-    public int getPowerSizeAnimal()
-    {
-        return m_animals.getPowerSizeAnimal();
+    public boolean getAnimalFly() {
+        return m_animals != null && m_animals.isFlying();
     }
 
-    public boolean isAnimal() {return m_animals != null;}
+    public int getPowerSizeAnimal() {
+        return m_animals != null ? m_animals.getPowerSizeAnimal() : 0;
+    }
 
-    public int getAnimalAttack() {return m_animals.getAttack();}
+    public PowerEnum getFirstPowerAnimal() {
+        return m_animals != null ? m_animals.getFirstPower() : PowerEnum.AUCUN;
+    }
 
-    public boolean getAnimalFly() {return m_animals.isFlying();}
+    public PowerEnum getLastPowerAnimal() {
+        return m_animals != null ? m_animals.getLastPower() : PowerEnum.AUCUN;
+    }
 }

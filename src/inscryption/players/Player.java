@@ -229,7 +229,7 @@ public class Player {
 
     public int getCardAttackInHand(int i){return m_hand.get(i).getAttack();}
 
-    public int getCardHealthPointInHand(int i){return m_hand.get(i).getAttack();}
+    public int getCardHealthPointInHand(int i){return m_hand.get(i).getHealthPoints();}
 
     public int getCardBloodInHand(int i){return m_hand.get(i).getBlood();}
 

@@ -371,7 +371,7 @@ public class GameManager {
 
     public boolean isCard(int i, int j) { return m_gameboard[i][j] != null; }
 
-    public boolean isCardAnimal(int i, int j) { return m_gameboard[i][j].isAnimal() && m_gameboard[i][j] != null;}
+    public boolean isCardAnimal(int i, int j) { return m_gameboard[i][j] != null && m_gameboard[i][j].isAnimal();}
 
     public int getHandSize(){return m_player.getHandSize();}
 
@@ -379,17 +379,59 @@ public class GameManager {
         return m_gameboard[i][j].getName();
     }
 
-    public int getCardHealthPoints(int i, int j) {return m_gameboard[i][j].getHealthPoints();}
+    public int getCardHealthPoints(int i, int j) {
+        if(m_gameboard[i][j] != null)
+        {
+            return m_gameboard[i][j].getHealthPoints();
+        }
+        else
+        {
+            return 0;
+        }
+    }
 
-    public int getCardAttack(int i, int j) {return m_gameboard[i][j].getAnimalAttack();}
+    public int getCardAttack(int i, int j)
+    {
+        if(m_gameboard[i][j] != null)
+        {
+            return m_gameboard[i][j].getAnimalAttack();
+        }
+        else
+        {
+            return 0;
+        }
+    }
 
-    public boolean getCardFly(int i, int j){return m_gameboard[i][j].getAnimalFly();}
+    public boolean getCardFly(int i, int j){return m_gameboard[i][j] != null && m_gameboard[i][j].getAnimalFly();}
 
-    public int getCardPowerSize(int i, int j){return m_gameboard[i][j].getPowerSizeAnimal();}
+    public int getCardPowerSize(int i, int j){if(m_gameboard[i][j] != null)
+    {
+        return m_gameboard[i][j].getPowerSizeAnimal();
+    }
+    else
+    {
+        return 0;
+    }}
 
-    public PowerEnum getCardPowerFirst(int i, int j){return m_gameboard[i][j].getFirstPowerAnimal();}
+    public PowerEnum getCardPowerFirst(int i, int j){
+        if(m_gameboard[i][j] != null)
+        {
+            return m_gameboard[i][j].getFirstPowerAnimal();
+        }
+        else
+        {
+            return null;
+        }}
 
-    public PowerEnum getCardPowerLast(int i, int j){return m_gameboard[i][j].getLastPowerAnimal();}
+    public PowerEnum getCardPowerLast(int i, int j){
+        if(m_gameboard[i][j] != null)
+        {
+            return m_gameboard[i][j].getLastPowerAnimal();
+        }
+        else
+        {
+            return null;
+        }}
 
     public void cardTakeDamage(int i, int j, int degats) {m_gameboard[i][j].takeDamage(degats);}
 
