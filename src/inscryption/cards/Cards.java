@@ -1,6 +1,6 @@
 package inscryption.cards;
 
-import inscryption.PowerEnum;
+import inscryption.logic.PowerEnum;
 
 public abstract class Cards {
     private String m_name;

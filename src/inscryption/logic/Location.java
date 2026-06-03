@@ -1,4 +1,4 @@
-package inscryption;
+package inscryption.logic;
 
 import inscryption.cards.Cards;
 

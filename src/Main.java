@@ -1,5 +1,5 @@
-import inscryption.*;
 import inscryption.cards.*;
+import inscryption.logic.GameManager;
 import inscryption.players.Opponent;
 import inscryption.players.Player;
 
@@ -31,24 +31,24 @@ public class Main
             }
             if(nbParties == 1)
             {
-                actions0 = new ArrayList<>(Arrays.asList(new Louveteau(), new Moineau(), null, null));
-                actions1 = new ArrayList<>(Arrays.asList(null, null, new Moineau(), null));
-                actions2 = new ArrayList<>(Arrays.asList(new Punaise(), null, null, new Punaise()));
-                actions3 = new ArrayList<>(Arrays.asList(null, null, new Louveteau(), null));
+                actions0 = new ArrayList<>(Arrays.asList(new Cub_scout(), new Sparrow(), null, null));
+                actions1 = new ArrayList<>(Arrays.asList(null, null, new Sparrow(), null));
+                actions2 = new ArrayList<>(Arrays.asList(new Bug(), null, null, new Bug()));
+                actions3 = new ArrayList<>(Arrays.asList(null, null, new Cub_scout(), null));
             }
             else if(nbParties == 2)
             {
-                actions0 = new ArrayList<>(Arrays.asList(new Louveteau(), new Moineau(), null, null));
-                actions1 = new ArrayList<>(Arrays.asList(null, null, new Moineau(), null));
-                actions2 = new ArrayList<>(Arrays.asList(new Punaise(), null, null, new Punaise()));
-                actions3 = new ArrayList<>(Arrays.asList(null, null, new Louveteau(), null));
+                actions0 = new ArrayList<>(Arrays.asList(new Cub_scout(), new Sparrow(), null, null));
+                actions1 = new ArrayList<>(Arrays.asList(null, null, new Sparrow(), null));
+                actions2 = new ArrayList<>(Arrays.asList(new Bug(), null, null, new Bug()));
+                actions3 = new ArrayList<>(Arrays.asList(null, null, new Cub_scout(), null));
             }
             else
             {
-                actions0 = new ArrayList<>(Arrays.asList(new Louveteau(), new Moineau(), null, null));
-                actions1 = new ArrayList<>(Arrays.asList(null, null, new Moineau(), null));
-                actions2 = new ArrayList<>(Arrays.asList(new Punaise(), null, null, new Punaise()));
-                actions3 = new ArrayList<>(Arrays.asList(null, null, new Louveteau(), null));
+                actions0 = new ArrayList<>(Arrays.asList(new Cub_scout(), new Sparrow(), null, null));
+                actions1 = new ArrayList<>(Arrays.asList(null, null, new Sparrow(), null));
+                actions2 = new ArrayList<>(Arrays.asList(new Bug(), null, null, new Bug()));
+                actions3 = new ArrayList<>(Arrays.asList(null, null, new Cub_scout(), null));
             }
             GameManager gameManager = new GameManager(player, opponent);
             for(int i=0; i<4; i++)

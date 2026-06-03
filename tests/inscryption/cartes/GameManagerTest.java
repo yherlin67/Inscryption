@@ -1,6 +1,6 @@
 package inscryption.cartes;
 
-import inscryption.GameManager;
+import inscryption.logic.GameManager;
 import inscryption.cards.*;
 import inscryption.players.Opponent;
 import inscryption.players.Player;
@@ -49,7 +49,7 @@ class GameManagerTest {
         Opponent opponent = new Opponent();
         GameManager gm = new GameManager(player, opponent);
 
-        Loup loup = new Loup();
+        Wolf loup = new Wolf();
         gm.setCard(loup, 2, 0);
 
         assertTrue(gm.isCard(2, 0), "Une carte devrait être présente sur la case (2,0)");
@@ -65,8 +65,8 @@ class GameManagerTest {
         Opponent opponent = new Opponent();
         GameManager gm = new GameManager(player, opponent);
 
-        Loup loupplayer = new Loup();
-        Loup loupopponent = new Loup();
+        Wolf loupplayer = new Wolf();
+        Wolf loupopponent = new Wolf();
 
         gm.setCard(loupopponent, 1, 0);
         gm.setCard(loupplayer, 2, 0);
@@ -83,8 +83,8 @@ class GameManagerTest {
         Opponent opponent = new Opponent();
         GameManager gm = new GameManager(player, opponent);
 
-        Loup loup1 = new Loup();
-        Loup loup2 = new Loup();
+        Wolf loup1 = new Wolf();
+        Wolf loup2 = new Wolf();
         gm.setCard(loup1, 2, 0);
         gm.setCard(loup2, 2, 2);
 

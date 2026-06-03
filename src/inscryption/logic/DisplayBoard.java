@@ -1,4 +1,4 @@
-package inscryption;
+package inscryption.logic;
 
 import inscryption.cards.*;
 import inscryption.players.*;
@@ -35,12 +35,12 @@ public class DisplayBoard {
             {
                 String power = "";
                 String ligne = "%-1d. %-12s PV: %-3d Att: %-2d Sang: %-2d Os: %-2d Volant: %-35s";
-                if(player.getCardFirstPowerInHand(j) != PowerEnum.AUCUN)
+                if(player.getCardFirstPowerInHand(j) != PowerEnum.NONE)
                 {
                     power += player.getCardFirstPowerInHand(j);
                     ligne = "%-1d. %-12s PV: %-3d Att: %-2d Sang: %-2d Os: %-2d Volant: %-3s  Pouvoir: %-21s";
                 }
-                if(player.getCardLastPowerInHand(j) != PowerEnum.AUCUN && player.getCardFirstPowerInHand(j) != player.getCardLastPowerInHand(j))
+                if(player.getCardLastPowerInHand(j) != PowerEnum.NONE && player.getCardFirstPowerInHand(j) != player.getCardLastPowerInHand(j))
                 {
                     power += " / " + player.getCardLastPowerInHand(j);
                 }
@@ -225,7 +225,7 @@ public class DisplayBoard {
                     {
                         if(gameboard[rangee][l] == null) {
                             chaineBuilder.append(" *             * ");
-                        } else if(gameboard[rangee][l].getPowerSizeAnimal() == 1 && gameboard[rangee][l].getFirstPowerAnimal() != PowerEnum.AUCUN ) {
+                        } else if(gameboard[rangee][l].getPowerSizeAnimal() == 1 && gameboard[rangee][l].getFirstPowerAnimal() != PowerEnum.NONE) {
                             String powerStr = gameboard[rangee][l].getFirstPowerAnimal().toString();
                             chaineBuilder.append(" | ").append(powerStr);
                             chaineBuilder.append(" ".repeat(Math.max(0, (12 - powerStr.length()))));

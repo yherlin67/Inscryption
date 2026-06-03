@@ -1,4 +1,4 @@
-package inscryption;
+package inscryption.logic;
 
 import inscryption.cards.*;
 import inscryption.players.*;
@@ -58,78 +58,11 @@ public class GameManager {
             }
 
             //Play opponent
-            Cards[][] gamebordCopyPlay = new Cards[m_gameboard.length][m_gameboard[0].length];
-            for (int i = 0; i < m_gameboard.length; i++) {
-                for (int j = 0; j < m_gameboard[i].length; j++) {
-                    gamebordCopyPlay[i][j] = (m_gameboard[i][j] != null) ? m_gameboard[i][j].clone() : null;
-                }
-            }
-
-            AttackResult playResult = m_opponent.play(gamebordCopyPlay);
-
-            for (Location loc : playResult.getImpactedLocations()) {
-                int x = loc.getX();
-                int y = loc.getY();
-
-                if (!loc.isDamageAction()) {
-                    this.m_gameboard[x][y] = (loc.getCard() != null) ? loc.getCard().clone() : null;
-                }
-            }
-
+            opponentPlay();
             //Attaque player
-            Cards[][] gamebordCopyPlayer = new Cards[m_gameboard.length][m_gameboard[0].length];
-            for (int i = 0; i < m_gameboard.length; i++) {
-                for (int j = 0; j < m_gameboard[i].length; j++) {
-                    gamebordCopyPlayer[i][j] = (m_gameboard[i][j] != null) ? m_gameboard[i][j].clone() : null;
-                }
-            }
-
-            AttackResult resultPlayer = m_player.attack(gamebordCopyPlayer);
-            this.m_score += resultPlayer.getScore();
-
-            for (Location loc : resultPlayer.getImpactedLocations()) {
-                int x = loc.getX();
-                int y = loc.getY();
-
-                if (loc.isDamageAction()) {
-                    if (this.m_gameboard[x][y] != null) {
-                        this.m_gameboard[x][y].takeDamage(loc.getDamage());
-                        if (this.m_gameboard[x][y].getHealthPoints() <= 0) {
-                            this.m_gameboard[x][y] = null;
-                        }
-                    }
-                } else {
-                    this.m_gameboard[x][y] = (loc.getCard() != null) ? loc.getCard().clone() : null;
-                }
-            }
-
+            playerAttack();
             //Attaque opponent
-            Cards[][] gamebordCopyOpponent = new Cards[m_gameboard.length][m_gameboard[0].length];
-            for (int i = 0; i < m_gameboard.length; i++) {
-                for (int j = 0; j < m_gameboard[i].length; j++) {
-                    gamebordCopyOpponent[i][j] = (m_gameboard[i][j] != null) ? m_gameboard[i][j].clone() : null;
-                }
-            }
-
-            AttackResult resultOpponent = m_opponent.attack(gamebordCopyOpponent);
-            this.m_score += resultOpponent.getScore();
-
-            for (Location loc : resultOpponent.getImpactedLocations()) {
-                int x = loc.getX();
-                int y = loc.getY();
-
-                if (loc.isDamageAction()) {
-                    if (this.m_gameboard[x][y] != null) {
-                        this.m_gameboard[x][y].takeDamage(loc.getDamage());
-                        if (this.m_gameboard[x][y].getHealthPoints() <= 0) {
-                            this.m_gameboard[x][y] = null;
-                        }
-                    }
-                } else {
-                    this.m_gameboard[x][y] = (loc.getCard() != null) ? loc.getCard().clone() : null;
-                }
-            }
-
+            opponentAttack();
 
             m_canDraw = true;
             m_opponent.attack(m_gameboard);
@@ -207,7 +140,7 @@ public class GameManager {
                 }
                 else if(requiedDrop > 0)
                 {
-                    if (m_gameboard[2][indBoard] != null  && m_gameboard[2][indBoard].isAnimal() && (m_gameboard[2][indBoard].getFirstPowerAnimal() == PowerEnum.NOMBREUSES_VIES || m_gameboard[2][indBoard].getLastPowerAnimal() == PowerEnum.NOMBREUSES_VIES)) {
+                    if (m_gameboard[2][indBoard] != null  && m_gameboard[2][indBoard].isAnimal() && (m_gameboard[2][indBoard].getFirstPowerAnimal() == PowerEnum.MANY_LIVES || m_gameboard[2][indBoard].getLastPowerAnimal() == PowerEnum.MANY_LIVES)) {
                         setMessage("Ah non ! Un Chat occupe déjà cette case, placement impossible !");
                         return;
                     }
@@ -245,7 +178,7 @@ public class GameManager {
                                     else
                                     {
                                         enCours.append(m_gameboard[2][idxSacrifice].getName()).append(" ");
-                                        if(m_gameboard[2][idxSacrifice].getFirstPowerAnimal() != PowerEnum.NOMBREUSES_VIES || m_gameboard[2][idxSacrifice].getLastPowerAnimal() != PowerEnum.NOMBREUSES_VIES)
+                                        if(m_gameboard[2][idxSacrifice].getFirstPowerAnimal() != PowerEnum.MANY_LIVES || m_gameboard[2][idxSacrifice].getLastPowerAnimal() != PowerEnum.MANY_LIVES)
                                         {
                                             m_sacrifices.set(idxSacrifice, m_gameboard[2][idxSacrifice]);
                                             aSupprimer.add(idxSacrifice);
@@ -325,7 +258,7 @@ public class GameManager {
                 }
                 else if(requiedDrop > 0)
                 {
-                    if (m_gameboard[2][indBoard] != null && m_gameboard[2][indBoard].isAnimal() &&  (m_gameboard[2][indBoard].getFirstPowerAnimal() == PowerEnum.NOMBREUSES_VIES || m_gameboard[2][indBoard].getLastPowerAnimal() == PowerEnum.NOMBREUSES_VIES)) {
+                    if (m_gameboard[2][indBoard] != null && m_gameboard[2][indBoard].isAnimal() &&  (m_gameboard[2][indBoard].getFirstPowerAnimal() == PowerEnum.MANY_LIVES || m_gameboard[2][indBoard].getLastPowerAnimal() == PowerEnum.MANY_LIVES)) {
                         setMessage("Ah non ! Un Chat occupe déjà cette case, placement impossible !");
                         return;
                     }
@@ -363,7 +296,7 @@ public class GameManager {
                                     else
                                     {
                                         enCours.append(m_gameboard[2][idxSacrifice].getName()).append(" ");
-                                        if(m_gameboard[2][idxSacrifice].getFirstPowerAnimal() != PowerEnum.NOMBREUSES_VIES || m_gameboard[2][idxSacrifice].getLastPowerAnimal() != PowerEnum.NOMBREUSES_VIES)
+                                        if(m_gameboard[2][idxSacrifice].getFirstPowerAnimal() != PowerEnum.MANY_LIVES || m_gameboard[2][idxSacrifice].getLastPowerAnimal() != PowerEnum.MANY_LIVES)
                                         {
                                             m_sacrifices.set(idxSacrifice, m_gameboard[2][idxSacrifice]);
                                             aSupprimer.add(idxSacrifice);
@@ -510,16 +443,16 @@ public class GameManager {
         }
         if(actualGame == 1)
         {
-            m_gameboard[2][1] = new Sapin();
+            m_gameboard[2][1] = new Pine();
         }
         else if(actualGame == 2)
         {
-            m_gameboard[2][0] = new Rocher();
+            m_gameboard[2][0] = new Rock();
         }
         else
         {
-            m_gameboard[2][1] = new Rocher();
-            m_gameboard[2][3] = new Sapin();
+            m_gameboard[2][1] = new Rock();
+            m_gameboard[2][3] = new Pine();
         }
 
     }
@@ -530,16 +463,16 @@ public class GameManager {
         AnimalsCards proposition;
         ArrayList<AnimalsCards> propositions = new ArrayList<>();
         ArrayList<AnimalsCards> temp = new ArrayList<>();
-        temp.add(new Ecureuil());
-        temp.add(new Chat());
-        temp.add(new Corbeau());
+        temp.add(new Squirrel());
+        temp.add(new Cat());
+        temp.add(new Crow());
         temp.add(new Coyote());
         temp.add(new Grizzly());
-        temp.add(new Hermine());
-        temp.add(new Loup());
-        temp.add(new Louveteau());
-        temp.add(new Moineau());
-        temp.add(new Punaise());
+        temp.add(new Ermine());
+        temp.add(new Wolf());
+        temp.add(new Cub_scout());
+        temp.add(new Sparrow());
+        temp.add(new Bug());
         for(int i=0; i <2; i++)
         {
             int random_index = m_random.nextInt(temp.size());
@@ -624,7 +557,7 @@ public class GameManager {
     public void logicSacrificeStone(int numChoice, Scanner sc)
     {
 
-        if(m_player.getCardPowerFirst(numChoice) != PowerEnum.AUCUN)
+        if(m_player.getCardPowerFirst(numChoice) != PowerEnum.NONE)
         {
             PowerEnum toAttribute = m_player.getCardPowerFirst(numChoice);
 
@@ -661,6 +594,85 @@ public class GameManager {
         else
         {
             m_display.print("Malheureusement la carte que vous venez de sacrifier n'avait aucun pouvoir à attribuer... tant pis !");
+        }
+    }
+
+    public void opponentPlay()
+    {
+        Cards[][] gamebordCopyPlay = new Cards[m_gameboard.length][m_gameboard[0].length];
+        for (int i = 0; i < m_gameboard.length; i++) {
+            for (int j = 0; j < m_gameboard[i].length; j++) {
+                gamebordCopyPlay[i][j] = (m_gameboard[i][j] != null) ? m_gameboard[i][j].clone() : null;
+            }
+        }
+
+        ResultBox playResult = m_opponent.play(gamebordCopyPlay);
+
+        for (Location loc : playResult.getImpactedLocations()) {
+            int x = loc.getX();
+            int y = loc.getY();
+
+            if (!loc.isDamageAction()) {
+                this.m_gameboard[x][y] = (loc.getCard() != null) ? loc.getCard().clone() : null;
+            }
+        }
+    }
+
+    public void playerAttack()
+    {
+        Cards[][] gamebordCopyPlayer = new Cards[m_gameboard.length][m_gameboard[0].length];
+        for (int i = 0; i < m_gameboard.length; i++) {
+            for (int j = 0; j < m_gameboard[i].length; j++) {
+                gamebordCopyPlayer[i][j] = (m_gameboard[i][j] != null) ? m_gameboard[i][j].clone() : null;
+            }
+        }
+
+        ResultBox resultPlayer = m_player.attack(gamebordCopyPlayer);
+        this.m_score += resultPlayer.getScore();
+
+        for (Location loc : resultPlayer.getImpactedLocations()) {
+            int x = loc.getX();
+            int y = loc.getY();
+
+            if (loc.isDamageAction()) {
+                if (this.m_gameboard[x][y] != null) {
+                    this.m_gameboard[x][y].takeDamage(loc.getDamage());
+                    if (this.m_gameboard[x][y].getHealthPoints() <= 0) {
+                        this.m_gameboard[x][y] = null;
+                    }
+                }
+            } else {
+                this.m_gameboard[x][y] = (loc.getCard() != null) ? loc.getCard().clone() : null;
+            }
+        }
+    }
+
+    public void opponentAttack()
+    {
+        Cards[][] gamebordCopyOpponent = new Cards[m_gameboard.length][m_gameboard[0].length];
+        for (int i = 0; i < m_gameboard.length; i++) {
+            for (int j = 0; j < m_gameboard[i].length; j++) {
+                gamebordCopyOpponent[i][j] = (m_gameboard[i][j] != null) ? m_gameboard[i][j].clone() : null;
+            }
+        }
+
+        ResultBox resultOpponent = m_opponent.attack(gamebordCopyOpponent);
+        this.m_score += resultOpponent.getScore();
+
+        for (Location loc : resultOpponent.getImpactedLocations()) {
+            int x = loc.getX();
+            int y = loc.getY();
+
+            if (loc.isDamageAction()) {
+                if (this.m_gameboard[x][y] != null) {
+                    this.m_gameboard[x][y].takeDamage(loc.getDamage());
+                    if (this.m_gameboard[x][y].getHealthPoints() <= 0) {
+                        this.m_gameboard[x][y] = null;
+                    }
+                }
+            } else {
+                this.m_gameboard[x][y] = (loc.getCard() != null) ? loc.getCard().clone() : null;
+            }
         }
     }
 

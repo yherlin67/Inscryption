@@ -1,10 +1,10 @@
 package inscryption.cards;
 
-import inscryption.PowerEnum;
+import inscryption.logic.PowerEnum;
 
-public class Sapin extends Cards {
+public class Pine extends Cards {
 
-    public Sapin() {super("Sapin",3);}
+    public Pine() {super("Sapin",3);}
 
     @Override
     public String toString(){
@@ -13,8 +13,8 @@ public class Sapin extends Cards {
 
     public boolean isAnimal() {return false;}
 
-    public Sapin(Sapin target) { super(target); }
-    @Override public Sapin clone() { return new Sapin(this); }
+    public Pine(Pine target) { super(target); }
+    @Override public Pine clone() { return new Pine(this); }
 
     @Override
     public int getAnimalAttack() {
@@ -33,11 +33,11 @@ public class Sapin extends Cards {
 
     @Override
     public PowerEnum getFirstPowerAnimal() {
-        return PowerEnum.AUCUN;
+        return PowerEnum.NONE;
     }
 
     @Override
     public PowerEnum getLastPowerAnimal() {
-        return PowerEnum.AUCUN;
+        return PowerEnum.NONE;
     }
 }

@@ -1,6 +1,6 @@
 package inscryption.cards;
 
-import inscryption.PowerEnum;
+import inscryption.logic.PowerEnum;
 import java.util.ArrayList;
 
 public abstract class AnimalsCards extends Cards {

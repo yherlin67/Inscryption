@@ -1,8 +1,8 @@
 package inscryption.players;
 
-import inscryption.Location;
-import inscryption.PowerEnum;
-import inscryption.AttackResult;
+import inscryption.logic.Location;
+import inscryption.logic.PowerEnum;
+import inscryption.logic.ResultBox;
 import inscryption.cards.*;
 
 import java.util.ArrayList;
@@ -28,46 +28,21 @@ public class Player {
         this.createDraw();
     }
 
-    public Player(Player other)
-    {
-        m_hand = new ArrayList<>();
-        for(AnimalsCards card : other.m_hand)
-        {
-            m_hand.add(card);
-        }
-
-        m_gamecards = new ArrayList<>();
-        for(AnimalsCards card : other.m_gamecards)
-        {
-            m_gamecards.add(card);
-        }
-
-        m_gamecards_copy = new ArrayList<>();
-        for(AnimalsCards card : other.m_gamecards_copy)
-        {
-            m_gamecards_copy.add(card);
-        }
-
-        m_random = new Random();
-        m_obtainedBones = other.m_obtainedBones;
-        m_turnAttack = other.m_turnAttack;
-    }
-
     public void createDraw()
     {
         ArrayList<AnimalsCards> temp = new ArrayList<>();
-        temp.add(new Chat());
-        temp.add(new Corbeau());
+        temp.add(new Cat());
+        temp.add(new Crow());
         temp.add(new Coyote());
         temp.add(new Grizzly());
-        temp.add(new Hermine());
-        temp.add(new Loup());
-        temp.add(new Louveteau());
-        temp.add(new Moineau());
-        temp.add(new Punaise());
-        temp.add(new Elan());
-        temp.add(new Vipere());
-        temp.add(new Porc_epic());
+        temp.add(new Ermine());
+        temp.add(new Wolf());
+        temp.add(new Cub_scout());
+        temp.add(new Sparrow());
+        temp.add(new Bug());
+        temp.add(new Moose());
+        temp.add(new Viper());
+        temp.add(new Porcupine());
         while(temp.size() != 7)
         {
             int aleatoireIndex = m_random.nextInt(temp.size());
@@ -75,7 +50,7 @@ public class Player {
         }
         for(int i=0; i<8; i++)
         {
-            Ecureuil e = new Ecureuil();
+            Squirrel e = new Squirrel();
             temp.add(e);
         }
         for(int k=0; k<15; k++)
@@ -130,7 +105,7 @@ public class Player {
     }
 
 
-    public AttackResult attack(Cards[][] gameboard)
+    public ResultBox attack(Cards[][] gameboard)
     {
         // Création de la liste pour stocker toutes les positions modifiées ce tour-ci
         ArrayList<Location> impactedLocations = new ArrayList<>();
@@ -158,7 +133,7 @@ public class Player {
                     }
                     if(gameboard[1][i].isAnimal())
                     {
-                        if(gameboard[1][i].getFirstPowerAnimal() == PowerEnum.PUANT || gameboard[1][i].getLastPowerAnimal() == PowerEnum.PUANT)
+                        if(gameboard[1][i].getFirstPowerAnimal() == PowerEnum.STINKY || gameboard[1][i].getLastPowerAnimal() == PowerEnum.STINKY)
                         {
                             m_turnAttack--;
                             degats--;
@@ -174,7 +149,7 @@ public class Player {
                         impactedLocations.add(new Location(1, i, degats));
                         gameboard[2][i].takeDamage(degats);
 
-                        if(gameboard[2][i].getFirstPowerAnimal() == PowerEnum.CONTACT_MORTEL || gameboard[2][i].getLastPowerAnimal() == PowerEnum.CONTACT_MORTEL)
+                        if(gameboard[2][i].getFirstPowerAnimal() == PowerEnum.DEATH_TOUCH || gameboard[2][i].getLastPowerAnimal() == PowerEnum.DEATH_TOUCH)
                         {
                             impactedLocations.add(new Location(1, i, 999));
                             gameboard[2][i].takeDamage(999);
@@ -182,7 +157,7 @@ public class Player {
 
                         if(gameboard[1][i] != null && gameboard[1][i].isAnimal())
                         {
-                            if(gameboard[1][i].getFirstPowerAnimal() == PowerEnum.PIQUES_POINTUES || gameboard[1][i].getLastPowerAnimal() == PowerEnum.PIQUES_POINTUES)
+                            if(gameboard[1][i].getFirstPowerAnimal() == PowerEnum.SHARP_SPIKES || gameboard[1][i].getLastPowerAnimal() == PowerEnum.SHARP_SPIKES)
                             {
                                 gameboard[2][i].takeDamage(1);
                                 impactedLocations.add(new Location(2, i, 1));
@@ -202,11 +177,6 @@ public class Player {
                         }
                     }
                 }
-                if(gameboard[2][i] != null && gameboard[2][i].isAnimal() && (gameboard[2][i].getFirstPowerAnimal() == PowerEnum.CROISSANCE || gameboard[2][i].getLastPowerAnimal() == PowerEnum.CROISSANCE))
-                {
-                    gameboard[2][i] = new Loup();
-                    impactedLocations.add(new Location(2, i, new Loup()));
-                }
             }
         }
 
@@ -220,7 +190,7 @@ public class Player {
 
             if(gameboard[2][j] != null && gameboard[2][j].isAnimal())
             {
-                if(gameboard[2][j].getFirstPowerAnimal() == PowerEnum.COUREUR || gameboard[2][j].getLastPowerAnimal() == PowerEnum.COUREUR)
+                if(gameboard[2][j].getFirstPowerAnimal() == PowerEnum.RUNNER || gameboard[2][j].getLastPowerAnimal() == PowerEnum.RUNNER)
                 {
                     if(j < 3 && gameboard[2][j+1] == null)
                     {
@@ -245,7 +215,19 @@ public class Player {
             }
         }
 
-        return new AttackResult(score, impactedLocations);
+        //Vérif si les survivants de l'attaque doivent se transformer en Loup
+        for(int k = 0; k < 4; k++)
+        {
+            if(gameboard[1][k] != null && gameboard[1][k].isAnimal() && (gameboard[1][k].getFirstPowerAnimal() == PowerEnum.GROW || gameboard[1][k].getLastPowerAnimal() == PowerEnum.GROW))
+            {
+                Wolf newWolf = new Wolf();
+                gameboard[1][k] = newWolf;
+                impactedLocations.add(new Location(1, k, newWolf));
+            }
+        }
+
+
+        return new ResultBox(score, impactedLocations);
     }
 
     public Cards removeCard(int indHand) {return m_hand.remove(indHand);}

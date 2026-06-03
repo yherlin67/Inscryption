@@ -57,7 +57,7 @@ class PlayerTest {
     void ManageDrawTest() {
         Player player = new Player();
 
-        Loup loupTest = new Loup();
+        Wolf loupTest = new Wolf();
         player.addInDraw(loupTest);
 
         assertEquals(1, player.getDrawSize());

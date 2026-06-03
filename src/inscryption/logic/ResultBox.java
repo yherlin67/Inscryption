@@ -1,13 +1,13 @@
-package inscryption;
+package inscryption.logic;
 
 import java.util.ArrayList;
 
-public class AttackResult {
+public class ResultBox {
 
     public int m_score;
     private ArrayList<Location> m_locs;
 
-    public AttackResult(int score, ArrayList<Location> locs)
+    public ResultBox(int score, ArrayList<Location> locs)
     {
         this.m_score = score;
         this.m_locs = locs;

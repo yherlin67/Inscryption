@@ -1,6 +1,6 @@
 package inscryption.cartes;
 
-import inscryption.GameManager;
+import inscryption.logic.GameManager;
 import inscryption.players.Opponent;
 import inscryption.players.Player;
 import inscryption.cards.*;
@@ -26,14 +26,14 @@ class OpponentTest {
         GameManager gm = new GameManager(player, opponent);
 
         ArrayList<Cards> col0 = new ArrayList<>();
-        col0.add(new Loup());
-        col0.add(new Ecureuil());
+        col0.add(new Wolf());
+        col0.add(new Squirrel());
         ArrayList<Cards> col1 = new ArrayList<>();
-        col1.add(new Loup());
+        col1.add(new Wolf());
         ArrayList<Cards> col2 = new ArrayList<>();
-        col2.add(new Loup());
+        col2.add(new Wolf());
         ArrayList<Cards> col3 = new ArrayList<>();
-        col3.add(new Loup());
+        col3.add(new Wolf());
 
         opponent.setMatch(col0, col1, col2, col3);
 
@@ -49,10 +49,10 @@ class OpponentTest {
         Opponent opponent = new Opponent();
         GameManager gm = new GameManager(player, opponent);
 
-        ArrayList<Cards> col0 = new ArrayList<>(); col0.add(new Loup()); col0.add(new Ecureuil());
-        ArrayList<Cards> col1 = new ArrayList<>(); col1.add(new Loup());
-        ArrayList<Cards> col2 = new ArrayList<>(); col2.add(new Loup());
-        ArrayList<Cards> col3 = new ArrayList<>(); col3.add(new Loup());
+        ArrayList<Cards> col0 = new ArrayList<>(); col0.add(new Wolf()); col0.add(new Squirrel());
+        ArrayList<Cards> col1 = new ArrayList<>(); col1.add(new Wolf());
+        ArrayList<Cards> col2 = new ArrayList<>(); col2.add(new Wolf());
+        ArrayList<Cards> col3 = new ArrayList<>(); col3.add(new Wolf());
 
         opponent.setMatch(col0, col1, col2, col3);
 
@@ -72,7 +72,7 @@ class OpponentTest {
         Opponent opponent = new Opponent();
         GameManager gm = new GameManager(player, opponent);
 
-        gm.setCard(new Loup(), 1, 0);
+        gm.setCard(new Wolf(), 1, 0);
 
         opponent.attack();
 
@@ -86,10 +86,10 @@ class OpponentTest {
         Opponent opponent = new Opponent();
         GameManager gm = new GameManager(player, opponent);
 
-        Loup loupopponent = new Loup();
+        Wolf loupopponent = new Wolf();
         gm.setCard(loupopponent, 1, 0);
 
-        Loup loupJoueur = new Loup();
+        Wolf loupJoueur = new Wolf();
         gm.setCard(loupJoueur, 2, 0);
 
         opponent.attack();
