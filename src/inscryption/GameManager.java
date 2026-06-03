@@ -53,41 +53,61 @@ public class GameManager {
                 return;
             }
 
-            //------- Attaque du player -------
-            Cards[][] gamebordCopy = new Cards[m_gameboard.length][m_gameboard[0].length];
+            //Play opponent
+            Cards[][] gamebordCopyPlay = new Cards[m_gameboard.length][m_gameboard[0].length];
             for (int i = 0; i < m_gameboard.length; i++) {
                 for (int j = 0; j < m_gameboard[i].length; j++) {
-                    if (m_gameboard[i][j] != null) {
-                        gamebordCopy[i][j] = m_gameboard[i][j].clone();
-                    } else {
-                        gamebordCopy[i][j] = null;
-                    }
+                    gamebordCopyPlay[i][j] = (m_gameboard[i][j] != null) ? m_gameboard[i][j].clone() : null;
                 }
             }
-            AttackResult result = m_player.attack(gamebordCopy);
 
-            this.m_score += result.getScore();
+            AttackResult playResult = m_opponent.play(gamebordCopyPlay);
 
-            for (Location loc : result.getImpactedLocations()) {
+            for (Location loc : playResult.getImpactedLocations()) {
+                int x = loc.getX();
+                int y = loc.getY();
+
+                if (!loc.isDamageAction()) {
+                    this.m_gameboard[x][y] = (loc.getCard() != null) ? loc.getCard().clone() : null;
+                }
+            }
+
+            //Attaque player
+            Cards[][] gamebordCopyPlayer = new Cards[m_gameboard.length][m_gameboard[0].length];
+            for (int i = 0; i < m_gameboard.length; i++) {
+                for (int j = 0; j < m_gameboard[i].length; j++) {
+                    gamebordCopyPlayer[i][j] = (m_gameboard[i][j] != null) ? m_gameboard[i][j].clone() : null;
+                }
+            }
+
+            AttackResult resultPlayer = m_player.attack(gamebordCopyPlayer);
+            this.m_score += resultPlayer.getScore();
+
+            for (Location loc : resultPlayer.getImpactedLocations()) {
                 int x = loc.getX();
                 int y = loc.getY();
 
                 if (loc.isDamageAction()) {
                     if (this.m_gameboard[x][y] != null) {
                         this.m_gameboard[x][y].takeDamage(loc.getDamage());
+                        if (this.m_gameboard[x][y].getHealthPoints() <= 0) {
+                            this.m_gameboard[x][y] = null;
+                        }
                     }
-                }
-                else {
-                    this.m_gameboard[x][y] = loc.getCard();
+                } else {
+                    this.m_gameboard[x][y] = (loc.getCard() != null) ? loc.getCard().clone() : null;
                 }
             }
-            //------- Attaque de l'opponent -------
+
+            //Attaque opponent
             Cards[][] gamebordCopyOpponent = new Cards[m_gameboard.length][m_gameboard[0].length];
             for (int i = 0; i < m_gameboard.length; i++) {
-                System.arraycopy(m_gameboard[i], 0, gamebordCopyOpponent[i], 0, m_gameboard[i].length);
+                for (int j = 0; j < m_gameboard[i].length; j++) {
+                    gamebordCopyOpponent[i][j] = (m_gameboard[i][j] != null) ? m_gameboard[i][j].clone() : null;
+                }
             }
-            AttackResult resultOpponent = m_opponent.attack(gamebordCopyOpponent);
 
+            AttackResult resultOpponent = m_opponent.attack(gamebordCopyOpponent);
             this.m_score += resultOpponent.getScore();
 
             for (Location loc : resultOpponent.getImpactedLocations()) {
@@ -97,14 +117,16 @@ public class GameManager {
                 if (loc.isDamageAction()) {
                     if (this.m_gameboard[x][y] != null) {
                         this.m_gameboard[x][y].takeDamage(loc.getDamage());
+                        if (this.m_gameboard[x][y].getHealthPoints() <= 0) {
+                            this.m_gameboard[x][y] = null;
+                        }
                     }
-                }
-                else {
-                    this.m_gameboard[x][y] = loc.getCard();
+                } else {
+                    this.m_gameboard[x][y] = (loc.getCard() != null) ? loc.getCard().clone() : null;
                 }
             }
 
-            m_opponent.play(m_gameboard);
+
             m_canDraw = true;
             m_opponent.attack(m_gameboard);
             nextTurn();

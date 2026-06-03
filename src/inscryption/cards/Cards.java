@@ -5,7 +5,7 @@ import inscryption.PowerEnum;
 public abstract class Cards {
     private String m_name;
     private int m_health_points;
-    private AnimalsCards m_animals;
+    // On a supprimé 'private AnimalsCards m_animals;' !
 
     public Cards(String nom, int pdv)
     {
@@ -16,10 +16,11 @@ public abstract class Cards {
     protected Cards(Cards target) {
         if (target != null) {
             this.m_health_points = target.m_health_points;
+            this.m_name = target.m_name;
         }
     }
 
-    // 2. Méthode abstraite pour forcer les enfants à se cloner
+    // Méthode abstraite pour forcer les enfants à se cloner
     public abstract Cards clone();
 
     public String getName() {
@@ -36,23 +37,40 @@ public abstract class Cards {
 
     public abstract boolean isAnimal();
 
+    // --- On utilise le casting (instanceof) sur "this" au lieu d'une variable vide ---
+
     public int getAnimalAttack() {
-        return m_animals != null ? m_animals.getAttack() : 0;
+        if (this instanceof AnimalsCards) {
+            return ((AnimalsCards) this).getAttack();
+        }
+        return 0;
     }
 
     public boolean getAnimalFly() {
-        return m_animals != null && m_animals.isFlying();
+        if (this instanceof AnimalsCards) {
+            return ((AnimalsCards) this).isFlying();
+        }
+        return false;
     }
 
     public int getPowerSizeAnimal() {
-        return m_animals != null ? m_animals.getPowerSizeAnimal() : 0;
+        if (this instanceof AnimalsCards) {
+            return ((AnimalsCards) this).getPowerSizeAnimal();
+        }
+        return 0;
     }
 
     public PowerEnum getFirstPowerAnimal() {
-        return m_animals != null ? m_animals.getFirstPower() : PowerEnum.AUCUN;
+        if (this instanceof AnimalsCards) {
+            return ((AnimalsCards) this).getFirstPower();
+        }
+        return PowerEnum.AUCUN;
     }
 
     public PowerEnum getLastPowerAnimal() {
-        return m_animals != null ? m_animals.getLastPower() : PowerEnum.AUCUN;
+        if (this instanceof AnimalsCards) {
+            return ((AnimalsCards) this).getLastPower();
+        }
+        return PowerEnum.AUCUN;
     }
 }
