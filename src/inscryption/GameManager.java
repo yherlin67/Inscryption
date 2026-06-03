@@ -20,8 +20,8 @@ public class GameManager {
     private String m_message;
     private final Random m_random;
     private final DisplayBoard m_display;
-
     private final Cards[][] m_gameboard;
+    private ArrayList<Cards> m_sacrifices;
 
     public GameManager(Player player, Opponent opponent)
     {
@@ -40,6 +40,10 @@ public class GameManager {
         m_message = "";
         m_player.setGamecards();
         m_random = new Random();
+        m_sacrifices = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            m_sacrifices.add(null);
+        }
     }
 
     public void manageAction(Scanner sc)
@@ -211,6 +215,9 @@ public class GameManager {
                     StringBuilder enCours = new StringBuilder();
                     ArrayList<Integer> aSupprimer = new ArrayList<>();
                     int blood = 0;
+                    for (int i = 0; i < 4; i++) {
+                        m_sacrifices.set(i, null);
+                    }
 
                     while(!action.equals("valider sacrifice"))
                     {
@@ -240,6 +247,7 @@ public class GameManager {
                                         enCours.append(m_gameboard[2][idxSacrifice].getName()).append(" ");
                                         if(m_gameboard[2][idxSacrifice].getFirstPowerAnimal() != PowerEnum.NOMBREUSES_VIES || m_gameboard[2][idxSacrifice].getLastPowerAnimal() != PowerEnum.NOMBREUSES_VIES)
                                         {
+                                            m_sacrifices.set(idxSacrifice, m_gameboard[2][idxSacrifice]);
                                             aSupprimer.add(idxSacrifice);
                                         }
                                         blood += 1;
@@ -280,6 +288,13 @@ public class GameManager {
                         setMessage("Vous placer la carte.");
                         return;
                     } else {
+                        for(int i=0; i<4; i++)
+                        {
+                            if(m_gameboard[2][i] == null)
+                            {
+                                m_gameboard[2][i] = m_sacrifices.get(i);
+                            }
+                        }
                         setMessage("Placement impossible ! La case ciblée est encore occupée.");
                         return;
                     }
@@ -318,6 +333,9 @@ public class GameManager {
                     StringBuilder enCours = new StringBuilder();
                     ArrayList<Integer> aSupprimer = new ArrayList<>();
                     int blood = 0;
+                    for (int i = 0; i < 4; i++) {
+                        m_sacrifices.set(i, null);
+                    }
 
                     while(!action.equals("valider sacrifice"))
                     {
@@ -347,6 +365,7 @@ public class GameManager {
                                         enCours.append(m_gameboard[2][idxSacrifice].getName()).append(" ");
                                         if(m_gameboard[2][idxSacrifice].getFirstPowerAnimal() != PowerEnum.NOMBREUSES_VIES || m_gameboard[2][idxSacrifice].getLastPowerAnimal() != PowerEnum.NOMBREUSES_VIES)
                                         {
+                                            m_sacrifices.set(idxSacrifice, m_gameboard[2][idxSacrifice]);
                                             aSupprimer.add(idxSacrifice);
                                         }
                                         blood += 1;
@@ -387,6 +406,13 @@ public class GameManager {
                         placeCard(indHand, indBoard);
                         return;
                     } else {
+                        for(int i=0; i<4; i++)
+                        {
+                            if(m_gameboard[2][i] == null)
+                            {
+                                m_gameboard[2][i] = m_sacrifices.get(i);
+                            }
+                        }
                         setMessage("Placement impossible ! La case ciblée est encore occupée.");
                         return;
                     }
