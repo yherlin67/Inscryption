@@ -12,16 +12,16 @@ class Main {
 
 package inscryption
 {
-        package logic {
-
         class DisplayBoard {
-            - m_actual_turn : Integer
-            + displayGameBoard()
-            + displayCards()
-            + displayRows() : String
-            + print(chaine : String)
-            + toString() : String
-        }
+                    - m_actual_turn : Integer
+                    + displayGameBoard()
+                    + displayCards()
+                    + displayRows() : String
+                    + print(chaine : String)
+                    + toString() : String
+                }
+
+        package logic {
 
         class GameManager {
             -m_score : Integer

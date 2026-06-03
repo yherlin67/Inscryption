@@ -234,7 +234,6 @@ public class Player {
             }
         }
 
-
         return new ResultBox(score, impactedLocations);
     }
 

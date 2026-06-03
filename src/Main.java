@@ -31,7 +31,7 @@ public class Main
             }
             if(nbParties == 1)
             {
-                actions0 = new ArrayList<>(Arrays.asList(new Cub_scout(), new Sparrow(), null, null));
+                actions0 = new ArrayList<>(Arrays.asList(new Cub_scout(), null, null, null));
                 actions1 = new ArrayList<>(Arrays.asList(null, null, new Sparrow(), null));
                 actions2 = new ArrayList<>(Arrays.asList(new Bug(), null, null, new Bug()));
                 actions3 = new ArrayList<>(Arrays.asList(null, null, new Cub_scout(), null));

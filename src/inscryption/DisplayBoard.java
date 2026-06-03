@@ -1,6 +1,7 @@
-package inscryption.logic;
+package inscryption;
 
 import inscryption.cards.*;
+import inscryption.logic.PowerEnum;
 import inscryption.players.*;
 
 public class DisplayBoard {

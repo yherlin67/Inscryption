@@ -1,5 +1,6 @@
 package inscryption.logic;
 
+import inscryption.DisplayBoard;
 import inscryption.cards.*;
 import inscryption.players.*;
 
@@ -57,10 +58,10 @@ public class GameManager {
                 return;
             }
 
-            //Play opponent
-            opponentPlay();
             //Attaque player
             playerAttack();
+            //Play opponent
+            opponentPlay();
             //Attaque opponent
             opponentAttack();
 
