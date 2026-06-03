@@ -1,6 +1,8 @@
 package inscryption.players;
 
+import inscryption.AttackResult;
 import inscryption.GameManager;
+import inscryption.Location;
 import inscryption.PowerEnum;
 import inscryption.cards.*;
 
@@ -42,32 +44,45 @@ public class Opponent {
         m_actions[2] = actions2;
     }
 
-    public void play(Cards[][] gameboard)
+    public AttackResult play(Cards[][] gameboard)
     {
-        for(int i=0; i<4; i++)
+        // Notre liste d'impacts pour le GameManager
+        ArrayList<Location> impactedLocations = new ArrayList<>();
+
+        for(int i=0; i<3; i++)
         {
-            if(gameboard[1][i] == null)
+            if(gameboard[1][i] == null && gameboard[0][i] != null)
             {
+                impactedLocations.add(new Location(1, i, gameboard[0][i])); // La carte arrive en ligne 1
+                impactedLocations.add(new Location(0, i, (Cards) null));    // La ligne 0 devient vide
+
                 gameboard[1][i] = gameboard[0][i];
                 gameboard[0][i] = null;
             }
+
             if (gameboard[0][i] == null && !m_actions[i].isEmpty())
             {
-                gameboard[0][i] = m_actions[i].getFirst();
-                m_actions[i].removeFirst();
+                Cards nouvelleCarte = m_actions[i].getFirst();
+             //   m_actions[i].removeFirst();
+
+                impactedLocations.add(new Location(0, i, nouvelleCarte));
+
+                gameboard[0][i] = nouvelleCarte;
             }
         }
+        return new AttackResult(0, impactedLocations);
     }
 
     public int getTurnAttack(){
         return m_turnAttack;
     }
 
-    public int attack(Cards[][] gameboard)
+    public AttackResult attack(Cards[][] gameboard)
     {
-        //Renvoie le score à ajouter à celui existant dans le gameManager
+        ArrayList<Location> impactedLocations = new ArrayList<>();
         int score = 0;
         m_turnAttack = 0;
+
         for(int i=0; i<4; i++)
         {
             if(gameboard[1][i] != null)
@@ -102,10 +117,12 @@ public class Opponent {
                     }
                     else if(gameboard[1][i].isAnimal() && !gameboard[1][i].getAnimalFly())
                     {
+                        impactedLocations.add(new Location(2, i, degats));
                         gameboard[2][i].takeDamage(degats);
 
                         if(gameboard[1][i].getFirstPowerAnimal() == PowerEnum.CONTACT_MORTEL || gameboard[1][i].getLastPowerAnimal() == PowerEnum.CONTACT_MORTEL)
                         {
+                            impactedLocations.add(new Location(2, i, 999));
                             gameboard[2][i].takeDamage(999);
                         }
 
@@ -113,10 +130,12 @@ public class Opponent {
                         {
                             if(gameboard[2][i].getFirstPowerAnimal() == PowerEnum.PIQUES_POINTUES || gameboard[2][i].getLastPowerAnimal() == PowerEnum.PIQUES_POINTUES)
                             {
+                                impactedLocations.add(new Location(1, i, 1));
                                 gameboard[1][i].takeDamage(1);
 
                                 if(gameboard[1][i].getHealthPoints() <= 0)
                                 {
+                                    impactedLocations.add(new Location(1, i, (Cards) null));
                                     gameboard[1][i] = null;
                                 }
                             }
@@ -124,6 +143,7 @@ public class Opponent {
 
                         if(gameboard[2][i] != null && gameboard[2][i].getHealthPoints() <= 0)
                         {
+                            impactedLocations.add(new Location(2, i, (Cards) null));
                             gameboard[2][i] = null;
                         }
                     }
@@ -131,7 +151,9 @@ public class Opponent {
 
                 if(gameboard[1][i] != null && gameboard[1][i].isAnimal() && (gameboard[1][i].getFirstPowerAnimal() == PowerEnum.CROISSANCE || gameboard[1][i].getLastPowerAnimal() == PowerEnum.CROISSANCE))
                 {
-                    gameboard[1][i] = new Loup();
+                    Loup nouveauLoup = new Loup();
+                    impactedLocations.add(new Location(1, i, nouveauLoup));
+                    gameboard[1][i] = nouveauLoup;
                 }
             }
         }
@@ -150,12 +172,18 @@ public class Opponent {
                 {
                     if(j < 3 && gameboard[1][j+1] == null)
                     {
+                        impactedLocations.add(new Location(1, j, (Cards) null));
+                        impactedLocations.add(new Location(1, j+1, gameboard[1][j]));
+
                         gameboard[1][j+1] = gameboard[1][j];
                         gameboard[1][j] = null;
                         indicesBloques.add(j+1);
                     }
                     else if(j > 0 && gameboard[1][j-1] == null)
                     {
+                        impactedLocations.add(new Location(1, j, (Cards) null));
+                        impactedLocations.add(new Location(1, j-1, gameboard[1][j]));
+
                         gameboard[1][j-1] = gameboard[1][j];
                         gameboard[1][j] = null;
                     }
@@ -163,7 +191,7 @@ public class Opponent {
             }
         }
 
-        return score;
+        return new AttackResult(score, impactedLocations);
     }
 
     @Override

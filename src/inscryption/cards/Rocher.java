@@ -10,4 +10,7 @@ public class Rocher extends Cards {
     }
 
     public boolean isAnimal() {return false;}
+
+    public Rocher(Rocher target) { super(target); }
+    @Override public Rocher clone() { return new Rocher(this); }
 }

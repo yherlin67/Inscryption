@@ -14,4 +14,7 @@ public class Coyote extends AnimalsCards {
         return "Coyote("+this.getName()+")";
     }
 
+    public Coyote(Coyote target) { super(target); }
+    @Override public Coyote clone() { return new Coyote(this); }
+
 }

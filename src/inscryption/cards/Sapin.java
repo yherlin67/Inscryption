@@ -10,4 +10,7 @@ public class Sapin extends Cards {
     }
 
     public boolean isAnimal() {return false;}
+
+    public Sapin(Sapin target) { super(target); }
+    @Override public Sapin clone() { return new Sapin(this); }
 }

@@ -3,7 +3,7 @@ package inscryption.cards;
 import inscryption.PowerEnum;
 
 public abstract class Cards {
-    private final String m_name;
+    private String m_name;
     private int m_health_points;
     private AnimalsCards m_animals;
 
@@ -12,6 +12,15 @@ public abstract class Cards {
         m_name = nom;
         m_health_points = pdv;
     }
+
+    protected Cards(Cards target) {
+        if (target != null) {
+            this.m_health_points = target.m_health_points;
+        }
+    }
+
+    // 2. Méthode abstraite pour forcer les enfants à se cloner
+    public abstract Cards clone();
 
     public String getName() {
         return m_name;

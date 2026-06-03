@@ -1,8 +1,5 @@
 import inscryption.*;
-import inscryption.cards.Cards;
-import inscryption.cards.Louveteau;
-import inscryption.cards.Moineau;
-import inscryption.cards.Punaise;
+import inscryption.cards.*;
 import inscryption.players.Opponent;
 import inscryption.players.Player;
 
@@ -19,10 +16,10 @@ public class Main
         boolean continueGame = true;
         Scanner sc = new Scanner(System.in);
 
-        ArrayList<Cards> actions0;
-        ArrayList<Cards> actions1;
-        ArrayList<Cards> actions2;
-        ArrayList<Cards> actions3;
+        ArrayList<AnimalsCards> actions0;
+        ArrayList<AnimalsCards> actions1;
+        ArrayList<AnimalsCards> actions2;
+        ArrayList<AnimalsCards> actions3;
         Player player = new Player();
         Opponent opponent = new Opponent();
         while(nbParties <= 3 && continueGame)

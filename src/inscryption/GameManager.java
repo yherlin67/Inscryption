@@ -56,7 +56,13 @@ public class GameManager {
             //------- Attaque du player -------
             Cards[][] gamebordCopy = new Cards[m_gameboard.length][m_gameboard[0].length];
             for (int i = 0; i < m_gameboard.length; i++) {
-                System.arraycopy(m_gameboard[i], 0, gamebordCopy[i], 0, m_gameboard[i].length);
+                for (int j = 0; j < m_gameboard[i].length; j++) {
+                    if (m_gameboard[i][j] != null) {
+                        gamebordCopy[i][j] = m_gameboard[i][j].clone();
+                    } else {
+                        gamebordCopy[i][j] = null;
+                    }
+                }
             }
             AttackResult result = m_player.attack(gamebordCopy);
 
@@ -75,7 +81,28 @@ public class GameManager {
                     this.m_gameboard[x][y] = loc.getCard();
                 }
             }
-            //------Attaque de l'opponent---------
+            //------- Attaque de l'opponent -------
+            Cards[][] gamebordCopyOpponent = new Cards[m_gameboard.length][m_gameboard[0].length];
+            for (int i = 0; i < m_gameboard.length; i++) {
+                System.arraycopy(m_gameboard[i], 0, gamebordCopyOpponent[i], 0, m_gameboard[i].length);
+            }
+            AttackResult resultOpponent = m_opponent.attack(gamebordCopyOpponent);
+
+            this.m_score += resultOpponent.getScore();
+
+            for (Location loc : resultOpponent.getImpactedLocations()) {
+                int x = loc.getX();
+                int y = loc.getY();
+
+                if (loc.isDamageAction()) {
+                    if (this.m_gameboard[x][y] != null) {
+                        this.m_gameboard[x][y].takeDamage(loc.getDamage());
+                    }
+                }
+                else {
+                    this.m_gameboard[x][y] = loc.getCard();
+                }
+            }
 
             m_opponent.play(m_gameboard);
             m_canDraw = true;
@@ -421,13 +448,7 @@ public class GameManager {
     }
 
     public void showBoard() {
-        Cards[][] gamebordCopy = new Cards[m_gameboard.length][m_gameboard[0].length];
-        for (int i = 0; i < m_gameboard.length; i++) {
-            System.arraycopy(m_gameboard[i], 0, gamebordCopy[i], 0, m_gameboard[i].length);
-        }
-        Player playerCopy = new Player(m_player);
-        Opponent opponentCopy = new Opponent(m_opponent);
-        m_display.displayGameboard(m_message, playerCopy, opponentCopy, gamebordCopy, m_game, m_turn, m_score);
+        m_display.displayGameboard(m_message, m_player,m_opponent, m_gameboard, m_game, m_turn, m_score);
     }
 
     public void cardTakeDamage(int i, int j, int degats) {m_gameboard[i][j].takeDamage(degats);}

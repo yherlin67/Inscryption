@@ -14,4 +14,7 @@ public class Vipere extends AnimalsCards {
     public String toString(){
         return "Vipere("+this.getName()+")";
     }
+
+    public Vipere(Vipere target) { super(target); }
+    @Override public Vipere clone() { return new Vipere(this); }
 }

@@ -12,4 +12,7 @@ public class Porc_epic extends AnimalsCards {
     public String toString(){
         return "Porc_epic("+this.getName()+")";
     }
+
+    public Porc_epic(Porc_epic target) { super(target); }
+    @Override public Porc_epic clone() { return new Porc_epic(this); }
 }

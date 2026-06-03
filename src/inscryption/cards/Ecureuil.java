@@ -13,4 +13,7 @@ public class Ecureuil extends AnimalsCards {
     public String toString(){
         return "Ecureuil("+this.getName()+")";
     }
+
+    public Ecureuil(Ecureuil target) { super(target); }
+    @Override public Ecureuil clone() { return new Ecureuil(this); }
 }

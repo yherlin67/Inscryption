@@ -184,8 +184,8 @@ public class Player {
                         {
                             if(gameboard[1][i].getFirstPowerAnimal() == PowerEnum.PIQUES_POINTUES || gameboard[1][i].getLastPowerAnimal() == PowerEnum.PIQUES_POINTUES)
                             {
-                                gameboard[2][i].takeDamage(999);
-                                impactedLocations.add(new Location(2, i, 999));
+                                gameboard[2][i].takeDamage(1);
+                                impactedLocations.add(new Location(2, i, 1));
 
                                 if(gameboard[2][i].getHealthPoints() <= 0)
                                 {

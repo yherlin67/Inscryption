@@ -13,4 +13,7 @@ public class Hermine extends AnimalsCards {
     public String toString(){
         return "Hermine("+this.getName()+")";
     }
+
+    public Hermine(Hermine target) { super(target); }
+    @Override public Hermine clone() { return new Hermine(this); }
 }

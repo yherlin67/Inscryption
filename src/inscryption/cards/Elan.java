@@ -12,4 +12,7 @@ public class Elan extends AnimalsCards {
     public String toString(){
         return "Elan("+this.getName()+")";
     }
+
+    public Elan(Elan target) { super(target); }
+    @Override public Elan clone() { return new Elan(this); }
 }

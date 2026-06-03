@@ -13,4 +13,7 @@ public class Corbeau extends AnimalsCards {
     public String toString(){
         return "Corbeau("+this.getName()+")";
     }
+
+    public Corbeau(Corbeau target) { super(target); }
+    @Override public Corbeau clone() { return new Corbeau(this); }
 }

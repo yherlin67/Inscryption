@@ -13,4 +13,7 @@ public Moineau() { super("Moineau", 1, 2, 1, 0, true, new ArrayList<>(List.of(Po
     public String toString(){
         return "Moineau("+this.getName()+")";
     }
+
+    public Moineau(Moineau target) { super(target); }
+    @Override public Moineau clone() { return new Moineau(this); }
 }

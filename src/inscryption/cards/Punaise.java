@@ -12,4 +12,7 @@ public class Punaise extends AnimalsCards {
     public String toString(){
         return "Punaise("+this.getName()+")";
     }
+
+    public Punaise(Punaise target) { super(target); }
+    @Override public Punaise clone() { return new Punaise(this); }
 }

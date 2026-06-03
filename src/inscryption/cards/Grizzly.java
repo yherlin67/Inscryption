@@ -13,4 +13,7 @@ public class Grizzly extends AnimalsCards {
     public String toString(){
         return "Grizzly("+this.getName()+")";
     }
+
+    public Grizzly(Grizzly target) { super(target); }
+    @Override public Grizzly clone() { return new Grizzly(this); }
 }

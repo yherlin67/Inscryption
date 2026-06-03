@@ -13,4 +13,7 @@ public class Louveteau extends AnimalsCards {
     public String toString(){
         return "Louveteau("+this.getName()+")";
     }
+
+    public Louveteau(Louveteau target) { super(target); }
+    @Override public Louveteau clone() { return new Louveteau(this); }
 }

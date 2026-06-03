@@ -13,4 +13,7 @@ public class Chat extends AnimalsCards {
     public String toString(){
         return "Chat("+this.getName()+")";
     }
+
+    public Chat(Chat target) { super(target); }
+    @Override public Chat clone() { return new Chat(this); }
 }

@@ -12,4 +12,14 @@ public class Loup extends AnimalsCards {
     public String toString(){
         return "Loup("+this.getName()+")";
     }
+
+    public Loup(Loup target) {
+        super(target);
+    }
+
+    // L'implémentation finale du clone !
+    @Override
+    public Loup clone() {
+        return new Loup(this); // "this" représente le Loup actuel à cloner
+    }
 }
