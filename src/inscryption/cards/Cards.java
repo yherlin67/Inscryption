@@ -5,7 +5,6 @@ import inscryption.PowerEnum;
 public abstract class Cards {
     private String m_name;
     private int m_health_points;
-    // On a supprimé 'private AnimalsCards m_animals;' !
 
     public Cards(String nom, int pdv)
     {
@@ -20,7 +19,6 @@ public abstract class Cards {
         }
     }
 
-    // Méthode abstraite pour forcer les enfants à se cloner
     public abstract Cards clone();
 
     public String getName() {
@@ -35,42 +33,27 @@ public abstract class Cards {
         this.m_health_points -= degats;
     }
 
-    public abstract boolean isAnimal();
-
-    // --- On utilise le casting (instanceof) sur "this" au lieu d'une variable vide ---
+    public boolean isAnimal() {
+        return false; // Par défaut, une carte n'est pas un animal
+    }
 
     public int getAnimalAttack() {
-        if (this instanceof AnimalsCards) {
-            return ((AnimalsCards) this).getAttack();
-        }
-        return 0;
+        return 0; // Par défaut, pas d'attaque
     }
 
     public boolean getAnimalFly() {
-        if (this instanceof AnimalsCards) {
-            return ((AnimalsCards) this).isFlying();
-        }
-        return false;
+        return false; // Par défaut, ne vole pas
     }
 
     public int getPowerSizeAnimal() {
-        if (this instanceof AnimalsCards) {
-            return ((AnimalsCards) this).getPowerSizeAnimal();
-        }
-        return 0;
+        return 0; // Par défaut, 0 pouvoir
     }
 
     public PowerEnum getFirstPowerAnimal() {
-        if (this instanceof AnimalsCards) {
-            return ((AnimalsCards) this).getFirstPower();
-        }
         return PowerEnum.AUCUN;
     }
 
     public PowerEnum getLastPowerAnimal() {
-        if (this instanceof AnimalsCards) {
-            return ((AnimalsCards) this).getLastPower();
-        }
         return PowerEnum.AUCUN;
     }
 }
