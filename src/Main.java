@@ -31,7 +31,7 @@ public class Main
             }
             if(nbParties == 1)
             {
-                actions0 = new ArrayList<>(Arrays.asList(new Louveteau(), new Moineau(), null, null));
+                actions0 = new ArrayList<>(Arrays.asList(new Elan(), new Punaise(), null, null));
                 actions1 = new ArrayList<>(Arrays.asList(null, null, new Moineau(), null));
                 actions2 = new ArrayList<>(Arrays.asList(new Punaise(), null, null, new Punaise()));
                 actions3 = new ArrayList<>(Arrays.asList(null, null, new Louveteau(), null));

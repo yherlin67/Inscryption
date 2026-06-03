@@ -278,14 +278,13 @@ public class GameManager {
                         return;
                     }
 
-                    for(int col : aSupprimer) {
-                        m_gameboard[2][col] = null;
-                        m_player.increaseBones();
-                    }
-
                     if(m_gameboard[2][indBoard] == null) {
                         placeCard(indHand, indBoard);
                         setMessage("Vous placer la carte.");
+                        for(int col : aSupprimer) {
+                            m_gameboard[2][col] = null;
+                            m_player.increaseBones();
+                        }
                         return;
                     } else {
                         for(int i=0; i<4; i++)
@@ -396,14 +395,13 @@ public class GameManager {
                         return;
                     }
 
-                    for(int col : aSupprimer) {
-                        m_gameboard[2][col] = null;
-                        m_player.increaseBones();
-                    }
-
                     if(m_gameboard[2][indBoard] == null) {
                         setMessage("Vous placer la carte");
                         placeCard(indHand, indBoard);
+                        for(int col : aSupprimer) {
+                            m_gameboard[2][col] = null;
+                            m_player.increaseBones();
+                        }
                         return;
                     } else {
                         for(int i=0; i<4; i++)

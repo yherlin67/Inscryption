@@ -141,6 +141,7 @@ public class Player {
         {
             if(gameboard[2][i] != null)
             {
+                // Cas 1 : La case en face est vide -> Dégâts directs au joueur adverse !
                 if(gameboard[1][i] == null)
                 {
                     if(gameboard[2][i].isAnimal())
@@ -149,35 +150,42 @@ public class Player {
                         m_turnAttack += gameboard[2][i].getAnimalAttack();
                     }
                 }
-                else
+                else // Il y a une carte sur la ligne ennemie
                 {
                     int degats = 0;
                     if(gameboard[2][i].isAnimal())
                     {
                         degats = gameboard[2][i].getAnimalAttack();
                     }
+
+                    // Gestion du pouvoir Puant sur la carte en face
                     if(gameboard[1][i].isAnimal())
                     {
                         if(gameboard[1][i].getFirstPowerAnimal() == PowerEnum.PUANT || gameboard[1][i].getLastPowerAnimal() == PowerEnum.PUANT)
                         {
-                            m_turnAttack--;
                             degats--;
                         }
                     }
+
+                    // Sécurité : les dégâts ne peuvent pas être négatifs
+                    if (degats < 0) degats = 0;
+
+                    // Cas 2 : Ta carte est volante -> Elle survole la carte ennemie et tape le joueur !
                     if(gameboard[2][i].isAnimal() && gameboard[2][i].getAnimalFly())
                     {
                         score += degats;
-                        m_turnAttack += gameboard[2][i].getAnimalAttack();
+                        m_turnAttack += degats; // On ajoute bien les dégâts calculés (qui prennent en compte Puant)
                     }
+                    // Cas 3 : Carte normale -> Combat de créatures (m_turnAttack ne bouge pas !)
                     else if(gameboard[2][i].isAnimal() && !gameboard[2][i].getAnimalFly())
                     {
                         impactedLocations.add(new Location(1, i, degats));
-                        gameboard[2][i].takeDamage(degats);
+                        gameboard[1][i].takeDamage(degats); // Attention, c'était gameboard[2][i] dans ton code, petit bug ici aussi !
 
                         if(gameboard[2][i].getFirstPowerAnimal() == PowerEnum.CONTACT_MORTEL || gameboard[2][i].getLastPowerAnimal() == PowerEnum.CONTACT_MORTEL)
                         {
                             impactedLocations.add(new Location(1, i, 999));
-                            gameboard[2][i].takeDamage(999);
+                            gameboard[1][i].takeDamage(999);
                         }
 
                         if(gameboard[1][i] != null && gameboard[1][i].isAnimal())
@@ -202,6 +210,7 @@ public class Player {
                         }
                     }
                 }
+
                 if(gameboard[2][i] != null && gameboard[2][i].isAnimal() && (gameboard[2][i].getFirstPowerAnimal() == PowerEnum.CROISSANCE || gameboard[2][i].getLastPowerAnimal() == PowerEnum.CROISSANCE))
                 {
                     gameboard[2][i] = new Loup();
