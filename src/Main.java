@@ -74,12 +74,10 @@ public class Main
         }
         if (continueGame)
         {
-            System.out.flush();
             System.out.println("Vous avez survécu ! Bravo !");
         }
         else
         {
-            System.out.flush();
             System.out.println("Retentez votre chance... La prochaine fois sera peut être la bonne.");
         }
     }

@@ -1,9 +1,7 @@
 package inscryption.cards;
 
 import inscryption.PowerEnum;
-
 import java.util.ArrayList;
-
 
 public abstract class AnimalsCards extends Cards {
 
@@ -23,9 +21,8 @@ public abstract class AnimalsCards extends Cards {
         m_powerEnum = powerEnum;
     }
 
-    // Constructeur de copie pour les attributs d'animaux
     protected AnimalsCards(AnimalsCards target) {
-        super(target); // Appelle la copie de Cards (les PV)
+        super(target);
         if (target != null) {
             this.m_attack = target.m_attack;
             this.m_powerEnum = target.m_powerEnum;
@@ -35,48 +32,48 @@ public abstract class AnimalsCards extends Cards {
         }
     }
 
-    public int getAttack() {
+    // --- OVERRIDES DU POLYMORPHISME ---
+    // Ces méthodes remplacent celles de Cards.java quand la carte est un animal !
+
+    @Override
+    public boolean isAnimal() {
+        return true;
+    }
+
+    @Override
+    public int getAnimalAttack() {
         return m_attack;
     }
 
-    public int getBlood() {
-        return m_blood;
-    }
-
-    public int getBone() {
-        return m_bone;
-    }
-
-    public boolean isFlying() {
+    @Override
+    public boolean getAnimalFly() {
         return m_flying;
     }
 
-    public PowerEnum getPowerAt(int index)
-    {
-        return m_powerEnum.get(index);
-    }
-
-    public void addPower(PowerEnum power)
-    {
-        m_powerEnum.add(power);
-    }
-
-    public PowerEnum getLastPower()
-    {
-        return m_powerEnum.getLast();
-    }
-
-    public PowerEnum getFirstPower()
-    {
-        return m_powerEnum.getFirst();
-    }
-
-    public int getPowerSizeAnimal()
-    {
+    @Override
+    public int getPowerSizeAnimal() {
         return m_powerEnum.size();
     }
 
-    public boolean isAnimal() {return true;}
+    @Override
+    public PowerEnum getFirstPowerAnimal() {
+        return m_powerEnum.getFirst();
+    }
 
+    @Override
+    public PowerEnum getLastPowerAnimal() {
+        return m_powerEnum.getLast();
+    }
 
+    // --- Tes autres méthodes spécifiques aux animaux ---
+    public int getBlood() { return m_blood; }
+    public int getBone() { return m_bone; }
+    public void addPower(PowerEnum power) { m_powerEnum.add(power); }
+
+    // Tu peux garder celles-ci si tu t'en sers ailleurs dans ton code
+    public int getAttack() { return m_attack; }
+    public boolean isFlying() { return m_flying; }
+    public PowerEnum getPowerAt(int index) { return m_powerEnum.get(index); }
+    public PowerEnum getLastPower() { return m_powerEnum.getLast(); }
+    public PowerEnum getFirstPower() { return m_powerEnum.getFirst(); }
 }

@@ -5,7 +5,6 @@ import inscryption.PowerEnum;
 public abstract class Cards {
     private String m_name;
     private int m_health_points;
-    private AnimalsCards m_animals;
 
     public Cards(String nom, int pdv)
     {
@@ -19,7 +18,6 @@ public abstract class Cards {
         }
     }
 
-    // 2. Méthode abstraite pour forcer les enfants à se cloner
     public abstract Cards clone();
 
     public String getName() {
@@ -34,25 +32,29 @@ public abstract class Cards {
         this.m_health_points -= degats;
     }
 
-    public abstract boolean isAnimal();
+    // --- COMPORTEMENT PAR DÉFAUT (Pour un rocher, un sapin, etc.) ---
+
+    public boolean isAnimal() {
+        return false; // Par défaut, une carte n'est pas un animal
+    }
 
     public int getAnimalAttack() {
-        return m_animals != null ? m_animals.getAttack() : 0;
+        return 0; // Par défaut, pas d'attaque
     }
 
     public boolean getAnimalFly() {
-        return m_animals != null && m_animals.isFlying();
+        return false; // Par défaut, ne vole pas
     }
 
     public int getPowerSizeAnimal() {
-        return m_animals != null ? m_animals.getPowerSizeAnimal() : 0;
+        return 0; // Par défaut, 0 pouvoir
     }
 
     public PowerEnum getFirstPowerAnimal() {
-        return m_animals != null ? m_animals.getFirstPower() : PowerEnum.AUCUN;
+        return PowerEnum.AUCUN;
     }
 
     public PowerEnum getLastPowerAnimal() {
-        return m_animals != null ? m_animals.getLastPower() : PowerEnum.AUCUN;
+        return PowerEnum.AUCUN;
     }
 }

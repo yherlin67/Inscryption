@@ -109,14 +109,15 @@ public class DisplayBoard {
 
     public String displayRow(String chaine, int rangee, String message, Player player, Opponent opponent, Cards[][] gameboard, int game, int turn, int score)
     {
-        int ligne = 1;
         StringBuilder chaineBuilder = new StringBuilder(chaine);
+
+        // i représente directement l'index de la ligne (de 0 à 8)
         for(int i = 0; i < 9; i++)
         {
-            switch(ligne)
+            switch(i) // On switch sur i directement (0 à 8)
             {
-                case 1:
-                case 9:
+                case 0: // Anciennement Ligne 1 (Bordure haute)
+                case 8: // Anciennement Ligne 9 (Bordure basse)
                     for(int l = 0; l < 4; l++)
                     {
                         if(gameboard[rangee][l] == null) {
@@ -125,16 +126,16 @@ public class DisplayBoard {
                             chaineBuilder.append(" *_____________* ");
                         }
                     }
-                    if(rangee == 1 && ligne == 1) {
+                    if(rangee == 1 && i == 0) {
                         chaineBuilder.append("      Partie n°").append(game).append("\n");
                     } else if(rangee == 1) {
                         chaineBuilder.append("      ").append(message).append("\n");
                     } else {
                         chaineBuilder.append("\n");
                     }
-                    ligne++;
                     break;
-                case 2:
+
+                case 1: // Anciennement Ligne 2 (Nom)
                     for(int l = 0; l < 4; l++)
                     {
                         if(gameboard[rangee][l] == null) {
@@ -151,9 +152,9 @@ public class DisplayBoard {
                     } else {
                         chaineBuilder.append("\n");
                     }
-                    ligne++;
                     break;
-                case 3:
+
+                case 2: // Anciennement Ligne 3 (Séparateur)
                     for(int l = 0; l < 4; l++)
                     {
                         if(gameboard[rangee][l] == null) {
@@ -167,9 +168,9 @@ public class DisplayBoard {
                     } else {
                         chaineBuilder.append("\n");
                     }
-                    ligne++;
                     break;
-                case 4:
+
+                case 3: // Anciennement Ligne 4 (PV)
                     for(int l = 0; l < 4; l++)
                     {
                         if(gameboard[rangee][l] == null) {
@@ -185,9 +186,9 @@ public class DisplayBoard {
                     } else {
                         chaineBuilder.append("\n");
                     }
-                    ligne++;
                     break;
-                case 5:
+
+                case 4: // Anciennement Ligne 5 (Attaque)
                     for(int l = 0; l < 4; l++)
                     {
                         if(gameboard[rangee][l] == null) {
@@ -199,9 +200,9 @@ public class DisplayBoard {
                         }
                     }
                     chaineBuilder.append("\n");
-                    ligne++;
                     break;
-                case 6:
+
+                case 5: // Anciennement Ligne 6 (Volant)
                     for(int l = 0; l < 4; l++)
                     {
                         if(gameboard[rangee][l] == null) {
@@ -217,9 +218,9 @@ public class DisplayBoard {
                     } else {
                         chaineBuilder.append("\n");
                     }
-                    ligne++;
                     break;
-                case 7:
+
+                case 6: // Anciennement Ligne 7 (Pouvoir 1)
                     for(int l = 0; l < 4; l++)
                     {
                         if(gameboard[rangee][l] == null) {
@@ -241,9 +242,9 @@ public class DisplayBoard {
                     } else {
                         chaineBuilder.append("\n");
                     }
-                    ligne++;
                     break;
-                case 8:
+
+                case 7: // Anciennement Ligne 8 (Pouvoir 2)
                     for(int l = 0; l < 4; l++)
                     {
                         if(gameboard[rangee][l] == null) {
@@ -258,7 +259,6 @@ public class DisplayBoard {
                         }
                     }
                     chaineBuilder.append("\n");
-                    ligne++;
                     break;
             }
         }
