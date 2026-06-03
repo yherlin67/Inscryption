@@ -271,7 +271,7 @@ public class Player {
 
     public String getCardNameInHand(int i){return m_hand.get(i).getName();}
 
-    public int getCardAttackInHand(int i){return m_hand.get(i).getAttack();}
+    public int getCardAttackInHand(int i){return m_hand.get(i).getAnimalAttack();}
 
     public int getCardHealthPointInHand(int i){return m_hand.get(i).getHealthPoints();}
 
@@ -281,7 +281,7 @@ public class Player {
 
     public String getCardFlyInHand(int i)
     {
-        if(m_hand.get(i).isFlying())
+        if(m_hand.get(i).getAnimalFly())
         {
             return "Oui";
         }
@@ -291,9 +291,9 @@ public class Player {
         }
     }
 
-    public PowerEnum getCardFirstPowerInHand(int i){return m_hand.get(i).getFirstPower();}
+    public PowerEnum getCardFirstPowerInHand(int i){return m_hand.get(i).getFirstPowerAnimal();}
 
-    public PowerEnum getCardLastPowerInHand(int i){return m_hand.get(i).getLastPower();}
+    public PowerEnum getCardLastPowerInHand(int i){return m_hand.get(i).getLastPowerAnimal();}
 
     @Override
     public String toString(){

@@ -32,9 +32,6 @@ public abstract class AnimalsCards extends Cards {
         }
     }
 
-    // --- OVERRIDES DU POLYMORPHISME ---
-    // Ces méthodes remplacent celles de Cards.java quand la carte est un animal !
-
     @Override
     public boolean isAnimal() {
         return true;
@@ -65,15 +62,7 @@ public abstract class AnimalsCards extends Cards {
         return m_powerEnum.getLast();
     }
 
-    // --- Tes autres méthodes spécifiques aux animaux ---
     public int getBlood() { return m_blood; }
     public int getBone() { return m_bone; }
     public void addPower(PowerEnum power) { m_powerEnum.add(power); }
-
-    // Tu peux garder celles-ci si tu t'en sers ailleurs dans ton code
-    public int getAttack() { return m_attack; }
-    public boolean isFlying() { return m_flying; }
-    public PowerEnum getPowerAt(int index) { return m_powerEnum.get(index); }
-    public PowerEnum getLastPower() { return m_powerEnum.getLast(); }
-    public PowerEnum getFirstPower() { return m_powerEnum.getFirst(); }
 }

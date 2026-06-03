@@ -524,7 +524,7 @@ public class GameManager {
                     (i+1),
                     proposition.getName(),
                     proposition.getHealthPoints(),
-                    proposition.getAttack(),
+                    proposition.getAnimalAttack(),
                     proposition.getBlood(),
                     proposition.getBone());
             m_display.print(ligneFormatee);
@@ -564,10 +564,10 @@ public class GameManager {
                     (i + 1),
                     animal.getName(),
                     animal.getHealthPoints(),
-                    animal.getAttack(),
+                    animal.getAnimalAttack(),
                     animal.getBlood(),
                     animal.getBone(),
-                    animal.getPowerAt(0).toString()
+                    animal.getFirstPowerAnimal().toString()
             );
             m_display.print(ligneFormatee);
         }

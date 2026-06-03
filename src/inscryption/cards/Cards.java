@@ -33,27 +33,15 @@ public abstract class Cards {
         this.m_health_points -= degats;
     }
 
-    public boolean isAnimal() {
-        return false; // Par défaut, une carte n'est pas un animal
-    }
+    public abstract boolean isAnimal();
 
-    public int getAnimalAttack() {
-        return 0; // Par défaut, pas d'attaque
-    }
+    public abstract int getAnimalAttack();
 
-    public boolean getAnimalFly() {
-        return false; // Par défaut, ne vole pas
-    }
+    public abstract boolean getAnimalFly();
 
-    public int getPowerSizeAnimal() {
-        return 0; // Par défaut, 0 pouvoir
-    }
+    public abstract int getPowerSizeAnimal();
 
-    public PowerEnum getFirstPowerAnimal() {
-        return PowerEnum.AUCUN;
-    }
+    public abstract PowerEnum getFirstPowerAnimal();
 
-    public PowerEnum getLastPowerAnimal() {
-        return PowerEnum.AUCUN;
-    }
+    public abstract PowerEnum getLastPowerAnimal();
 }
