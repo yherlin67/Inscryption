@@ -72,6 +72,7 @@ public class Opponent {
         {
             if(gameboard[1][i] != null)
             {
+                // Case en face vide -> Dégâts directs au joueur !
                 if(gameboard[2][i] == null)
                 {
                     if(gameboard[1][i].isAnimal())
@@ -80,26 +81,32 @@ public class Opponent {
                         m_turnAttack += gameboard[1][i].getAnimalAttack();
                     }
                 }
-                else
+                else // Il y a une carte alliée en face
                 {
                     int degats = 0;
                     if(gameboard[1][i].isAnimal())
                     {
                         degats = gameboard[1][i].getAnimalAttack();
                     }
+
+                    // Gestion du Puant allié
                     if(gameboard[2][i] != null && gameboard[2][i].isAnimal())
                     {
                         if(gameboard[2][i].getFirstPowerAnimal() == PowerEnum.STINKY || gameboard[2][i].getLastPowerAnimal() == PowerEnum.STINKY)
                         {
-                            m_turnAttack--;
                             degats--;
                         }
                     }
+
+                    if (degats < 0) degats = 0;
+
+                    // Carte ennemie volante -> Inflige des dégâts directs au joueur
                     if(gameboard[1][i].isAnimal() && gameboard[1][i].getAnimalFly())
                     {
                         score -= degats;
-                        m_turnAttack += gameboard[1][i].getAnimalAttack();
+                        m_turnAttack += degats; // On ajoute les dégâts modifiés
                     }
+                    // Combat de cartes -> Pas de m_turnAttack
                     else if(gameboard[1][i].isAnimal() && !gameboard[1][i].getAnimalFly())
                     {
                         impactedLocations.add(new Location(2, i, degats));
