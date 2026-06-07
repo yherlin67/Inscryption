@@ -66,7 +66,6 @@ public class GameManager {
             opponentAttack();
 
             m_canDraw = true;
-            m_opponent.attack(m_gameboard);
             nextTurn();
             setMessage("Votre adversaire à joué, à votre tour de jouer maintenant...");
             return;
@@ -655,7 +654,7 @@ public class GameManager {
             }
         }
 
-        ResultBox resultOpponent = m_opponent.attack(gamebordCopyOpponent);
+        ResultBox resultOpponent = m_opponent.attack(gamebordCopyOpponent, m_player);
         this.m_score += resultOpponent.getScore();
 
         for (Location loc : resultOpponent.getImpactedLocations()) {

@@ -131,7 +131,7 @@ package inscryption
             +setMatch(actions : AnimalsCards[*])
             +play(gameboard : Cards[3][4]) : ResultBox
             +getTurnAttack() : Integer
-            +attack(gameboard : Cards[3][4]) : ResultBox
+            +attack(gameboard : Cards[3][4], player : Player) : ResultBox
             +toString() : String
 
         }

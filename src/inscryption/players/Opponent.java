@@ -62,7 +62,7 @@ public class Opponent {
         return m_turnAttack;
     }
 
-    public ResultBox attack(Cards[][] gameboard)
+    public ResultBox attack(Cards[][] gameboard, Player player)
     {
         ArrayList<Location> impactedLocations = new ArrayList<>();
         int score = 0;
@@ -112,7 +112,7 @@ public class Opponent {
                         impactedLocations.add(new Location(2, i, degats));
                         gameboard[2][i].takeDamage(degats);
 
-                        if(gameboard[1][i].getFirstPowerAnimal() == PowerEnum.DEATH_TOUCH || gameboard[1][i].getLastPowerAnimal() == PowerEnum.DEATH_TOUCH)
+                        if((gameboard[1][i].getFirstPowerAnimal() == PowerEnum.DEATH_TOUCH || gameboard[1][i].getLastPowerAnimal() == PowerEnum.DEATH_TOUCH) && gameboard[2][i].isAnimal())
                         {
                             impactedLocations.add(new Location(2, i, 999));
                             gameboard[2][i].takeDamage(999);
@@ -137,6 +137,7 @@ public class Opponent {
                         {
                             impactedLocations.add(new Location(2, i, (Cards) null));
                             gameboard[2][i] = null;
+                            player.increaseBones();
                         }
                     }
                 }

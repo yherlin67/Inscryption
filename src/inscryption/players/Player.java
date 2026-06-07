@@ -173,6 +173,7 @@ public class Player {
                                 if(gameboard[2][i].getHealthPoints() <= 0)
                                 {
                                     gameboard[2][i] = null;
+                                    this.increaseBones();
                                     impactedLocations.add(new Location(2, i, (Cards) null));
                                 }
                             }
