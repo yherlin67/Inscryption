@@ -64,7 +64,10 @@ public class Opponent {
 
     public ResultBox attack(Card[][] gameboard, Player player)
     {
+        // Création de la liste pour stocker toutes les positions modifiées ce tour-ci
         ArrayList<Location> impactedLocations = new ArrayList<>();
+
+        //---Gestion de l'attaque du score---
         int score = 0;
         m_turnAttack = 0;
 
@@ -100,13 +103,15 @@ public class Opponent {
 
                     if (degats < 0) degats = 0;
 
-                    // Carte ennemie volante -> Inflige des dégâts directs au score
+                    // Carte volante -> Inflige des dégâts directs au score
                     if(gameboard[1][i].isAnimal() && gameboard[1][i].getAnimalFly())
                     {
                         score -= degats;
                         m_turnAttack += degats;
                     }
-                    // Combat de cartes -> Pas de m_turnAttack
+                    //---Gestion de l'attaque entre cartes---
+                    // Carte normale -> Combat de créatures (m_turnAttack ne bouge pas puisque le score ne sera pas attaqué !)
+                    // Dans ce cas, on appelle une méthode propre à Card qui gère indépendamment les duels entre des AnimalCards
                     else if(gameboard[1][i].isAnimal() && !gameboard[1][i].getAnimalFly())
                     {
                         Card attaquante = gameboard[1][i]; // Ligne 1
@@ -127,6 +132,7 @@ public class Opponent {
             }
         }
 
+        //---Gestion du pouvoir Coureur---
         ArrayList<Integer> indicesBloques = new ArrayList<>();
 
         for(int j=0; j<4; j++)
@@ -139,6 +145,7 @@ public class Opponent {
             {
                 if(gameboard[1][j].getFirstPowerAnimal() == PowerEnum.RUNNER || gameboard[1][j].getLastPowerAnimal() == PowerEnum.RUNNER)
                 {
+                    //On vérif si on peut se déplacer à droite (on est pas au bord du plateau et c'est libre à notre droite)
                     if(j < 3 && gameboard[1][j+1] == null)
                     {
                         impactedLocations.add(new Location(1, j, (Card) null));
@@ -146,8 +153,10 @@ public class Opponent {
 
                         gameboard[1][j+1] = gameboard[1][j];
                         gameboard[1][j] = null;
+                        //Il y a maintenant une carte à l'indice j+1
                         indicesBloques.add(j+1);
                     }
+                    //Sinon on se déplace à gauche
                     else if(j > 0 && gameboard[1][j-1] == null)
                     {
                         impactedLocations.add(new Location(1, j, (Card) null));
@@ -155,12 +164,15 @@ public class Opponent {
 
                         gameboard[1][j-1] = gameboard[1][j];
                         gameboard[1][j] = null;
+                        //Il y a maintenant une carte à l'indice j-1
+                        indicesBloques.add(j-1);
                     }
                 }
             }
         }
 
-        //Vérif si les survivants de l'attaque doivent se transformer en Loup
+        //Gestion du pouvoir Croissance
+        //Vérif si les survivants de l'attaque de l'opponent doivent se transformer en Loup
         for(int k = 0; k < 4; k++)
         {
             if(gameboard[2][k] != null && gameboard[2][k].isAnimal() && (gameboard[2][k].getFirstPowerAnimal() == PowerEnum.GROW || gameboard[2][k].getLastPowerAnimal() == PowerEnum.GROW))

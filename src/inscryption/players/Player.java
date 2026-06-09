@@ -110,13 +110,14 @@ public class Player {
         // Création de la liste pour stocker toutes les positions modifiées ce tour-ci
         ArrayList<Location> impactedLocations = new ArrayList<>();
 
+        //---Gestion de l'attaque du score---
         int score = 0;
         m_turnAttack = 0;
         for(int i=0; i<4; i++)
         {
             if(gameboard[2][i] != null)
             {
-                // Cas 1 : La case en face est vide -> Dégâts directs au joueur adverse
+                // La case en face est vide -> Dégâts directs au joueur adverse
                 if(gameboard[1][i] == null)
                 {
                     if(gameboard[2][i].isAnimal())
@@ -142,19 +143,17 @@ public class Player {
                         }
                     }
 
-                    // Sécurité : les dégâts ne peuvent pas être négatifs
-                    //if (degats < 0) degats = 0;
-
-                    // Cas 2 : La carte est volante -> Elle survole la carte ennemie et tape le joueur
+                    // Carte volante -> Inflige des dégâts directs au score
                     if(gameboard[2][i].isAnimal() && gameboard[2][i].getAnimalFly())
                     {
                         score += degats;
-                        m_turnAttack += degats; // On ajoute bien les dégâts calculés (qui prennent en compte Puant)
+                        m_turnAttack += degats; // On ajoute bien les dégâts calculés (qui prennent en compte le pouvoir Puant)
                     }
-                    // Cas 3 : Carte normale -> Combat de créatures (m_turnAttack ne bouge pas !)
+                    //---Gestion de l'attaque entre cartes---
+                    // Carte normale -> Combat de créatures (m_turnAttack ne bouge pas puisque le score ne sera pas attaqué !)
+                    // Dans ce cas, on appelle une méthode propre à Card qui gère indépendamment les duels entre des AnimalCards
                     else if(gameboard[2][i].isAnimal() && !gameboard[2][i].getAnimalFly())
                     {
-                        //On allège la méthode en appelant une méthode propre à la classe Cards qui gère les duels simples
                         Card attaquante = gameboard[2][i];
                         Card cible = gameboard[1][i];
 
@@ -175,6 +174,7 @@ public class Player {
             }
         }
 
+        //---Gestion du pouvoir Coureur---
         ArrayList<Integer> indicesBloques = new ArrayList<>();
 
         for(int j=0; j<4; j++)
@@ -187,20 +187,25 @@ public class Player {
             {
                 if(gameboard[2][j].getFirstPowerAnimal() == PowerEnum.RUNNER || gameboard[2][j].getLastPowerAnimal() == PowerEnum.RUNNER)
                 {
+                    //On vérif si on peut se déplacer à droite (on est pas au bord du plateau et c'est libre à notre droite)
                     if(j < 3 && gameboard[2][j+1] == null)
                     {
                         gameboard[2][j+1] = gameboard[2][j];
                         gameboard[2][j] = null;
+                        //Il y a maintenant une carte à l'indice j+1
                         indicesBloques.add(j+1);
 
                         impactedLocations.add(new Location(2, j+1, gameboard[2][j]));
                         impactedLocations.add(new Location(2, j, (Card) null));
                     }
+                    //Sinon on se déplace à gauche
                     else if(j > 0 && gameboard[2][j-1] == null)
                     {
 
                         gameboard[2][j-1] = gameboard[2][j];
                         gameboard[2][j] = null;
+                        //Il y a maintenant une carte à l'indice j-1
+                        indicesBloques.add(j-1);
 
                         impactedLocations.add(new Location(2, j-1, gameboard[2][j]));
                         impactedLocations.add(new Location(2, j, (Card) null));
@@ -210,7 +215,8 @@ public class Player {
             }
         }
 
-        //Vérif si les survivants de l'attaque doivent se transformer en Loup
+        //Gestion du pouvoir Croissance
+        //Vérif si les survivants de l'attaque du player doivent se transformer en Loup
         for(int k = 0; k < 4; k++)
         {
             if(gameboard[1][k] != null && gameboard[1][k].isAnimal() && (gameboard[1][k].getFirstPowerAnimal() == PowerEnum.GROW || gameboard[1][k].getLastPowerAnimal() == PowerEnum.GROW))
