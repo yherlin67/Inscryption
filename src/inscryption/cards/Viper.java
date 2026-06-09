@@ -5,7 +5,7 @@ import inscryption.logic.PowerEnum;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Viper extends AnimalsCards {
+public class Viper extends AnimalsCard {
 
     public Viper() {
         super("Vipère", 1, 1, 2, 0, false, new ArrayList<>(List.of(PowerEnum.DEATH_TOUCH))); }

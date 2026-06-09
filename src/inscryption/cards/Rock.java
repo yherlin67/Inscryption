@@ -1,8 +1,11 @@
 package inscryption.cards;
 
+import inscryption.logic.Location;
 import inscryption.logic.PowerEnum;
 
-public class Rock extends Cards {
+import java.util.ArrayList;
+
+public class Rock extends Card {
 
     public Rock() {super("Rocher",5);}
 
@@ -40,4 +43,8 @@ public class Rock extends Cards {
     public PowerEnum getLastPowerAnimal() {
         return PowerEnum.NONE;
     }
+
+    @Override
+    public void duel(ArrayList<Location> impactedLocations, int degats, int i, int ligneAttaquant, int ligneCible, Card cible)
+    {}
 }

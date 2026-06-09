@@ -5,7 +5,7 @@ import inscryption.logic.PowerEnum;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Grizzly extends AnimalsCards {
+public class Grizzly extends AnimalsCard {
 
     public Grizzly() {super("Grizzly", 4, 6, 3, 0, false, new ArrayList<>(List.of(PowerEnum.NONE)));}
 

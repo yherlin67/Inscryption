@@ -21,14 +21,14 @@ public class GameManager {
     private String m_message;
     private final Random m_random;
     private final DisplayBoard m_display;
-    private final Cards[][] m_gameboard;
-    private ArrayList<Cards> m_sacrifices;
+    private final Card[][] m_gameboard;
+    private ArrayList<Card> m_sacrifices;
 
     public GameManager(Player player, Opponent opponent)
     {
         m_player = player;
         m_opponent = opponent;
-        m_gameboard = new Cards[][]{
+        m_gameboard = new Card[][]{
                 {null, null, null, null},
                 {null, null, null, null},
                 {null, null, null, null}
@@ -458,9 +458,9 @@ public class GameManager {
     public void proposeAddToDraw(Scanner sc)
     {
         m_display.print("Avant de jouer la troisième partie, vous pouvez rajouter une carte dans la pioche parmi les deux cartes ci-dessous ! (tapez 1 ou 2)");
-        AnimalsCards proposition;
-        ArrayList<AnimalsCards> propositions = new ArrayList<>();
-        ArrayList<AnimalsCards> temp = new ArrayList<>();
+        AnimalsCard proposition;
+        ArrayList<AnimalsCard> propositions = new ArrayList<>();
+        ArrayList<AnimalsCard> temp = new ArrayList<>();
         temp.add(new Squirrel());
         temp.add(new Cat());
         temp.add(new Crow());
@@ -515,7 +515,7 @@ public class GameManager {
         m_display.print("Tapez le numéro de la carte à sacrifier :");
         for(int i = 0; i < m_player.getDrawSize(); i++)
         {
-            AnimalsCards animal = m_player.getAnimalAtInDraw(i);
+            AnimalsCard animal = m_player.getAnimalAtInDraw(i);
 
             String ligneFormatee = String.format("%-1d. %-12s PV: %-3d Att: %-2d Sang: %-2d Os: %-2d Pouvoir: %-15s",
                     (i + 1),
@@ -597,7 +597,7 @@ public class GameManager {
 
     public void opponentPlay()
     {
-        Cards[][] gamebordCopyPlay = new Cards[m_gameboard.length][m_gameboard[0].length];
+        Card[][] gamebordCopyPlay = new Card[m_gameboard.length][m_gameboard[0].length];
         for (int i = 0; i < m_gameboard.length; i++) {
             for (int j = 0; j < m_gameboard[i].length; j++) {
                 gamebordCopyPlay[i][j] = (m_gameboard[i][j] != null) ? m_gameboard[i][j].clone() : null;
@@ -618,7 +618,7 @@ public class GameManager {
 
     public void playerAttack()
     {
-        Cards[][] gamebordCopyPlayer = new Cards[m_gameboard.length][m_gameboard[0].length];
+        Card[][] gamebordCopyPlayer = new Card[m_gameboard.length][m_gameboard[0].length];
         for (int i = 0; i < m_gameboard.length; i++) {
             for (int j = 0; j < m_gameboard[i].length; j++) {
                 gamebordCopyPlayer[i][j] = (m_gameboard[i][j] != null) ? m_gameboard[i][j].clone() : null;
@@ -647,7 +647,7 @@ public class GameManager {
 
     public void opponentAttack()
     {
-        Cards[][] gamebordCopyOpponent = new Cards[m_gameboard.length][m_gameboard[0].length];
+        Card[][] gamebordCopyOpponent = new Card[m_gameboard.length][m_gameboard[0].length];
         for (int i = 0; i < m_gameboard.length; i++) {
             for (int j = 0; j < m_gameboard[i].length; j++) {
                 gamebordCopyOpponent[i][j] = (m_gameboard[i][j] != null) ? m_gameboard[i][j].clone() : null;
@@ -674,7 +674,7 @@ public class GameManager {
         }
     }
 
-    public void setCard(Cards carte, int row, int columns)
+    public void setCard(Card carte, int row, int columns)
     {
         m_gameboard[row][columns] = carte;
     }

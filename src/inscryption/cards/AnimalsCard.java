@@ -4,7 +4,7 @@ import inscryption.logic.Location;
 import inscryption.logic.PowerEnum;
 import java.util.ArrayList;
 
-public abstract class AnimalsCards extends Cards {
+public abstract class AnimalsCard extends Card {
 
     private int m_attack;
     private int m_blood;
@@ -12,7 +12,7 @@ public abstract class AnimalsCards extends Cards {
     private boolean m_flying;
     private ArrayList<PowerEnum> m_powerEnum;
 
-    public AnimalsCards(String nom, int att, int pdv, int gds, int os, boolean vol, ArrayList<PowerEnum> powerEnum) {
+    public AnimalsCard(String nom, int att, int pdv, int gds, int os, boolean vol, ArrayList<PowerEnum> powerEnum) {
         super(nom, pdv);
         m_attack = att;
         m_blood = gds;
@@ -21,7 +21,7 @@ public abstract class AnimalsCards extends Cards {
         m_powerEnum = powerEnum;
     }
 
-    protected AnimalsCards(AnimalsCards target) {
+    protected AnimalsCard(AnimalsCard target) {
         super(target);
         if (target != null) {
             this.m_attack = target.m_attack;
@@ -75,7 +75,7 @@ public abstract class AnimalsCards extends Cards {
     }
 
     @Override
-    public void duel(ArrayList<Location> impactedLocations, int degats, int i, int ligneAttaquant, int ligneCible, Cards cible)
+    public void duel(ArrayList<Location> impactedLocations, int degats, int i, int ligneAttaquant, int ligneCible, Card cible)
     {
         impactedLocations.add(new Location(ligneCible, i, degats));
         cible.takeDamage(degats);
@@ -95,14 +95,14 @@ public abstract class AnimalsCards extends Cards {
 
                 if(this.getHealthPoints() <= 0)
                 {
-                    impactedLocations.add(new Location(ligneAttaquant, i, (Cards) null));
+                    impactedLocations.add(new Location(ligneAttaquant, i, (Card) null));
                 }
             }
         }
 
         if(cible.getHealthPoints() <= 0)
         {
-            impactedLocations.add(new Location(ligneCible, i, (Cards) null));
+            impactedLocations.add(new Location(ligneCible, i, (Card) null));
         }
     }
 

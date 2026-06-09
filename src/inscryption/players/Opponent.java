@@ -8,7 +8,7 @@ import inscryption.cards.*;
 import java.util.ArrayList;
 
 public class Opponent {
-    private final ArrayList<AnimalsCards>[] m_actions;
+    private final ArrayList<AnimalsCard>[] m_actions;
     private int m_turnAttack;
 
     public Opponent()
@@ -22,14 +22,14 @@ public class Opponent {
         m_turnAttack = 0;
     }
 
-    public void setMatch(ArrayList<AnimalsCards> actions0, ArrayList<AnimalsCards> actions1, ArrayList<AnimalsCards> actions2)
+    public void setMatch(ArrayList<AnimalsCard> actions0, ArrayList<AnimalsCard> actions1, ArrayList<AnimalsCard> actions2)
     {
         m_actions[0] = actions0;
         m_actions[1] = actions1;
         m_actions[2] = actions2;
     }
 
-    public ResultBox play(Cards[][] gameboard)
+    public ResultBox play(Card[][] gameboard)
     {
         // Notre liste d'impacts pour le GameManager
         ArrayList<Location> impactedLocations = new ArrayList<>();
@@ -39,7 +39,7 @@ public class Opponent {
             if(gameboard[1][i] == null && gameboard[0][i] != null)
             {
                 impactedLocations.add(new Location(1, i, gameboard[0][i])); // La carte arrive en ligne 1
-                impactedLocations.add(new Location(0, i, (Cards) null));    // La ligne 0 devient vide
+                impactedLocations.add(new Location(0, i, (Card) null));    // La ligne 0 devient vide
 
                 gameboard[1][i] = gameboard[0][i];
                 gameboard[0][i] = null;
@@ -47,7 +47,7 @@ public class Opponent {
 
             if (gameboard[0][i] == null && !m_actions[i].isEmpty())
             {
-                Cards nouvelleCarte = m_actions[i].getFirst();
+                Card nouvelleCarte = m_actions[i].getFirst();
              //   m_actions[i].removeFirst();
 
                 impactedLocations.add(new Location(0, i, nouvelleCarte));
@@ -62,7 +62,7 @@ public class Opponent {
         return m_turnAttack;
     }
 
-    public ResultBox attack(Cards[][] gameboard, Player player)
+    public ResultBox attack(Card[][] gameboard, Player player)
     {
         ArrayList<Location> impactedLocations = new ArrayList<>();
         int score = 0;
@@ -109,8 +109,8 @@ public class Opponent {
                     // Combat de cartes -> Pas de m_turnAttack
                     else if(gameboard[1][i].isAnimal() && !gameboard[1][i].getAnimalFly())
                     {
-                        Cards attaquante = gameboard[1][i]; // Ligne 1
-                        Cards cible = gameboard[2][i];       // Ligne 2
+                        Card attaquante = gameboard[1][i]; // Ligne 1
+                        Card cible = gameboard[2][i];       // Ligne 2
 
                         attaquante.duel(impactedLocations, degats, i, 1, 2, cible);
 
@@ -141,7 +141,7 @@ public class Opponent {
                 {
                     if(j < 3 && gameboard[1][j+1] == null)
                     {
-                        impactedLocations.add(new Location(1, j, (Cards) null));
+                        impactedLocations.add(new Location(1, j, (Card) null));
                         impactedLocations.add(new Location(1, j+1, gameboard[1][j]));
 
                         gameboard[1][j+1] = gameboard[1][j];
@@ -150,7 +150,7 @@ public class Opponent {
                     }
                     else if(j > 0 && gameboard[1][j-1] == null)
                     {
-                        impactedLocations.add(new Location(1, j, (Cards) null));
+                        impactedLocations.add(new Location(1, j, (Card) null));
                         impactedLocations.add(new Location(1, j-1, gameboard[1][j]));
 
                         gameboard[1][j-1] = gameboard[1][j];

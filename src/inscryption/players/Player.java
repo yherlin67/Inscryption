@@ -10,9 +10,9 @@ import java.util.Random;
 
 public class Player {
 
-    private final ArrayList<AnimalsCards> m_hand;
-    private final ArrayList<AnimalsCards> m_gamecards;
-    private final ArrayList<AnimalsCards> m_gamecards_copy;
+    private final ArrayList<AnimalsCard> m_hand;
+    private final ArrayList<AnimalsCard> m_gamecards;
+    private final ArrayList<AnimalsCard> m_gamecards_copy;
     private final Random m_random;
     private int m_obtainedBones;
     private int m_turnAttack;
@@ -30,7 +30,7 @@ public class Player {
 
     public void createDraw()
     {
-        ArrayList<AnimalsCards> temp = new ArrayList<>();
+        ArrayList<AnimalsCard> temp = new ArrayList<>();
         temp.add(new Cat());
         temp.add(new Crow());
         temp.add(new Coyote());
@@ -63,14 +63,14 @@ public class Player {
 
     public void draw()
     {
-        AnimalsCards carte = m_gamecards.removeLast();
+        AnimalsCard carte = m_gamecards.removeLast();
         m_hand.add(carte);
     }
 
     public void setGamecards(){
         m_hand.clear();
         m_gamecards.clear();
-        ArrayList<AnimalsCards> tempDeck = new ArrayList<>(m_gamecards_copy);
+        ArrayList<AnimalsCard> tempDeck = new ArrayList<>(m_gamecards_copy);
         while (!tempDeck.isEmpty())
         {
             int aleatoireIndex = m_random.nextInt(tempDeck.size());
@@ -84,7 +84,7 @@ public class Player {
         return m_gamecards.size();
     }
 
-    public AnimalsCards getAnimalAtInDraw(int index)
+    public AnimalsCard getAnimalAtInDraw(int index)
     {
         return m_gamecards.get(index);
     }
@@ -94,7 +94,7 @@ public class Player {
         m_gamecards.remove(index);
     }
 
-    public void addInDraw(AnimalsCards animal)
+    public void addInDraw(AnimalsCard animal)
     {
         m_gamecards.add(animal);
     }
@@ -105,7 +105,7 @@ public class Player {
     }
 
 
-    public ResultBox attack(Cards[][] gameboard)
+    public ResultBox attack(Card[][] gameboard)
     {
         // Création de la liste pour stocker toutes les positions modifiées ce tour-ci
         ArrayList<Location> impactedLocations = new ArrayList<>();
@@ -155,8 +155,8 @@ public class Player {
                     else if(gameboard[2][i].isAnimal() && !gameboard[2][i].getAnimalFly())
                     {
                         //On allège la méthode en appelant une méthode propre à la classe Cards qui gère les duels simples
-                        Cards attaquante = gameboard[2][i];
-                        Cards cible = gameboard[1][i];
+                        Card attaquante = gameboard[2][i];
+                        Card cible = gameboard[1][i];
 
                         attaquante.duel(impactedLocations, degats, i, 2, 1, cible);
 
@@ -194,7 +194,7 @@ public class Player {
                         indicesBloques.add(j+1);
 
                         impactedLocations.add(new Location(2, j+1, gameboard[2][j]));
-                        impactedLocations.add(new Location(2, j, (Cards) null));
+                        impactedLocations.add(new Location(2, j, (Card) null));
                     }
                     else if(j > 0 && gameboard[2][j-1] == null)
                     {
@@ -203,7 +203,7 @@ public class Player {
                         gameboard[2][j] = null;
 
                         impactedLocations.add(new Location(2, j-1, gameboard[2][j]));
-                        impactedLocations.add(new Location(2, j, (Cards) null));
+                        impactedLocations.add(new Location(2, j, (Card) null));
 
                     }
                 }
@@ -224,7 +224,7 @@ public class Player {
         return new ResultBox(score, impactedLocations);
     }
 
-    public Cards removeCard(int indHand) {return m_hand.remove(indHand);}
+    public Card removeCard(int indHand) {return m_hand.remove(indHand);}
 
     public int getHandSize()
     {

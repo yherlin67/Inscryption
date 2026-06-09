@@ -16,10 +16,10 @@ public class Main
         boolean continueGame = true;
         Scanner sc = new Scanner(System.in);
 
-        ArrayList<AnimalsCards> actions0;
-        ArrayList<AnimalsCards> actions1;
-        ArrayList<AnimalsCards> actions2;
-        ArrayList<AnimalsCards> actions3;
+        ArrayList<AnimalsCard> actions0;
+        ArrayList<AnimalsCard> actions1;
+        ArrayList<AnimalsCard> actions2;
+        ArrayList<AnimalsCard> actions3;
         Player player = new Player();
         Opponent opponent = new Opponent();
         while(nbParties <= 3 && continueGame)
@@ -31,24 +31,24 @@ public class Main
             }
             if(nbParties == 1)
             {
-                actions0 = new ArrayList<>(Arrays.asList(new Cub_scout(), null, null, null));
-                actions1 = new ArrayList<>(Arrays.asList(null, null, new Sparrow(), null));
-                actions2 = new ArrayList<>(Arrays.asList(new Bug(), null, null, new Bug()));
-                actions3 = new ArrayList<>(Arrays.asList(null, null, new Cub_scout(), null));
+                actions0 = new ArrayList<>(Arrays.asList(new Coyote(), null, null, null));
+                actions1 = new ArrayList<>(Arrays.asList(null, null, new Cub_scout(), null));
+                actions2 = new ArrayList<>(Arrays.asList(null, new Bug(), null, null));
+                actions3 = new ArrayList<>(Arrays.asList(new Sparrow(), null, new Sparrow(), null));
             }
             else if(nbParties == 2)
             {
-                actions0 = new ArrayList<>(Arrays.asList(new Cub_scout(), new Sparrow(), null, null));
-                actions1 = new ArrayList<>(Arrays.asList(null, null, new Sparrow(), null));
-                actions2 = new ArrayList<>(Arrays.asList(new Bug(), null, null, new Bug()));
-                actions3 = new ArrayList<>(Arrays.asList(null, null, new Cub_scout(), null));
+                actions0 = new ArrayList<>(Arrays.asList(null, null, new Crow(), null));
+                actions1 = new ArrayList<>(Arrays.asList(new Moose(), null, null, new Cub_scout()));
+                actions2 = new ArrayList<>(Arrays.asList(null, null, new Porcupine(), null));
+                actions3 = new ArrayList<>(Arrays.asList(new Wolf(), null, null, null));
             }
             else
             {
-                actions0 = new ArrayList<>(Arrays.asList(new Cub_scout(), new Sparrow(), null, null));
-                actions1 = new ArrayList<>(Arrays.asList(null, null, new Sparrow(), null));
-                actions2 = new ArrayList<>(Arrays.asList(new Bug(), null, null, new Bug()));
-                actions3 = new ArrayList<>(Arrays.asList(null, null, new Cub_scout(), null));
+                actions0 = new ArrayList<>(Arrays.asList(new Porcupine(), null, null, null));
+                actions1 = new ArrayList<>(Arrays.asList(null, null, new Grizzly(), null));
+                actions2 = new ArrayList<>(Arrays.asList(null, new Coyote(), null, new Wolf()));
+                actions3 = new ArrayList<>(Arrays.asList(new Grizzly(), null, null, new Viper()));
             }
             GameManager gameManager = new GameManager(player, opponent);
             for(int i=0; i<4; i++)

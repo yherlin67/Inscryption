@@ -14,7 +14,7 @@ public class DisplayBoard {
     }
 
     // Ajout des paramètres nécessaires pour dessiner le plateau
-    public void displayGameboard(String message, Player player, Opponent opponent, Cards[][] gameboard, int game, int turn, int score)
+    public void displayGameboard(String message, Player player, Opponent opponent, Card[][] gameboard, int game, int turn, int score)
     {
         displayCards(message, player, opponent, gameboard, game, turn, score);
         System.out.println("Votre main :                                                                                          Pioche");
@@ -90,7 +90,7 @@ public class DisplayBoard {
         System.out.println(" [placer <numero carte> <position>] Placer une carte sur le plateau");
     }
 
-    public void displayCards(String message, Player player, Opponent opponent, Cards[][] gameboard, int game, int turn, int score)
+    public void displayCards(String message, Player player, Opponent opponent, Card[][] gameboard, int game, int turn, int score)
     {
         for(int i = 0; i < 3; i++)
         {
@@ -108,7 +108,7 @@ public class DisplayBoard {
         }
     }
 
-    public String displayRow(String chaine, int rangee, String message, Player player, Opponent opponent, Cards[][] gameboard, int game, int turn, int score)
+    public String displayRow(String chaine, int rangee, String message, Player player, Opponent opponent, Card[][] gameboard, int game, int turn, int score)
     {
         StringBuilder chaineBuilder = new StringBuilder(chaine);
 

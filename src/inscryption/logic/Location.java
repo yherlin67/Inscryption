@@ -1,13 +1,13 @@
 package inscryption.logic;
 
-import inscryption.cards.Cards;
+import inscryption.cards.Card;
 
 public class Location {
 
     private int m_x;
     private int m_y;
     private int m_damage;
-    private Cards m_card;
+    private Card m_card;
     private boolean m_damageAction;
 
 
@@ -18,7 +18,7 @@ public class Location {
         this.m_damageAction = true;
     }
 
-    public Location(int x, int y, Cards card) {
+    public Location(int x, int y, Card card) {
         this.m_x = x;
         this.m_y = y;
         this.m_card = card;
@@ -39,7 +39,7 @@ public class Location {
         return m_damage;
     }
 
-    public Cards getCard() {
+    public Card getCard() {
         return m_card;
     }
 }

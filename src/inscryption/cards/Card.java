@@ -5,24 +5,24 @@ import inscryption.logic.PowerEnum;
 
 import java.util.ArrayList;
 
-public abstract class Cards {
+public abstract class Card {
     private String m_name;
     private int m_health_points;
 
-    public Cards(String nom, int pdv)
+    public Card(String nom, int pdv)
     {
         m_name = nom;
         m_health_points = pdv;
     }
 
-    protected Cards(Cards target) {
+    protected Card(Card target) {
         if (target != null) {
             this.m_health_points = target.m_health_points;
             this.m_name = target.m_name;
         }
     }
 
-    public abstract Cards clone();
+    public abstract Card clone();
 
     public String getName() {
         return m_name;
@@ -48,5 +48,5 @@ public abstract class Cards {
 
     public abstract PowerEnum getLastPowerAnimal();
 
-    public abstract void duel(ArrayList<Location> impactedLocations, int degats, int i, int ligneAttaquant, int ligneCible, Cards cible);
+    public abstract void duel(ArrayList<Location> impactedLocations, int degats, int i, int ligneAttaquant, int ligneCible, Card cible);
 }

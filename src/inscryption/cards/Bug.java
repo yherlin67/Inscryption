@@ -5,7 +5,7 @@ import inscryption.logic.PowerEnum;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Bug extends AnimalsCards {
+public class Bug extends AnimalsCard {
     public Bug() { super("Punaise", 1, 2, 0, 2, false, new ArrayList<>(List.of(PowerEnum.STINKY))); }
 
     @Override

@@ -39,8 +39,8 @@ class InscryptionGameTests {
         GameManager gameManager = new GameManager(player, opponent); 
 
         // Création d'une carte alliée simulée avec 3 d'attaque
-        AnimalsCards attaquantAllie = new AnimalsCards("Loup Simulé", 3, 2, 1, 0, false, new ArrayList<>(Arrays.asList(PowerEnum.NONE))) {
-            @Override public Cards clone() { return this; }
+        AnimalsCard attaquantAllie = new AnimalsCard("Loup Simulé", 3, 2, 1, 0, false, new ArrayList<>(Arrays.asList(PowerEnum.NONE))) {
+            @Override public Card clone() { return this; }
         }; 
 
         // On place la carte sur le plateau du joueur (ligne 2, colonne 0)
@@ -59,16 +59,16 @@ class InscryptionGameTests {
     @Test
     public void testPouvoirs() {
         Player player = new Player(); 
-        Cards[][] gameboard = new Cards[3][4]; 
+        Card[][] gameboard = new Card[3][4];
 
         // Carte attaquante avec 2 d'attaque
-        AnimalsCards attaquant = new AnimalsCards("Attaquant", 2, 2, 1, 0, false, new ArrayList<>(Arrays.asList(PowerEnum.NONE))) {
-            @Override public Cards clone() { return this; }
+        AnimalsCard attaquant = new AnimalsCard("Attaquant", 2, 2, 1, 0, false, new ArrayList<>(Arrays.asList(PowerEnum.NONE))) {
+            @Override public Card clone() { return this; }
         }; 
 
         // Carte défenseuse avec le pouvoir STINKY (Puant)
-        AnimalsCards defenseurPuant = new AnimalsCards("Punaise Simulée", 1, 2, 1, 0, false, new ArrayList<>(Arrays.asList(PowerEnum.STINKY))) {
-            @Override public Cards clone() { return this; }
+        AnimalsCard defenseurPuant = new AnimalsCard("Punaise Simulée", 1, 2, 1, 0, false, new ArrayList<>(Arrays.asList(PowerEnum.STINKY))) {
+            @Override public Card clone() { return this; }
         }; 
 
         gameboard[2][0] = attaquant; 
@@ -89,8 +89,8 @@ class InscryptionGameTests {
         player.setGamecards();
 
         // On récupère deux cartes depuis la pioche générée automatiquement
-        AnimalsCards carteSource = player.getAnimalAtInDraw(0);
-        AnimalsCards carteCible = player.getAnimalAtInDraw(1);
+        AnimalsCard carteSource = player.getAnimalAtInDraw(0);
+        AnimalsCard carteCible = player.getAnimalAtInDraw(1);
 
         int nbPouvoirsCibleAvant = carteCible.getPowerSizeAnimal();
 
@@ -159,8 +159,8 @@ class InscryptionGameTests {
         int taillePiocheAvant = player.getDrawSize(); 
 
         // Création de la carte à ajouter
-        AnimalsCards nouvelleCarteAjoutee = new AnimalsCards("Ours Simulé", 4, 6, 2, 0, false, new ArrayList<>(Arrays.asList(PowerEnum.NONE))) {
-            @Override public Cards clone() { return this; }
+        AnimalsCard nouvelleCarteAjoutee = new AnimalsCard("Ours Simulé", 4, 6, 2, 0, false, new ArrayList<>(Arrays.asList(PowerEnum.NONE))) {
+            @Override public Card clone() { return this; }
         }; 
 
         player.addInDraw(nouvelleCarteAjoutee); 
@@ -177,17 +177,17 @@ class InscryptionGameTests {
         GameManager gameManager = new GameManager(player, opponent);
 
         // Création de 4 cartes attaquantes avec des dégâts variés (total attendu : 2 + 1 + 3 + 2 = 8)
-        AnimalsCards carteCol0 = new AnimalsCards("Carte 1", 2, 2, 1, 0, false, new ArrayList<>(Arrays.asList(PowerEnum.NONE))) {
-            @Override public Cards clone() { return this; }
+        AnimalsCard carteCol0 = new AnimalsCard("Carte 1", 2, 2, 1, 0, false, new ArrayList<>(Arrays.asList(PowerEnum.NONE))) {
+            @Override public Card clone() { return this; }
         };
-        AnimalsCards carteCol1 = new AnimalsCards("Carte 2", 1, 2, 1, 0, false, new ArrayList<>(Arrays.asList(PowerEnum.NONE))) {
-            @Override public Cards clone() { return this; }
+        AnimalsCard carteCol1 = new AnimalsCard("Carte 2", 1, 2, 1, 0, false, new ArrayList<>(Arrays.asList(PowerEnum.NONE))) {
+            @Override public Card clone() { return this; }
         };
-        AnimalsCards carteCol2 = new AnimalsCards("Carte 3", 3, 2, 1, 0, false, new ArrayList<>(Arrays.asList(PowerEnum.NONE))) {
-            @Override public Cards clone() { return this; }
+        AnimalsCard carteCol2 = new AnimalsCard("Carte 3", 3, 2, 1, 0, false, new ArrayList<>(Arrays.asList(PowerEnum.NONE))) {
+            @Override public Card clone() { return this; }
         };
-        AnimalsCards carteCol3 = new AnimalsCards("Carte 4", 2, 2, 1, 0, false, new ArrayList<>(Arrays.asList(PowerEnum.NONE))) {
-            @Override public Cards clone() { return this; }
+        AnimalsCard carteCol3 = new AnimalsCard("Carte 4", 2, 2, 1, 0, false, new ArrayList<>(Arrays.asList(PowerEnum.NONE))) {
+            @Override public Card clone() { return this; }
         };
 
         // On remplit entièrement la ligne du joueur (Ligne 2, colonnes 0, 1, 2 et 3)
@@ -214,7 +214,7 @@ class InscryptionGameTests {
         GameManager gameManager = new GameManager(player, opponent);
 
         // Création d'une classe locale pour avoir un clone() fonctionnel pour les tests
-        class CarteTest extends AnimalsCards {
+        class CarteTest extends AnimalsCard {
             public CarteTest(String nom, int att, int pdv) {
                 super(nom, att, pdv, 1, 0, false, new ArrayList<>(Arrays.asList(PowerEnum.NONE)));
             }
@@ -223,14 +223,14 @@ class InscryptionGameTests {
                 super(target);
             }
             @Override
-            public Cards clone() {
+            public Card clone() {
                 return new CarteTest(this); // Vrai clone indépendant !
             }
         }
 
         // Création d'un attaquant (2 d'attaque) et d'un défenseur (4 PV)
-        AnimalsCards attaquant = new CarteTest("Allié", 2, 3);
-        AnimalsCards defenseur = new CarteTest("Ennemi", 1, 4);
+        AnimalsCard attaquant = new CarteTest("Allié", 2, 3);
+        AnimalsCard defenseur = new CarteTest("Ennemi", 1, 4);
 
         // On les place face à face sur la colonne 1
         gameManager.setCard(attaquant, 2, 1); // Ligne du joueur
