@@ -81,7 +81,7 @@ public class Opponent {
                         m_turnAttack += gameboard[1][i].getAnimalAttack();
                     }
                 }
-                else // Il y a une carte alliée en face
+                else // Il y a une carte du player en face
                 {
                     int degats = 0;
                     if(gameboard[1][i].isAnimal())
@@ -89,7 +89,7 @@ public class Opponent {
                         degats = gameboard[1][i].getAnimalAttack();
                     }
 
-                    // Gestion du Puant allié
+                    // Gestion du pouvoir Puant de la carte du player
                     if(gameboard[2][i] != null && gameboard[2][i].isAnimal())
                     {
                         if(gameboard[2][i].getFirstPowerAnimal() == PowerEnum.STINKY || gameboard[2][i].getLastPowerAnimal() == PowerEnum.STINKY)
@@ -100,44 +100,27 @@ public class Opponent {
 
                     if (degats < 0) degats = 0;
 
-                    // Carte ennemie volante -> Inflige des dégâts directs au joueur
+                    // Carte ennemie volante -> Inflige des dégâts directs au score
                     if(gameboard[1][i].isAnimal() && gameboard[1][i].getAnimalFly())
                     {
                         score -= degats;
-                        m_turnAttack += degats; // On ajoute les dégâts modifiés
+                        m_turnAttack += degats;
                     }
                     // Combat de cartes -> Pas de m_turnAttack
                     else if(gameboard[1][i].isAnimal() && !gameboard[1][i].getAnimalFly())
                     {
-                        impactedLocations.add(new Location(2, i, degats));
-                        gameboard[2][i].takeDamage(degats);
+                        Cards attaquante = gameboard[1][i]; // Ligne 1
+                        Cards cible = gameboard[2][i];       // Ligne 2
 
-                        if((gameboard[1][i].getFirstPowerAnimal() == PowerEnum.DEATH_TOUCH || gameboard[1][i].getLastPowerAnimal() == PowerEnum.DEATH_TOUCH) && gameboard[2][i].isAnimal())
-                        {
-                            impactedLocations.add(new Location(2, i, 999));
-                            gameboard[2][i].takeDamage(999);
-                        }
+                        attaquante.duel(impactedLocations, degats, i, 1, 2, cible);
 
-                        if(gameboard[2][i] != null && gameboard[2][i].isAnimal())
-                        {
-                            if(gameboard[2][i].getFirstPowerAnimal() == PowerEnum.SHARP_SPIKES || gameboard[2][i].getLastPowerAnimal() == PowerEnum.SHARP_SPIKES)
-                            {
-                                impactedLocations.add(new Location(1, i, 1));
-                                gameboard[1][i].takeDamage(1);
-
-                                if(gameboard[1][i].getHealthPoints() <= 0)
-                                {
-                                    impactedLocations.add(new Location(1, i, (Cards) null));
-                                    gameboard[1][i] = null;
-                                }
-                            }
-                        }
-
-                        if(gameboard[2][i] != null && gameboard[2][i].getHealthPoints() <= 0)
-                        {
-                            impactedLocations.add(new Location(2, i, (Cards) null));
+                        // Nettoyage du tableau après duel
+                        if (gameboard[2][i].getHealthPoints() <= 0) {
                             gameboard[2][i] = null;
-                            player.increaseBones();
+                            player.increaseBones(); // Le joueur gagne un os car sa carte est morte
+                        }
+                        if (gameboard[1][i] != null && gameboard[1][i].getHealthPoints() <= 0) {
+                            gameboard[1][i] = null; // L'adversaire meurt (possible à cause des piques du joueur)
                         }
                     }
                 }

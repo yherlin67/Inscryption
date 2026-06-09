@@ -158,6 +158,7 @@ package inscryption
             +{abstract}getPowerSizeAnimal() : Integer
             +{abstract}getFirstPowerAnimal() : PowerEnum
             +{abstract}getLastPowerAnimal() : PowerEnum
+            +{abstract}duel(impactedLocations : Locations[], degats : Integer, colonne : Integer, rangeeAttaquant : Integer, rangeeCible : Inetger, cible Cards)
 
         }
 
@@ -178,6 +179,7 @@ package inscryption
             +getBlood() : Integer
             +getBone() : Integer
             +addPower(power : PowerEnum)
+            +duel(impactedLocations : Locations[], degats : Integer, colonne : Integer, rangeeAttaquant : Integer, rangeeCible : Inetger, cible Cards)
         }
 
         class Cat extends AnimalsCards{

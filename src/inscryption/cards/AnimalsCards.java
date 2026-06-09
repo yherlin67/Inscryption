@@ -1,5 +1,6 @@
 package inscryption.cards;
 
+import inscryption.logic.Location;
 import inscryption.logic.PowerEnum;
 import java.util.ArrayList;
 
@@ -11,9 +12,8 @@ public abstract class AnimalsCards extends Cards {
     private boolean m_flying;
     private ArrayList<PowerEnum> m_powerEnum;
 
-    public AnimalsCards(String nom, int att, int pdv, int gds, int os, boolean vol, ArrayList<PowerEnum> powerEnum)
-    {
-        super(nom,pdv);
+    public AnimalsCards(String nom, int att, int pdv, int gds, int os, boolean vol, ArrayList<PowerEnum> powerEnum) {
+        super(nom, pdv);
         m_attack = att;
         m_blood = gds;
         m_bone = os;
@@ -62,7 +62,48 @@ public abstract class AnimalsCards extends Cards {
         return m_powerEnum.getLast();
     }
 
-    public int getBlood() { return m_blood; }
-    public int getBone() { return m_bone; }
-    public void addPower(PowerEnum power) { m_powerEnum.add(power); }
+    public int getBlood() {
+        return m_blood;
+    }
+
+    public int getBone() {
+        return m_bone;
+    }
+
+    public void addPower(PowerEnum power) {
+        m_powerEnum.add(power);
+    }
+
+    @Override
+    public void duel(ArrayList<Location> impactedLocations, int degats, int i, int ligneAttaquant, int ligneCible, Cards cible)
+    {
+        impactedLocations.add(new Location(ligneCible, i, degats));
+        cible.takeDamage(degats);
+
+        if(this.getFirstPowerAnimal() == PowerEnum.DEATH_TOUCH || this.getLastPowerAnimal() == PowerEnum.DEATH_TOUCH)
+        {
+            impactedLocations.add(new Location(ligneCible, i, 999));
+            cible.takeDamage(999);
+        }
+
+        if(cible.isAnimal())
+        {
+            if(cible.getFirstPowerAnimal() == PowerEnum.SHARP_SPIKES || cible.getLastPowerAnimal() == PowerEnum.SHARP_SPIKES)
+            {
+                this.takeDamage(1);
+                impactedLocations.add(new Location(ligneAttaquant, i, 1));
+
+                if(this.getHealthPoints() <= 0)
+                {
+                    impactedLocations.add(new Location(ligneAttaquant, i, (Cards) null));
+                }
+            }
+        }
+
+        if(cible.getHealthPoints() <= 0)
+        {
+            impactedLocations.add(new Location(ligneCible, i, (Cards) null));
+        }
+    }
+
 }

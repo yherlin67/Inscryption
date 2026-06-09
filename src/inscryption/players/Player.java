@@ -116,7 +116,7 @@ public class Player {
         {
             if(gameboard[2][i] != null)
             {
-                // Cas 1 : La case en face est vide -> Dégâts directs au joueur adverse !
+                // Cas 1 : La case en face est vide -> Dégâts directs au joueur adverse
                 if(gameboard[1][i] == null)
                 {
                     if(gameboard[2][i].isAnimal())
@@ -138,14 +138,14 @@ public class Player {
                     {
                         if(gameboard[1][i].getFirstPowerAnimal() == PowerEnum.STINKY || gameboard[1][i].getLastPowerAnimal() == PowerEnum.STINKY)
                         {
-                            degats--;
+                            degats = Math.max(degats - 1, 0);
                         }
                     }
 
                     // Sécurité : les dégâts ne peuvent pas être négatifs
-                    if (degats < 0) degats = 0;
+                    //if (degats < 0) degats = 0;
 
-                    // Cas 2 : Ta carte est volante -> Elle survole la carte ennemie et tape le joueur !
+                    // Cas 2 : La carte est volante -> Elle survole la carte ennemie et tape le joueur
                     if(gameboard[2][i].isAnimal() && gameboard[2][i].getAnimalFly())
                     {
                         score += degats;
@@ -154,35 +154,21 @@ public class Player {
                     // Cas 3 : Carte normale -> Combat de créatures (m_turnAttack ne bouge pas !)
                     else if(gameboard[2][i].isAnimal() && !gameboard[2][i].getAnimalFly())
                     {
-                        impactedLocations.add(new Location(1, i, degats));
-                        gameboard[1][i].takeDamage(degats); // Attention, c'était gameboard[2][i] dans ton code, petit bug ici aussi !
+                        //On allège la méthode en appelant une méthode propre à la classe Cards qui gère les duels simples
+                        Cards attaquante = gameboard[2][i];
+                        Cards cible = gameboard[1][i];
 
-                        if(gameboard[2][i].getFirstPowerAnimal() == PowerEnum.DEATH_TOUCH || gameboard[2][i].getLastPowerAnimal() == PowerEnum.DEATH_TOUCH)
-                        {
-                            impactedLocations.add(new Location(1, i, 999));
-                            gameboard[1][i].takeDamage(999);
-                        }
+                        attaquante.duel(impactedLocations, degats, i, 2, 1, cible);
 
-                        if(gameboard[1][i] != null && gameboard[1][i].isAnimal())
-                        {
-                            if(gameboard[1][i].getFirstPowerAnimal() == PowerEnum.SHARP_SPIKES || gameboard[1][i].getLastPowerAnimal() == PowerEnum.SHARP_SPIKES)
-                            {
-                                gameboard[2][i].takeDamage(1);
-                                impactedLocations.add(new Location(2, i, 1));
-
-                                if(gameboard[2][i].getHealthPoints() <= 0)
-                                {
-                                    gameboard[2][i] = null;
-                                    this.increaseBones();
-                                    impactedLocations.add(new Location(2, i, (Cards) null));
-                                }
-                            }
-                        }
-
-                        if(gameboard[1][i] != null && gameboard[1][i].getHealthPoints() <= 0)
+                        //Nettoyage du tableau après le duel
+                        if (gameboard[1][i].getHealthPoints() <= 0)
                         {
                             gameboard[1][i] = null;
-                            impactedLocations.add(new Location(1, i, (Cards) null));
+                        }
+                        if (gameboard[2][i] != null && gameboard[2][i].getHealthPoints() <= 0)
+                        {
+                            gameboard[2][i] = null;
+                            this.increaseBones();
                         }
                     }
                 }

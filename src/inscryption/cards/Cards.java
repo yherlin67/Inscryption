@@ -1,6 +1,9 @@
 package inscryption.cards;
 
+import inscryption.logic.Location;
 import inscryption.logic.PowerEnum;
+
+import java.util.ArrayList;
 
 public abstract class Cards {
     private String m_name;
@@ -44,4 +47,6 @@ public abstract class Cards {
     public abstract PowerEnum getFirstPowerAnimal();
 
     public abstract PowerEnum getLastPowerAnimal();
+
+    public abstract void duel(ArrayList<Location> impactedLocations, int degats, int i, int ligneAttaquant, int ligneCible, Cards cible);
 }
