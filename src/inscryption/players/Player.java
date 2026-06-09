@@ -11,16 +11,19 @@ import java.util.Random;
 public class Player {
 
     private final ArrayList<AnimalsCard> m_hand;
+    //pioche du joueur
     private final ArrayList<AnimalsCard> m_gamecards;
-    private final ArrayList<AnimalsCard> m_gamecards_copy;
+    //pioche commune à toutes les parties
+    private final ArrayList<AnimalsCard> m_gamecards_global;
     private final Random m_random;
     private int m_obtainedBones;
+    //Pour stocker les attaques faites au score pendant le tour
     private int m_turnAttack;
 
     public Player()
     {
         m_hand = new ArrayList<>();
-        m_gamecards_copy = new ArrayList<>();
+        m_gamecards_global = new ArrayList<>();
         m_gamecards = new ArrayList<>();
         m_random = new Random();
         m_obtainedBones = 0;
@@ -53,10 +56,11 @@ public class Player {
             Squirrel e = new Squirrel();
             temp.add(e);
         }
+        //Pioche globale (commune à toutes les parties), pour garder les mêmes cartes mais les mélanger dans un autre ordre à chaque tour
         for(int k=0; k<15; k++)
         {
             int aleatoireIndex = m_random.nextInt(temp.size());
-            m_gamecards_copy.add(temp.get(aleatoireIndex));
+            m_gamecards_global.add(temp.get(aleatoireIndex));
             temp.remove(aleatoireIndex);
         }
     }
@@ -70,7 +74,8 @@ public class Player {
     public void setGamecards(){
         m_hand.clear();
         m_gamecards.clear();
-        ArrayList<AnimalsCard> tempDeck = new ArrayList<>(m_gamecards_copy);
+        ArrayList<AnimalsCard> tempDeck = new ArrayList<>(m_gamecards_global);
+        //Je remplis ma pioche pour ce tour avec les mêmes cartes que dans ma copie globale (commune à toutes les parties), mais dans un ordre différent
         while (!tempDeck.isEmpty())
         {
             int aleatoireIndex = m_random.nextInt(tempDeck.size());
@@ -196,6 +201,7 @@ public class Player {
                         indicesBloques.add(j+1);
 
                         impactedLocations.add(new Location(2, j+1, gameboard[2][j]));
+                        //Cast en Card pour être sur d'utiliser le bon constructeur de Locations
                         impactedLocations.add(new Location(2, j, (Card) null));
                     }
                     //Sinon on se déplace à gauche
@@ -229,6 +235,8 @@ public class Player {
 
         return new ResultBox(score, impactedLocations);
     }
+
+    public void addCardToDraw(AnimalsCard card) {m_gamecards.add(card);}
 
     public Card removeCard(int indHand) {return m_hand.remove(indHand);}
 

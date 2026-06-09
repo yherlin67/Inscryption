@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 public class Opponent {
     private final ArrayList<AnimalsCard>[] m_actions;
+    //Pour stocker les attaques faites au score pendant le tour
     private int m_turnAttack;
 
     public Opponent()
@@ -24,6 +25,7 @@ public class Opponent {
 
     public void setMatch(ArrayList<AnimalsCard> actions0, ArrayList<AnimalsCard> actions1, ArrayList<AnimalsCard> actions2)
     {
+        //On stocke les listes de cartes à venir
         m_actions[0] = actions0;
         m_actions[1] = actions1;
         m_actions[2] = actions2;
@@ -31,6 +33,8 @@ public class Opponent {
 
     public ResultBox play(Card[][] gameboard)
     {
+        //L'adversaire va placer ses cartes
+
         // Notre liste d'impacts pour le GameManager
         ArrayList<Location> impactedLocations = new ArrayList<>();
 
@@ -47,6 +51,7 @@ public class Opponent {
 
             if (gameboard[0][i] == null && !m_actions[i].isEmpty())
             {
+                //La carte à venir dans les listes de m_actions est affichée
                 Card nouvelleCarte = m_actions[i].getFirst();
              //   m_actions[i].removeFirst();
 

@@ -7,17 +7,18 @@ import java.util.ArrayList;
 
 public abstract class Card {
     private String m_name;
-    private int m_health_points;
+    private int m_healthPoints;
 
     public Card(String nom, int pdv)
     {
         m_name = nom;
-        m_health_points = pdv;
+        m_healthPoints = pdv;
     }
 
+    //Constructeur de copie appelé dans la méthode clone qui est implémentée dans chaque classe animal
     protected Card(Card target) {
         if (target != null) {
-            this.m_health_points = target.m_health_points;
+            this.m_healthPoints = target.m_healthPoints;
             this.m_name = target.m_name;
         }
     }
@@ -29,11 +30,17 @@ public abstract class Card {
     }
 
     public int getHealthPoints() {
-        return m_health_points;
+        return m_healthPoints;
     }
 
+
     public void takeDamage(int degats) {
-        this.m_health_points -= degats;
+        // Si les dégâts risquent de faire tomber les PV sous 0, on force directement à 0
+        if (degats >= this.m_healthPoints) {
+            this.m_healthPoints = 0;
+        } else {
+            this.m_healthPoints -= degats;
+        }
     }
 
     public abstract boolean isAnimal();
@@ -48,5 +55,5 @@ public abstract class Card {
 
     public abstract PowerEnum getLastPowerAnimal();
 
-    public abstract void duel(ArrayList<Location> impactedLocations, int degats, int i, int ligneAttaquant, int ligneCible, Card cible);
+    public abstract void duel(ArrayList<Location> impactedLocations, int damages, int i, int attackLine, int aimLine, Card aim);
 }

@@ -22,16 +22,12 @@ public class DisplayBoard {
 
         int handSize = player.getHandSize();
         int drawSize = player.getDrawSize();
-        int pourlaboucle = (6 - handSize);
+        //Si la main fait moins de 6 cartes, il faudra afficher des lignes supplémentaires pour faire un bel affichage
+        int forLoop = Math.max(6 - handSize, 0);
 
-        if(pourlaboucle < 0)
+        for(int j = 0; j < handSize + forLoop; j++)
         {
-            pourlaboucle = 0;
-        }
-
-        for(int j = 0; j < handSize + pourlaboucle; j++)
-        {
-            String chaine = "";
+            String str = "";
             if(handSize > j)
             {
                 String power = "";
@@ -39,6 +35,7 @@ public class DisplayBoard {
                 if(player.getCardFirstPowerInHand(j) != PowerEnum.NONE)
                 {
                     power += player.getCardFirstPowerInHand(j);
+                    //-1d : entier affiché à gauche sur un caractère ... (s pour chaîne)
                     ligne = "%-1d. %-12s PV: %-3d Att: %-2d Sang: %-2d Os: %-2d Volant: %-3s  Pouvoir: %-21s";
                 }
                 if(player.getCardLastPowerInHand(j) != PowerEnum.NONE && player.getCardFirstPowerInHand(j) != player.getCardLastPowerInHand(j))
@@ -57,32 +54,32 @@ public class DisplayBoard {
                 );
 
                 if(j == 2) {
-                    if(drawSize >= 10) { chaine += ligneFormatee + "        |     " + drawSize + "    |"; }
-                    else { chaine += ligneFormatee + "        |     " + drawSize + "     |"; }
+                    if(drawSize >= 10) { str += ligneFormatee + "        |     " + drawSize + "    |"; }
+                    else { str += ligneFormatee + "        |     " + drawSize + "     |"; }
                 } else if(j == 3) {
-                    chaine += ligneFormatee + "        |  carte(s) |";
+                    str += ligneFormatee + "        |  carte(s) |";
                 } else if(j == 5) {
-                    chaine += ligneFormatee + "        *___________*";
+                    str += ligneFormatee + "        *___________*";
                 } else if(j < 6) {
-                    chaine += ligneFormatee + "        |           |";
+                    str += ligneFormatee + "        |           |";
                 } else {
-                    chaine += ligneFormatee;
+                    str += ligneFormatee;
                 }
             }
             else
             {
                 if(j == 2) {
-                    if(drawSize >= 10) { chaine += "                                                                                                   |     " + drawSize + "    |"; }
-                    else { chaine += "                                                                                                   |     " + drawSize + "     |"; }
+                    if(drawSize >= 10) { str += "                                                                                                   |     " + drawSize + "    |"; }
+                    else { str += "                                                                                                   |     " + drawSize + "     |"; }
                 } else if(j == 3) {
-                    chaine += "                                                                                                   |  carte(s) |";
+                    str += "                                                                                                   |  carte(s) |";
                 } else if(j != 5) {
-                    chaine += "                                                                                                   |           |";
+                    str += "                                                                                                   |           |";
                 } else {
-                    chaine += "                                                                                                   *___________*";
+                    str += "                                                                                                   *___________*";
                 }
             }
-            System.out.println(chaine);
+            System.out.println(str);
         }
         System.out.println("\nActions possibles :");
         System.out.println(" [fin] Terminer votre tour");
@@ -92,183 +89,196 @@ public class DisplayBoard {
 
     public void displayCards(String message, Player player, Opponent opponent, Card[][] gameboard, int game, int turn, int score)
     {
+        //On affiche toutes les cartes du plateau et les flèches vers le bas (ligne de transition) dans le cas où i = 0.
         for(int i = 0; i < 3; i++)
         {
-            StringBuilder chaine = new StringBuilder();
-            chaine = new StringBuilder(displayRow(chaine.toString(), i, message, player, opponent, gameboard, game, turn, score));
+            StringBuilder str = new StringBuilder();
+            str = new StringBuilder(displayRow(str.toString(), i, message, player, opponent, gameboard, game, turn, score));
             if(i == 0)
             {
-                chaine.append("        ||       ".repeat(4));
-                chaine.append("\n");
-                chaine.append("        \\/       ".repeat(4));
-                System.out.println(chaine);
-                chaine = new StringBuilder();
+                str.append("        ||       ".repeat(4));
+                str.append("\n");
+                str.append("        \\/       ".repeat(4));
+                System.out.println(str);
+                str = new StringBuilder();
             }
-            System.out.println(chaine);
+            System.out.println(str);
         }
     }
 
-    public String displayRow(String chaine, int rangee, String message, Player player, Opponent opponent, Card[][] gameboard, int game, int turn, int score)
+    public String displayRow(String str, int rangee, String message, Player player, Opponent opponent, Card[][] gameboard, int game, int turn, int score)
     {
-        StringBuilder chaineBuilder = new StringBuilder(chaine);
+        //rangee représente la rangée de l'emplacement de la carte sur le tableau gameboard, la ligne sur le gameboard enfaite
+        StringBuilder strBuilder = new StringBuilder(str);
 
-        // i représente directement l'index de la ligne (de 0 à 8)
+        // Dans la boucle ci-dessous, i représente directement l'index de la ligne sur le plateau (de 0 à 8, on parle de la version affichée du plateau ici)
         for(int i = 0; i < 9; i++)
         {
             switch(i) // On switch sur i directement (0 à 8)
             {
-                case 0: // Anciennement Ligne 1 (Bordure haute)
-                case 8: // Anciennement Ligne 9 (Bordure basse)
+                //Même action pour case 0 et 8
+                case 0: // Bordure haute
+                case 8: // Bordure basse
+                    //On balaie les cartes sur la ligne
                     for(int l = 0; l < 4; l++)
                     {
                         if(gameboard[rangee][l] == null) {
-                            chaineBuilder.append(" *************** ");
+                            strBuilder.append(" *************** ");
                         } else {
-                            chaineBuilder.append(" *_____________* ");
+                            strBuilder.append(" *_____________* ");
                         }
                     }
+                    // Si on est sur la rangee 1 sur la ligne 0
                     if(rangee == 1 && i == 0) {
-                        chaineBuilder.append("      Partie n°").append(game).append("\n");
+                        strBuilder.append("      Partie n°").append(game).append("\n");
                     } else if(rangee == 1) {
-                        chaineBuilder.append("      ").append(message).append("\n");
+                        strBuilder.append("      ").append(message).append("\n");
                     } else {
-                        chaineBuilder.append("\n");
+                        strBuilder.append("\n");
                     }
                     break;
 
-                case 1: // Anciennement Ligne 2 (Nom)
+                case 1: // Ligne 2 (Nom)
+                    //On balaie les cartes sur la ligne sur la rangee
                     for(int l = 0; l < 4; l++)
                     {
                         if(gameboard[rangee][l] == null) {
-                            chaineBuilder.append(" *             * ");
+                            strBuilder.append(" *             * ");
                         } else {
                             String name = gameboard[rangee][l].getName();
-                            chaineBuilder.append(" | ").append(name);
-                            chaineBuilder.append(" ".repeat(Math.max(0, (12 - name.length()))));
-                            chaineBuilder.append("| ");
+                            strBuilder.append(" | ").append(name);
+                            strBuilder.append(" ".repeat(Math.max(0, (12 - name.length()))));
+                            strBuilder.append("| ");
                         }
                     }
                     if(rangee == 1) {
-                        chaineBuilder.append("      Tour n°").append(turn).append("\n");
+                        strBuilder.append("      Tour n°").append(turn).append("\n");
                     } else {
-                        chaineBuilder.append("\n");
+                        strBuilder.append("\n");
                     }
                     break;
 
-                case 2: // Anciennement Ligne 3 (Séparateur)
+                case 2: // Ligne 3 (Séparateur)
+                    //On balaie les cartes sur la ligne sur la rangee
                     for(int l = 0; l < 4; l++)
                     {
                         if(gameboard[rangee][l] == null) {
-                            chaineBuilder.append(" *             * ");
+                            strBuilder.append(" *             * ");
                         } else {
-                            chaineBuilder.append(" |-------------| ");
+                            strBuilder.append(" |-------------| ");
                         }
                     }
                     if(rangee == 1) {
-                        chaineBuilder.append("      Score : ").append(score).append("\n");
+                        strBuilder.append("      Score : ").append(score).append("\n");
                     } else {
-                        chaineBuilder.append("\n");
+                        strBuilder.append("\n");
                     }
                     break;
 
-                case 3: // Anciennement Ligne 4 (PV)
+                case 3: // Ligne 4 (PV)
+                    //On balaie les cartes sur la ligne sur la rangee
                     for(int l = 0; l < 4; l++)
                     {
                         if(gameboard[rangee][l] == null) {
-                            if(rangee == 1) { chaineBuilder.append(" *     A").append(l + 1).append("      * "); }
-                            else if(rangee == 2) { chaineBuilder.append(" *     B").append(l + 1).append("      * "); }
-                            else { chaineBuilder.append(" *             * "); }
+                            if(rangee == 1) { strBuilder.append(" *     A").append(l + 1).append("      * "); }
+                            else if(rangee == 2) { strBuilder.append(" *     B").append(l + 1).append("      * "); }
+                            else { strBuilder.append(" *             * "); }
                         } else {
-                            chaineBuilder.append(" | PV : ").append(gameboard[rangee][l].getHealthPoints()).append("      | ");
+                            strBuilder.append(" | PV : ").append(gameboard[rangee][l].getHealthPoints()).append("      | ");
                         }
                     }
                     if(rangee == 1) {
-                        chaineBuilder.append("      Os obtenus : ").append(player.getBones()).append("\n");
+                        strBuilder.append("      Os obtenus : ").append(player.getBones()).append("\n");
                     } else {
-                        chaineBuilder.append("\n");
+                        strBuilder.append("\n");
                     }
                     break;
 
-                case 4: // Anciennement Ligne 5 (Attaque)
+                case 4: // Ligne 5 (Attaque)
+                    //On balaie les cartes sur la ligne sur la rangee
                     for(int l = 0; l < 4; l++)
                     {
                         if(gameboard[rangee][l] == null) {
-                            chaineBuilder.append(" *             * ");
+                            strBuilder.append(" *             * ");
                         } else if(gameboard[rangee][l].isAnimal() && gameboard[rangee][l].getAnimalAttack() > 0) {
-                            chaineBuilder.append(" | Att : ").append(gameboard[rangee][l].getAnimalAttack()).append("     | ");
+                            strBuilder.append(" | Att : ").append(gameboard[rangee][l].getAnimalAttack()).append("     | ");
                         } else {
-                            chaineBuilder.append(" |             | ");
+                            strBuilder.append(" |             | ");
                         }
                     }
-                    chaineBuilder.append("\n");
+                    strBuilder.append("\n");
                     break;
 
-                case 5: // Anciennement Ligne 6 (Volant)
+                case 5: // Ligne 6 (Volant)
+                    //On balaie les cartes sur la ligne sur la rangee
                     for(int l = 0; l < 4; l++)
                     {
                         if(gameboard[rangee][l] == null) {
-                            chaineBuilder.append(" *             * ");
+                            strBuilder.append(" *             * ");
                         } else if(gameboard[rangee][l].isAnimal() && gameboard[rangee][l].getAnimalFly()) {
-                            chaineBuilder.append(" | Volant      | ");
+                            strBuilder.append(" | Volant      | ");
                         } else {
-                            chaineBuilder.append(" |             | ");
+                            strBuilder.append(" |             | ");
                         }
                     }
                     if(rangee == 1) {
-                        chaineBuilder.append("      Dégats infligés au tour précédent :\n");
+                        strBuilder.append("      Dégats infligés au tour précédent :\n");
                     } else {
-                        chaineBuilder.append("\n");
+                        strBuilder.append("\n");
                     }
                     break;
 
-                case 6: // Anciennement Ligne 7 (Pouvoir 1)
+                case 6: // Ligne 7 (Pouvoir 1 + Bilan du dernier tour)
+                    //On balaie les cartes sur la ligne sur la rangee
                     for(int l = 0; l < 4; l++)
                     {
                         if(gameboard[rangee][l] == null) {
-                            chaineBuilder.append(" *             * ");
+                            strBuilder.append(" *             * ");
                         } else if(gameboard[rangee][l].getPowerSizeAnimal() == 1 && gameboard[rangee][l].getFirstPowerAnimal() != PowerEnum.NONE) {
                             String powerStr = gameboard[rangee][l].getFirstPowerAnimal().toString();
-                            chaineBuilder.append(" | ").append(powerStr);
-                            chaineBuilder.append(" ".repeat(Math.max(0, (12 - powerStr.length()))));
-                            chaineBuilder.append("| ");
+                            strBuilder.append(" | ").append(powerStr);
+                            strBuilder.append(" ".repeat(Math.max(0, (12 - powerStr.length()))));
+                            strBuilder.append("| ");
                         } else {
-                            chaineBuilder.append(" |             | ");
+                            strBuilder.append(" |             | ");
                         }
                     }
+                    //Affichage des dégâts infligés au dernier tour
                     if(rangee == 1 && turn == m_actualTurn + 1) {
                         int playerAttack = player.getTurnAttack();
                         int opponentAttackTurn = opponent.getTurnAttack();
-                        chaineBuilder.append("      Joueur : ").append(playerAttack).append("| Adversaire : ").append(opponentAttackTurn).append("\n");
+                        strBuilder.append("      Joueur : ").append(playerAttack).append("| Adversaire : ").append(opponentAttackTurn).append("\n");
                         m_actualTurn++;
                     } else {
-                        chaineBuilder.append("\n");
+                        strBuilder.append("\n");
                     }
                     break;
 
-                case 7: // Anciennement Ligne 8 (Pouvoir 2)
+                case 7: // Ligne 8 (Pouvoir 2)
+                    //On balaie les cartes sur la ligne sur la rangee
                     for(int l = 0; l < 4; l++)
                     {
                         if(gameboard[rangee][l] == null) {
-                            chaineBuilder.append(" *             * ");
+                            strBuilder.append(" *             * ");
                         } else if(gameboard[rangee][l].getPowerSizeAnimal() == 2) {
                             String powerStr = gameboard[rangee][l].getLastPowerAnimal().toString();
-                            chaineBuilder.append(" | ").append(powerStr);
-                            chaineBuilder.append(" ".repeat(Math.max(0, (12 - powerStr.length()))));
-                            chaineBuilder.append("| ");
+                            strBuilder.append(" | ").append(powerStr);
+                            strBuilder.append(" ".repeat(Math.max(0, (12 - powerStr.length()))));
+                            strBuilder.append("| ");
                         } else {
-                            chaineBuilder.append(" |             | ");
+                            strBuilder.append(" |             | ");
                         }
                     }
-                    chaineBuilder.append("\n");
+                    strBuilder.append("\n");
                     break;
             }
         }
-        return chaineBuilder.toString();
+        return strBuilder.toString();
     }
 
-    public void print(String chaine)
+    public void print(String str)
     {
-        System.out.println(chaine);
+        System.out.println(str);
     }
 
     @Override

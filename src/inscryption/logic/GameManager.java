@@ -49,7 +49,6 @@ public class GameManager {
 
     public void manageAction(Scanner sc)
     {
-        //Retourne si on doit afficher une erreur ou non !
         String action = sc.nextLine();
         if(action.equals("fin"))
         {
@@ -93,7 +92,8 @@ public class GameManager {
             int indHand;
             int indBoard;
 
-            if(action.length()==11 && action.charAt(9) == 'B')
+            //action du type placer 1 B1
+            if(action.length()==11 && action.charAt(9) == 'B' && Character.getNumericValue(action.charAt(10))<5)
             {
                 try {
                     indHand = parseInt(action.substring(7,8)) - 1;
@@ -108,7 +108,7 @@ public class GameManager {
                 if(requiedDrop == 0 && requiedBones == 0)
                 {
                     if(m_gameboard[2][indBoard] == null) {
-                        setMessage("Vous placer la carte");
+                        setMessage("Vous placez la carte");
                         placeCard(indHand, indBoard);
                         return;
                     } else {
@@ -118,13 +118,14 @@ public class GameManager {
                 }
                 else if(requiedBones > 0)
                 {
+                    //---Gestion des os---
                     int os = m_player.getBones();
                     if(os >= requiedBones)
                     {
                         if (m_gameboard[2][indBoard] == null) {
                             os -= requiedBones;
                             m_player.setBones(os);
-                            setMessage("Vous placer la carte");
+                            setMessage("Vous placez la carte");
                             placeCard(indHand, indBoard);
                             return;
                         } else {
@@ -140,22 +141,25 @@ public class GameManager {
                 }
                 else if(requiedDrop > 0)
                 {
+                    //--Gestion du sacrifice---
+                    //---Gestion du pouvoir Nombreuses vies---
                     if (m_gameboard[2][indBoard] != null  && m_gameboard[2][indBoard].isAnimal() && (m_gameboard[2][indBoard].getFirstPowerAnimal() == PowerEnum.MANY_LIVES || m_gameboard[2][indBoard].getLastPowerAnimal() == PowerEnum.MANY_LIVES)) {
-                        setMessage("Ah non ! Un Chat occupe déjà cette case, placement impossible !");
+                        setMessage("Ah non ! Un Animal avec le pouvoir Nombreuses Vies occupe déjà cette case, placement impossible !");
                         return;
                     }
 
-                    StringBuilder enCours = new StringBuilder();
-                    ArrayList<Integer> aSupprimer = new ArrayList<>();
+                    StringBuilder current = new StringBuilder();
+                    ArrayList<Integer> toDelete = new ArrayList<>();
                     int blood = 0;
                     for (int i = 0; i < 4; i++) {
+                        //Pour l'instant aucune carte n'a été sacrifiée
                         m_sacrifices.set(i, null);
                     }
 
-                    while(!action.equals("valider sacrifice"))
+                    while(!action.equals("valider"))
                     {
                         m_display.print("\n [sacrifier <position>]");
-                        m_display.print(" [valider sacrifice] (Sacrifice en cours : " + enCours + " | Récolté : " + blood + "/" + requiedDrop + ")");
+                        m_display.print(" [valider] (Sacrifice en cours : " + current + " | Récolté : " + blood + "/" + requiedDrop + ")");
                         m_display.print(" [annuler]");
                         action = sc.nextLine();
 
@@ -171,17 +175,18 @@ public class GameManager {
                                 }
                                 else if(idxSacrifice >= 0 && idxSacrifice < 4 && m_gameboard[2][idxSacrifice] != null && m_gameboard[2][idxSacrifice].isAnimal())
                                 {
-                                    if(aSupprimer.contains(idxSacrifice))
+                                    if(toDelete.contains(idxSacrifice))
                                     {
-                                        m_display.print("Sacrifiez un animal une fois c'est cruel mais deux fois ??");
+                                        m_display.print("Sacrifier un animal une fois c'est cruel mais deux fois ??");
                                     }
                                     else
                                     {
-                                        enCours.append(m_gameboard[2][idxSacrifice].getName()).append(" ");
+                                        current.append(m_gameboard[2][idxSacrifice].getName()).append(" ");
                                         if(m_gameboard[2][idxSacrifice].getFirstPowerAnimal() != PowerEnum.MANY_LIVES || m_gameboard[2][idxSacrifice].getLastPowerAnimal() != PowerEnum.MANY_LIVES)
                                         {
+                                            //On ajoute la carte sacrifiée à m_sacrifices
                                             m_sacrifices.set(idxSacrifice, m_gameboard[2][idxSacrifice]);
-                                            aSupprimer.add(idxSacrifice);
+                                            toDelete.add(idxSacrifice);
                                         }
                                         blood += 1;
                                     }
@@ -200,7 +205,7 @@ public class GameManager {
                             setMessage("Annulation du sacrifice");
                             return;
                         }
-                        else if (!action.equals("valider sacrifice"))
+                        else if (!action.equals("valider"))
                         {
                             m_display.print("Je crois que vous ne pouvez pas faire ça dans ce jeu..");
                         }
@@ -213,8 +218,9 @@ public class GameManager {
 
                     if(m_gameboard[2][indBoard] == null) {
                         placeCard(indHand, indBoard);
-                        setMessage("Vous placer la carte.");
-                        for(int col : aSupprimer) {
+                        setMessage("Vous placez la carte.");
+                        //On retire les cartes sacrifiées du plateau
+                        for(int col : toDelete) {
                             m_gameboard[2][col] = null;
                             m_player.increaseBones();
                         }
@@ -224,123 +230,7 @@ public class GameManager {
                         {
                             if(m_gameboard[2][i] == null)
                             {
-                                m_gameboard[2][i] = m_sacrifices.get(i);
-                            }
-                        }
-                        setMessage("Placement impossible ! La case ciblée est encore occupée.");
-                        return;
-                    }
-                }
-                setMessage("Placement impossible ! La case ciblée est encore occupée.");
-            }
-            else if(action.length()==12 && action.charAt(10) == 'B')
-            {
-                try {
-                    indHand = parseInt(action.substring(7,9)) - 1;
-                    indBoard = parseInt(action.substring(11,12)) - 1;
-                } catch (NumberFormatException e) {
-                    return;
-                }
-
-                int requiedDrop = m_player.getBloodAt(indHand);
-
-                if(requiedDrop == 0)
-                {
-                    if(m_gameboard[2][indBoard] == null) {
-                        placeCard(indHand, indBoard);
-                        setMessage("Vous placer la carte.");
-                        return;
-                    } else {
-                        setMessage("Ah non ! C'est déjà occupé ici !");
-                        return;
-                    }
-                }
-                else if(requiedDrop > 0)
-                {
-                    if (m_gameboard[2][indBoard] != null && m_gameboard[2][indBoard].isAnimal() &&  (m_gameboard[2][indBoard].getFirstPowerAnimal() == PowerEnum.MANY_LIVES || m_gameboard[2][indBoard].getLastPowerAnimal() == PowerEnum.MANY_LIVES)) {
-                        setMessage("Ah non ! Un Chat occupe déjà cette case, placement impossible !");
-                        return;
-                    }
-
-                    StringBuilder enCours = new StringBuilder();
-                    ArrayList<Integer> aSupprimer = new ArrayList<>();
-                    int blood = 0;
-                    for (int i = 0; i < 4; i++) {
-                        m_sacrifices.set(i, null);
-                    }
-
-                    while(!action.equals("valider sacrifice"))
-                    {
-                        m_display.print("\n [sacrifier <position>]");
-                        m_display.print(" [valider sacrifice] (Sacrifice en cours : " + enCours + " | Récolté : " + blood + "/" + requiedDrop + ")");
-                        m_display.print(" [annuler]");
-                        action = sc.nextLine();
-
-                        if (action.startsWith("sacrifier") && action.length() >= 12)
-                        {
-                            if(action.charAt(10) == 'B')
-                            {
-                                int idxSacrifice = Character.getNumericValue(action.charAt(11)) - 1;
-
-                                if(blood >= requiedDrop)
-                                {
-                                    m_display.print("Vous avez déjà assez de sang ! Pourquoi sacrifier d'autres pauvres bêtes ?");
-                                }
-                                else if(idxSacrifice >= 0 && idxSacrifice < 4 && m_gameboard[2][idxSacrifice] != null && m_gameboard[2][idxSacrifice].isAnimal())
-                                {
-                                    if(aSupprimer.contains(idxSacrifice))
-                                    {
-                                        m_display.print("Sacrifiez un animal une fois c'est cruel mais deux fois ??");
-                                    }
-                                    else
-                                    {
-                                        enCours.append(m_gameboard[2][idxSacrifice].getName()).append(" ");
-                                        if(m_gameboard[2][idxSacrifice].getFirstPowerAnimal() != PowerEnum.MANY_LIVES || m_gameboard[2][idxSacrifice].getLastPowerAnimal() != PowerEnum.MANY_LIVES)
-                                        {
-                                            m_sacrifices.set(idxSacrifice, m_gameboard[2][idxSacrifice]);
-                                            aSupprimer.add(idxSacrifice);
-                                        }
-                                        blood += 1;
-                                    }
-                                }
-                                else
-                                {
-                                    m_display.print("Le vide n'est pas un animal à sacrifier.");
-                                }
-                            }
-                            else
-                            {
-                                setMessage("Je crois que vous ne pouvez pas faire ça dans ce jeu.");
-                            }
-                        }
-                        else if (action.equals("annuler")) {
-                            setMessage("Annulation du sacrifice.");
-                            return;
-                        }
-                        else if (!action.equals("valider sacrifice"))
-                        {
-                            setMessage("Je crois que vous ne pouvez pas faire ça dans ce jeu.");
-                        }
-                    }
-
-                    if (blood < requiedDrop) {
-                        m_display.print("Pas assez de sang récolté pour cette carte !");
-                        return;
-                    }
-
-                    if(m_gameboard[2][indBoard] == null) {
-                        setMessage("Vous placer la carte");
-                        placeCard(indHand, indBoard);
-                        for(int col : aSupprimer) {
-                            m_gameboard[2][col] = null;
-                            m_player.increaseBones();
-                        }
-                        return;
-                    } else {
-                        for(int i=0; i<4; i++)
-                        {
-                            if(m_gameboard[2][i] == null)
-                            {
+                                //Mécanisme de sacrifice impossible, on remet les cartes déjà sacrifiées sur le plateau
                                 m_gameboard[2][i] = m_sacrifices.get(i);
                             }
                         }
@@ -395,43 +285,9 @@ public class GameManager {
 
     public boolean isCard(int i, int j) { return m_gameboard[i][j] != null; }
 
-    public boolean isCardAnimal(int i, int j) { return m_gameboard[i][j] != null && m_gameboard[i][j].isAnimal();}
-
-    public int getHandSize(){return m_player.getHandSize();}
-
-    public String getCardName(int i, int j) {
-        return m_gameboard[i][j].getName();
-    }
-
-    public int getCardHealthPoints(int i, int j) {
-        if(m_gameboard[i][j] != null)
-        {
-            return m_gameboard[i][j].getHealthPoints();
-        }
-        else
-        {
-            return 0;
-        }
-    }
-
-    public int getCardAttack(int i, int j)
-    {
-        if(m_gameboard[i][j] != null)
-        {
-            return m_gameboard[i][j].getAnimalAttack();
-        }
-        else
-        {
-            return 0;
-        }
-    }
-
     public void showBoard() {
         m_display.displayGameboard(m_message, m_player,m_opponent, m_gameboard, m_game, m_turn, m_score);
     }
-
-    public void cardTakeDamage(int i, int j, int degats) {m_gameboard[i][j].takeDamage(degats);}
-
 
     public void setGame(int actualGame) {
         m_game = actualGame;
@@ -597,6 +453,7 @@ public class GameManager {
 
     public void opponentPlay()
     {
+        //Copie de gameboard et des cartes à l'intérieur pour le passer à l'opponent
         Card[][] gamebordCopyPlay = new Card[m_gameboard.length][m_gameboard[0].length];
         for (int i = 0; i < m_gameboard.length; i++) {
             for (int j = 0; j < m_gameboard[i].length; j++) {
@@ -604,8 +461,11 @@ public class GameManager {
             }
         }
 
+        //On récup une resultBox (score, localisation où il s'est passé qqch)
         ResultBox playResult = m_opponent.play(gamebordCopyPlay);
 
+
+        //On balaie la liste des localisations à mettre à jour
         for (Location loc : playResult.getImpactedLocations()) {
             int x = loc.getX();
             int y = loc.getY();
@@ -618,6 +478,7 @@ public class GameManager {
 
     public void playerAttack()
     {
+        //Copie de gameboard et des cartes à l'intérieur pour le passer au player
         Card[][] gamebordCopyPlayer = new Card[m_gameboard.length][m_gameboard[0].length];
         for (int i = 0; i < m_gameboard.length; i++) {
             for (int j = 0; j < m_gameboard[i].length; j++) {
@@ -625,9 +486,11 @@ public class GameManager {
             }
         }
 
+        //On récup une resultBox (score, localisation où il s'est passé qqch)
         ResultBox resultPlayer = m_player.attack(gamebordCopyPlayer);
         this.m_score += resultPlayer.getScore();
 
+        //On balaie la liste des localisations à mettre à jour
         for (Location loc : resultPlayer.getImpactedLocations()) {
             int x = loc.getX();
             int y = loc.getY();
@@ -647,6 +510,7 @@ public class GameManager {
 
     public void opponentAttack()
     {
+        //Copie de gameboard et des cartes à l'intérieur pour le passer à l'opponent
         Card[][] gamebordCopyOpponent = new Card[m_gameboard.length][m_gameboard[0].length];
         for (int i = 0; i < m_gameboard.length; i++) {
             for (int j = 0; j < m_gameboard[i].length; j++) {
@@ -654,9 +518,11 @@ public class GameManager {
             }
         }
 
+        //On récup une resultBox (score, localisation où il s'est passé qqch)
         ResultBox resultOpponent = m_opponent.attack(gamebordCopyOpponent, m_player);
         this.m_score += resultOpponent.getScore();
 
+        //On balaie la liste des localisations à mettre à jour
         for (Location loc : resultOpponent.getImpactedLocations()) {
             int x = loc.getX();
             int y = loc.getY();

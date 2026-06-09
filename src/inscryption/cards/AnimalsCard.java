@@ -75,34 +75,35 @@ public abstract class AnimalsCard extends Card {
     }
 
     @Override
-    public void duel(ArrayList<Location> impactedLocations, int degats, int i, int ligneAttaquant, int ligneCible, Card cible)
+    public void duel(ArrayList<Location> impactedLocations, int damages, int i, int attackLine, int aimLine, Card aim)
     {
-        impactedLocations.add(new Location(ligneCible, i, degats));
-        cible.takeDamage(degats);
+        //Gère un duel entre deux AnimalsCards
+        impactedLocations.add(new Location(aimLine, i, damages));
+        aim.takeDamage(damages);
 
         if(this.getFirstPowerAnimal() == PowerEnum.DEATH_TOUCH || this.getLastPowerAnimal() == PowerEnum.DEATH_TOUCH)
         {
-            impactedLocations.add(new Location(ligneCible, i, 999));
-            cible.takeDamage(999);
+            impactedLocations.add(new Location(aimLine, i, Integer.MAX_VALUE));
+            aim.takeDamage(Integer.MAX_VALUE);
         }
 
-        if(cible.isAnimal())
+        if(aim.isAnimal())
         {
-            if(cible.getFirstPowerAnimal() == PowerEnum.SHARP_SPIKES || cible.getLastPowerAnimal() == PowerEnum.SHARP_SPIKES)
+            if(aim.getFirstPowerAnimal() == PowerEnum.SHARP_SPIKES || aim.getLastPowerAnimal() == PowerEnum.SHARP_SPIKES)
             {
                 this.takeDamage(1);
-                impactedLocations.add(new Location(ligneAttaquant, i, 1));
+                impactedLocations.add(new Location(attackLine, i, 1));
 
                 if(this.getHealthPoints() <= 0)
                 {
-                    impactedLocations.add(new Location(ligneAttaquant, i, (Card) null));
+                    impactedLocations.add(new Location(attackLine, i, (Card) null));
                 }
             }
         }
 
-        if(cible.getHealthPoints() <= 0)
+        if(aim.getHealthPoints() <= 0)
         {
-            impactedLocations.add(new Location(ligneCible, i, (Card) null));
+            impactedLocations.add(new Location(aimLine, i, (Card) null));
         }
     }
 
