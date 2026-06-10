@@ -96,7 +96,9 @@ package inscryption
             +getDrawSize() : Integer
             +getAnimalAtInDraw(index : Integer) : AnimalCards
             +removeAtInDraw(index : Integer)
+            +removeAtInDrawGlobal(index : Integer)
             +addInDraw(card : AnimalCards)
+            +addInDrawGlobal(card : AnimalCards)
             +getTurnAttack() : Integer
             +attack(gameboard : Cards[12]) : ResultBox
             +addCardToDraw(card : Card)
@@ -279,7 +281,10 @@ package inscryption
             +duel(impactedLocations : Locations[0..*], damages : Integer, i : Integer, attackLine : Integer, aimLine : Integer, aim : Card)
         }
     }
+
+
 }
+class Random <<external>>{}
 
 AnimalCards --> "-m_powerEnum \n 1" PowerEnum
 Player o--> "-m_hand \n 0..15" AnimalCards
@@ -288,6 +293,7 @@ Player o--> "-m_gamecards_global \n 15" AnimalCards
 Player ..> PowerEnum : <<uses>>
 Player ..> Location : <<uses>>
 Player ..> ResultBox : <<uses>>
+Player *--> "m_random \n 1" Random
 Opponent o--> "-m_actions : AnimalCard \n 0..12" Cards
 Opponent ..> PowerEnum : <<uses>>
 Opponent ..> Cards : <<uses>>
@@ -300,6 +306,7 @@ GameManager ..> PowerEnum : <<uses>>
 GameManager o--> "-m_display \n 1" DisplayBoard
 GameManager *--> "-m_sacrifices \n 0..*" Cards
 GameManager ..> ResultBox : <<uses>>
+GameManager *--> "m_random \n 1" Random
 Location o--> "-m_card \n 1" Cards
 ResultBox o--> "-m_locs \n 0..*" Location
 Main .-> DisplayBoard : <<create>>
