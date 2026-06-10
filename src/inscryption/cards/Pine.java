@@ -45,6 +45,7 @@ public class Pine extends Card {
     }
 
     @Override
+    //Un duel d'obstacles ne renvoie rien !
     public void duel(ArrayList<Location> impactedLocations, int degats, int i, int ligneAttaquant, int ligneCible, Card cible)
     {}
 }

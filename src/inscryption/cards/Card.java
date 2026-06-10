@@ -15,7 +15,7 @@ public abstract class Card {
         m_healthPoints = pdv;
     }
 
-    //Constructeur de copie appelé dans la méthode clone qui est implémentée dans chaque classe animal
+    //Constructeur de copie
     protected Card(Card target) {
         if (target != null) {
             this.m_healthPoints = target.m_healthPoints;

@@ -1,0 +1,310 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+skinparam classAttributeIconSize 0
+skinparam classFontStyle Bold
+skinparam style strictuml
+hide empty members
+
+class Main {
+    +{static}main(args : String[])
+}
+
+package inscryption
+{
+        class DisplayBoard {
+                    - m_actual_turn : Integer
+                    + displayGameBoard()
+                    + displayCards()
+                    + displayRows() : String
+                    + print(chaine : String)
+                    + toString() : String
+                }
+
+        package logic {
+
+        class GameManager {
+            -m_score : Integer
+            -m_turn : Integer
+            -m_canDraw : Boolean
+            -m_game : Integer
+            -m_message : String
+
+            +<<create>>GameManager(player : Player, opponent : Opponent)
+            +manageAction(sc : Scanner)
+            +nextTurn()
+            +placeCard(indHand : Integer, indBoard : Integer)
+            +setMessage(message : String)
+            +gameReview() : Boolean
+            +getScore() : Integer
+            +setScore(attack : Integer)
+            +isCard(i : Integer, j : Integer) : Boolean
+            +showBoard()
+            +cardTakeDamage(i : Integer, j : Integer, degats : Integer)
+            +setGame(match : Integer)
+            +proposeAddToDraw(sc : Scanner)
+            +displaySacrificeStone(sc : Scanner)
+            +logicSacrificeStone(numChoice : Integer, sc : Scanner)
+            +opponentPlay()
+            +playerAttack()
+            +opponentAttack()
+            +setCard(carte : Cards, row : Integer, col : Integer)
+            +toString() : String
+        }
+
+        class Location{
+            +<<create>>Location(x : Integer, y : Integer, damage : Integer)
+            +<<create>>Location(x : Integer, y : Integer, card : Cards)
+            +isDamageAction() : Boolean
+            +getX() : Integer
+            +getY() : Integer
+            +getDamage() : Integer
+            +getCard() : Cards
+        }
+
+        class ResultBox{
+            -m_score : Integer
+            +<<create>>ResultBox(score : Integer, locs : Location[0..*])
+            +getImpactedLocations() : Locations[0..*]
+            +getScore() : Integer
+        }
+
+
+        enum PowerEnum <<enumeration>> {
+            MANY_LIVES
+            GROW
+            STINKY
+            RUNNER
+            DEATH_TOUCH
+            SHARP_SPIKES
+            +toString() : String
+        }
+
+
+
+        }
+
+
+        package players {
+
+        class Player {
+            -m_obtainedBones : Integer
+            +<<create>>Player()
+            +createDraw()
+            +draw()
+            +setGamecards()
+            +getDrawSize() : Integer
+            +getAnimalAtInDraw(index : Integer) : AnimalCards
+            +removeAtInDraw(index : Integer)
+            +addInDraw(card : AnimalCards)
+            +getTurnAttack() : Integer
+            +attack(gameboard : Cards[12]) : ResultBox
+            +addCardToDraw(card : Card)
+            +removeCard(index : Integer) : Cards
+            +getHandSize() : Integer
+            +isDrawEmpty() : Boolean
+            +getBones() : Integer
+            +getBloodAt(index : Integer) : Integer
+            +getBonesAt(index : Integer) : Integer
+            +setBones(nb : Integer)
+            +increaseBones()
+            +getCardPowerFirst(index : Integer) : PowerEnum
+            +getCardNameInHand(index : Integer) : String
+            +getCardAttackInHand(index : Integer) : Integer
+            +getCardHealthPointInHand(index : Integer) : Integer
+            +getCardBloodInHand(index : Integer) : Integer
+            +getCardBonesInHand(index : Integer) : Integer
+            +getCardFlyInHand(index : Integer) : String
+            +getCardFirstPowerInHand(index : Integer) : PowerEnum
+            +getCardLastPowerInHand(index : Integer) : PowerEnum
+            +toString() : String
+        }
+
+        class Opponent {
+            -m_turnAttack : Integer
+            +<<create>>Opponent()
+            +setMatch(actions0 : AnimalCard[0..4], actions1 : AnimalCard[0..4], actions2 : AnimalCard[0..4])
+            +play(gameboard : Cards[12]) : ResultBox
+            +getTurnAttack() : Integer
+            +attack(gameboard : Cards[12], player : Player) : ResultBox
+            +toString() : String
+
+        }
+
+
+    }
+
+
+
+    package cards {
+
+        abstract class Cards <<abstract>>{
+            -m_name : String
+            -m_health_points : Integer
+            +<<create>>Cards(nom : String, pdv : Integer)
+            #<<create>>Cards(other : Cards)
+            +clone() : Cards
+            +getName() : String
+            +getHealthPoints() : Integer
+            +takeDamage(degats : Integer)
+            +{abstract}isAnimal() : Boolean
+            +{abstract}getAnimalAttack() : Integer
+            +{abstract}getAnimalFly() : Boolean
+            +{abstract}getPowerSizeAnimal() : Integer
+            +{abstract}getFirstPowerAnimal() : PowerEnum
+            +{abstract}getLastPowerAnimal() : PowerEnum
+            +{abstract}duel(impactedLocations : Locations[0..*], damages : Integer, i : Integer, attackLine : Integer, aimLine : Integer, aim : Card)
+
+        }
+
+        abstract class AnimalCards<<abstract>> extends Cards{
+            -m_attack : Integer
+            -m_blood : Integer
+            -m_bone : Integer
+            -m_flying : Boolean
+            +<<create>>AnimalCards(nom : String, att : Integer, pdv : Integer, gds : Integer, os : Integer, vol : Boolean, powerEnum : PowerEnum)
+            #<<create>>AnimalCards(other : AnimalCards)
+            +isAnimal() : Boolean
+            +getAnimalAttack() : Integer
+            +getAnimalFly() : Boolean
+            +getPowerSizeAnimal() : Integer
+            +getFirstPowerAnimal() : PowerEnum
+            +getLastPowerAnimal() : PowerEnum
+            +getBlood() : Integer
+            +getBone() : Integer
+            +addPower(power : PowerEnum)
+            +duel(impactedLocations : Locations[0..*], damages : Integer, i : Integer, attackLine : Integer, aimLine : Integer, aim : Card)
+        }
+
+        class Cat extends AnimalCards{
+            +<<create>>Cat()
+            +<<create>>Cat(other : Chat)
+            +clone()
+            +toString() : String
+        }
+        class Grizzly extends AnimalCards{
+            +<<create>>Grizzly()
+            +<<create>>Grizzly(other : Grizzly)
+            +clone()
+            +toString() : String
+        }
+        class Coyote extends AnimalCards{
+            +<<create>>Coyote()
+            +<<create>>Coyote(other : Coyote)
+            +clone()
+            +toString() : String
+        }
+        class Sparrow extends AnimalCards{
+            +<<create>>Sparrow()
+            +<<create>>Sparrow(other : Sparrow)
+            +clone()
+            +toString() : String
+        }
+        class Crow extends AnimalCards{
+            +<<create>>Crow()
+            +<<create>>Crow(other : Crow)
+            +clone()
+            +toString() : String
+        }
+        class Squirrel extends AnimalCards{
+            +<<create>>Squirrel()
+            +<<create>>Squirrel(other : Squirrel)
+            +clone()
+            +toString() : String
+        }
+        class Ermine extends AnimalCards{
+            +<<create>>Ermine()
+            +<<create>>Ermine(other : Ermine)
+            +clone()
+            +toString() : String
+        }
+        class Cub_scout extends AnimalCards{
+            +<<create>>Cub_scout()
+            +<<create>>Cub_scout(other : Cub_scout)
+            +clone()
+            +toString() : String
+        }
+        class Wolf extends AnimalCards{
+            +<<create>>Wolf()
+            +<<create>>Wolf(other : Wolf)
+            +clone()
+            +toString() : String
+        }
+        class Bug extends AnimalCards{
+            +<<create>>Bug()
+            +<<create>>Bug(other : Bug)
+            +clone()
+            +toString() : String
+        }
+        class Moose extends AnimalCards{
+            +<<create>>Moose()
+            +<<create>>Moose(other : Moose)
+            +clone()
+            +toString() : String
+        }
+        class Porcupine extends AnimalCards{
+            +<<create>>Porcupine()
+            +<<create>>Porcupine(other : Porcupine)
+            +clone()
+            +toString() : String
+        }
+        class Viper extends AnimalCards{
+            +<<create>>Viper()
+            +<<create>>Viper(other : Viper)
+            +clone()
+            +toString() : String
+        }
+        class Rock extends Cards{
+            +<<create>>Rock(other : Rock)
+            +toString() : String
+            +isAnimal() : Boolean
+            +clone() : Rock
+            +getAnimalAttack() : Integer
+            +getAnimalFly() : Boolean
+            +getPowerSizeAnimal() : Integer
+            +getFirstPowerAnimal() : PowerEnum
+            +getLastPowerAnimal() : PowerEnum
+            +duel(impactedLocations : Locations[0..*], damages : Integer, i : Integer, attackLine : Integer, aimLine : Integer, aim : Card)
+        }
+        class Pine extends Cards{
+            +<<create>>Pine(other : Rock)
+            +toString() : String
+            +isAnimal() : Boolean
+            +clone() : Pine
+            +getAnimalAttack() : Integer
+            +getAnimalFly() : Boolean
+            +getPowerSizeAnimal() : Integer
+            +getFirstPowerAnimal() : PowerEnum
+            +getLastPowerAnimal() : PowerEnum
+            +duel(impactedLocations : Locations[0..*], damages : Integer, i : Integer, attackLine : Integer, aimLine : Integer, aim : Card)
+        }
+    }
+}
+
+AnimalCards --> "-m_powerEnum \n 1" PowerEnum
+Player o--> "-m_hand \n 0..15" AnimalCards
+Player o--> "-m_gamecards \n 0..15" AnimalCards
+Player o--> "-m_gamecards_global \n 15" AnimalCards
+Player ..> PowerEnum : <<uses>>
+Player ..> Location : <<uses>>
+Player ..> ResultBox : <<uses>>
+Opponent o--> "-m_actions : AnimalCard \n 0..12" Cards
+Opponent ..> PowerEnum : <<uses>>
+Opponent ..> Cards : <<uses>>
+Opponent ..> Location : <<uses>>
+Opponent ..> ResultBox : <<uses>>
+GameManager *--> "-m_player \n 1" Player
+GameManager *--> "-m_opponent \n 1" Opponent
+GameManager *--> "-m_gameboard : Cards \n 12" Cards
+GameManager ..> PowerEnum : <<uses>>
+GameManager o--> "-m_display \n 1" DisplayBoard
+GameManager *--> "-m_sacrifices \n 0..*" Cards
+GameManager ..> ResultBox : <<uses>>
+Location o--> "-m_card \n 1" Cards
+ResultBox o--> "-m_locs \n 0..*" Location
+Main .-> DisplayBoard : <<create>>
+Main .-> GameManager : <<create>>
+Main .-> Player : <<create>>
+Main .-> Opponent : <<create>>
+Main .-> inscryption : <<uses>>
+@enduml

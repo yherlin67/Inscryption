@@ -21,6 +21,7 @@ public abstract class AnimalsCard extends Card {
         m_powerEnum = powerEnum;
     }
 
+    //Constructeur de copie appelé dans chaque classe Animal servir à la méthode clone
     protected AnimalsCard(AnimalsCard target) {
         super(target);
         if (target != null) {

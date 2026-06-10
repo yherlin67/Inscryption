@@ -53,7 +53,7 @@ public class Opponent {
             {
                 //La carte à venir dans les listes de m_actions est affichée
                 Card nouvelleCarte = m_actions[i].getFirst();
-             //   m_actions[i].removeFirst();
+                m_actions[i].removeFirst();
 
                 impactedLocations.add(new Location(0, i, nouvelleCarte));
 
