@@ -211,12 +211,18 @@ public class GameManager {
                         }
                     }
 
-                    if (blood < requiedDrop) {
+                    if(m_gameboard[2][indBoard] != null)
+                    {
+                        setMessage("Quelqu'un occupe déjà cette place");
+                        return;
+                    }
+
+                    else if (blood < requiedDrop) {
                         m_display.print("Pas assez de sang récolté pour cette carte !");
                         return;
                     }
 
-                    if(m_gameboard[2][indBoard] == null) {
+                    else if(m_gameboard[2][indBoard] == null) {
                         placeCard(indHand, indBoard);
                         setMessage("Vous placez la carte.");
                         //On retire les cartes sacrifiées du plateau

@@ -104,7 +104,6 @@ public class Player {
         m_gamecards.add(animal);
     }
 
-
     public int getTurnAttack(){
         return m_turnAttack;
     }
