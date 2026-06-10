@@ -52,12 +52,13 @@ public class Opponent {
             if (gameboard[0][i] == null && !m_actions[i].isEmpty())
             {
                 //La carte à venir dans les listes de m_actions est affichée
-                Card nouvelleCarte = m_actions[i].getFirst();
+                Card newcard = m_actions[i].getFirst();
                 m_actions[i].removeFirst();
 
-                impactedLocations.add(new Location(0, i, nouvelleCarte));
 
-                gameboard[0][i] = nouvelleCarte;
+                impactedLocations.add(new Location(0, i, newcard));
+
+                gameboard[0][i] = newcard;
             }
         }
         return new ResultBox(0, impactedLocations);
@@ -91,10 +92,10 @@ public class Opponent {
                 }
                 else // Il y a une carte du player en face
                 {
-                    int degats = 0;
+                    int damage = 0;
                     if(gameboard[1][i].isAnimal())
                     {
-                        degats = gameboard[1][i].getAnimalAttack();
+                        damage = gameboard[1][i].getAnimalAttack();
                     }
 
                     // Gestion du pouvoir Puant de la carte du player
@@ -102,17 +103,17 @@ public class Opponent {
                     {
                         if(gameboard[2][i].getFirstPowerAnimal() == PowerEnum.STINKY || gameboard[2][i].getLastPowerAnimal() == PowerEnum.STINKY)
                         {
-                            degats--;
+                            damage--;
                         }
                     }
 
-                    if (degats < 0) degats = 0;
+                    if (damage < 0) damage = 0;
 
                     // Carte volante -> Inflige des dégâts directs au score
                     if(gameboard[1][i].isAnimal() && gameboard[1][i].getAnimalFly())
                     {
-                        score -= degats;
-                        m_turnAttack += degats;
+                        score -= damage;
+                        m_turnAttack += damage;
                     }
                     //---Gestion de l'attaque entre cartes---
                     // Carte normale -> Combat de créatures (m_turnAttack ne bouge pas puisque le score ne sera pas attaqué !)
@@ -120,9 +121,9 @@ public class Opponent {
                     else if(gameboard[1][i].isAnimal() && !gameboard[1][i].getAnimalFly())
                     {
                         Card attaquante = gameboard[1][i]; // Ligne 1
-                        Card cible = gameboard[2][i];       // Ligne 2
+                        Card target = gameboard[2][i];       // Ligne 2
 
-                        attaquante.duel(impactedLocations, degats, i, 1, 2, cible);
+                        attaquante.duel(impactedLocations, damage, i, 1, 2, target);
 
                         // Nettoyage du tableau après duel
                         if (gameboard[2][i].getHealthPoints() <= 0) {
@@ -138,11 +139,11 @@ public class Opponent {
         }
 
         //---Gestion du pouvoir Coureur---
-        ArrayList<Integer> indicesBloques = new ArrayList<>();
+        ArrayList<Integer> blockedIndex = new ArrayList<>();
 
         for(int j=0; j<4; j++)
         {
-            if(indicesBloques.contains(j)) {
+            if(blockedIndex.contains(j)) {
                 continue;
             }
 
@@ -159,7 +160,7 @@ public class Opponent {
                         gameboard[1][j+1] = gameboard[1][j];
                         gameboard[1][j] = null;
                         //Il y a maintenant une carte à l'indice j+1
-                        indicesBloques.add(j+1);
+                        blockedIndex.add(j+1);
                     }
                     //Sinon on se déplace à gauche
                     else if(j > 0 && gameboard[1][j-1] == null)
@@ -170,7 +171,7 @@ public class Opponent {
                         gameboard[1][j-1] = gameboard[1][j];
                         gameboard[1][j] = null;
                         //Il y a maintenant une carte à l'indice j-1
-                        indicesBloques.add(j-1);
+                        blockedIndex.add(j-1);
                     }
                 }
             }

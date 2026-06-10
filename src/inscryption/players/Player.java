@@ -48,8 +48,8 @@ public class Player {
         temp.add(new Porcupine());
         while(temp.size() != 7)
         {
-            int aleatoireIndex = m_random.nextInt(temp.size());
-            temp.remove(temp.get(aleatoireIndex));
+            int randomIndex = m_random.nextInt(temp.size());
+            temp.remove(temp.get(randomIndex));
         }
         for(int i=0; i<8; i++)
         {
@@ -59,16 +59,16 @@ public class Player {
         //Pioche globale (commune à toutes les parties), pour garder les mêmes cartes mais les mélanger dans un autre ordre à chaque tour
         for(int k=0; k<15; k++)
         {
-            int aleatoireIndex = m_random.nextInt(temp.size());
-            m_gamecards_global.add(temp.get(aleatoireIndex));
-            temp.remove(aleatoireIndex);
+            int randomIndex = m_random.nextInt(temp.size());
+            m_gamecards_global.add(temp.get(randomIndex));
+            temp.remove(randomIndex);
         }
     }
 
     public void draw()
     {
-        AnimalsCard carte = m_gamecards.removeLast();
-        m_hand.add(carte);
+        AnimalsCard card = m_gamecards.removeLast();
+        m_hand.add(card);
     }
 
     public void setGamecards(){
@@ -78,8 +78,8 @@ public class Player {
         //Je remplis ma pioche pour ce tour avec les mêmes cartes que dans ma copie globale (commune à toutes les parties), mais dans un ordre différent
         while (!tempDeck.isEmpty())
         {
-            int aleatoireIndex = m_random.nextInt(tempDeck.size());
-            m_gamecards.add(tempDeck.remove(aleatoireIndex));
+            int randomIndex = m_random.nextInt(tempDeck.size());
+            m_gamecards.add(tempDeck.remove(randomIndex));
         }
     }
 
@@ -133,10 +133,10 @@ public class Player {
                 }
                 else // Il y a une carte sur la ligne ennemie
                 {
-                    int degats = 0;
+                    int damage = 0;
                     if(gameboard[2][i].isAnimal())
                     {
-                        degats = gameboard[2][i].getAnimalAttack();
+                        damage = gameboard[2][i].getAnimalAttack();
                     }
 
                     // Gestion du pouvoir Puant sur la carte en face
@@ -144,15 +144,15 @@ public class Player {
                     {
                         if(gameboard[1][i].getFirstPowerAnimal() == PowerEnum.STINKY || gameboard[1][i].getLastPowerAnimal() == PowerEnum.STINKY)
                         {
-                            degats = Math.max(degats - 1, 0);
+                            damage = Math.max(damage - 1, 0);
                         }
                     }
 
                     // Carte volante -> Inflige des dégâts directs au score
                     if(gameboard[2][i].isAnimal() && gameboard[2][i].getAnimalFly())
                     {
-                        score += degats;
-                        m_turnAttack += degats; // On ajoute bien les dégâts calculés (qui prennent en compte le pouvoir Puant)
+                        score += damage;
+                        m_turnAttack += damage; // On ajoute bien les dégâts calculés (qui prennent en compte le pouvoir Puant)
                     }
                     //---Gestion de l'attaque entre cartes---
                     // Carte normale -> Combat de créatures (m_turnAttack ne bouge pas puisque le score ne sera pas attaqué !)
@@ -160,9 +160,9 @@ public class Player {
                     else if(gameboard[2][i].isAnimal() && !gameboard[2][i].getAnimalFly())
                     {
                         Card attaquante = gameboard[2][i];
-                        Card cible = gameboard[1][i];
+                        Card target = gameboard[1][i];
 
-                        attaquante.duel(impactedLocations, degats, i, 2, 1, cible);
+                        attaquante.duel(impactedLocations, damage, i, 2, 1, target);
 
                         //Nettoyage du tableau après le duel
                         if (gameboard[1][i].getHealthPoints() <= 0)
@@ -180,11 +180,11 @@ public class Player {
         }
 
         //---Gestion du pouvoir Coureur---
-        ArrayList<Integer> indicesBloques = new ArrayList<>();
+        ArrayList<Integer> blockedIndex = new ArrayList<>();
 
         for(int j=0; j<4; j++)
         {
-            if(indicesBloques.contains(j)) {
+            if(blockedIndex.contains(j)) {
                 continue;
             }
 
@@ -198,7 +198,7 @@ public class Player {
                         gameboard[2][j+1] = gameboard[2][j];
                         gameboard[2][j] = null;
                         //Il y a maintenant une carte à l'indice j+1
-                        indicesBloques.add(j+1);
+                        blockedIndex.add(j+1);
 
                         impactedLocations.add(new Location(2, j+1, gameboard[2][j]));
                         //Cast en Card pour être sur d'utiliser le bon constructeur de Locations
@@ -211,7 +211,7 @@ public class Player {
                         gameboard[2][j-1] = gameboard[2][j];
                         gameboard[2][j] = null;
                         //Il y a maintenant une carte à l'indice j-1
-                        indicesBloques.add(j-1);
+                        blockedIndex.add(j-1);
 
                         impactedLocations.add(new Location(2, j-1, gameboard[2][j]));
                         impactedLocations.add(new Location(2, j, (Card) null));
