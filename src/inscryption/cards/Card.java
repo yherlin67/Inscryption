@@ -9,10 +9,10 @@ public abstract class Card {
     private String m_name;
     private int m_healthPoints;
 
-    public Card(String nom, int pdv)
+    public Card(String name, int healthPoints)
     {
-        m_name = nom;
-        m_healthPoints = pdv;
+        m_name = name;
+        m_healthPoints = healthPoints;
     }
 
     //Constructeur de copie appelé dans la méthode clone qui est implémentée dans chaque classe animal
@@ -34,12 +34,12 @@ public abstract class Card {
     }
 
 
-    public void takeDamage(int degats) {
+    public void takeDamage(int damage) {
         // Si les dégâts risquent de faire tomber les PV sous 0, on force directement à 0
-        if (degats >= this.m_healthPoints) {
+        if (damage >= this.m_healthPoints) {
             this.m_healthPoints = 0;
         } else {
-            this.m_healthPoints -= degats;
+            this.m_healthPoints -= damage;
         }
     }
 

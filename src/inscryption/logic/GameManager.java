@@ -119,12 +119,12 @@ public class GameManager {
                 else if(requiedBones > 0)
                 {
                     //---Gestion des os---
-                    int os = m_player.getBones();
-                    if(os >= requiedBones)
+                    int bone = m_player.getBones();
+                    if(bone >= requiedBones)
                     {
                         if (m_gameboard[2][indBoard] == null) {
-                            os -= requiedBones;
-                            m_player.setBones(os);
+                            bone -= requiedBones;
+                            m_player.setBones(bone);
                             setMessage("Vous placez la carte");
                             placeCard(indHand, indBoard);
                             return;
@@ -333,29 +333,29 @@ public class GameManager {
             proposition = temp.get(random_index);
             propositions.add(proposition);
             temp.remove(random_index);
-            String ligneFormatee = String.format("%-2d %-12s PV: %-3d Att: %-2d Sang: %-2d Os: %-10d",
+            String formatedLine = String.format("%-2d %-12s PV: %-3d Att: %-2d Sang: %-2d Os: %-10d",
                     (i+1),
                     proposition.getName(),
                     proposition.getHealthPoints(),
                     proposition.getAnimalAttack(),
                     proposition.getBlood(),
                     proposition.getBone());
-            m_display.print(ligneFormatee);
+            m_display.print(formatedLine);
         }
         String choice;
-        boolean valide = false;
-        while(!valide)
+        boolean valid = false;
+        while(!valid)
         {
             choice = sc.nextLine();
             if(choice.equals("1"))
             {
                 m_player.addInDraw(propositions.getFirst());
-                valide = true;
+                valid = true;
             }
             else if(choice.equals("2"))
             {
                 m_player.addInDraw(propositions.get(1));
-                valide = true;
+                valid = true;
             }
             else
             {
@@ -373,7 +373,7 @@ public class GameManager {
         {
             AnimalsCard animal = m_player.getAnimalAtInDraw(i);
 
-            String ligneFormatee = String.format("%-1d. %-12s PV: %-3d Att: %-2d Sang: %-2d Os: %-2d Pouvoir: %-15s",
+            String formatedLine = String.format("%-1d. %-12s PV: %-3d Att: %-2d Sang: %-2d Os: %-2d Pouvoir: %-15s",
                     (i + 1),
                     animal.getName(),
                     animal.getHealthPoints(),
@@ -382,11 +382,11 @@ public class GameManager {
                     animal.getBone(),
                     animal.getFirstPowerAnimal().toString()
             );
-            m_display.print(ligneFormatee);
+            m_display.print(formatedLine);
         }
         String choice;
-        boolean valide = false;
-        while(!valide)
+        boolean valid = false;
+        while(!valid)
         {
             int numChoice;
             choice = sc.nextLine();
@@ -398,7 +398,7 @@ public class GameManager {
             }
             if(numChoice >= 0 && numChoice < m_player.getDrawSize())
             {
-                valide = true;
+                valid = true;
                 logicSacrificeStone(numChoice,sc);
             }
             else
@@ -416,11 +416,11 @@ public class GameManager {
             PowerEnum toAttribute = m_player.getCardPowerFirst(numChoice);
 
             m_display.print("Super, cette carte avait le pouvoir " + toAttribute.toString() + " !");
-            boolean valide = false;
+            boolean valid = false;
             String choice;
             m_display.print("Choisissez à quelle carte vous voulez maintenant attribuer ce pouvoir :");
 
-            while(!valide)
+            while(!valid)
             {
 
                 int numChoicePow;
@@ -434,7 +434,7 @@ public class GameManager {
 
                 if(numChoicePow >= 0 && numChoicePow < m_player.getDrawSize() && numChoicePow != numChoice)
                 {
-                    valide = true;
+                    valid = true;
                     m_display.print("Parfait, le pouvoir à bien été ajouté !");
                     m_player.getAnimalAtInDraw(numChoicePow).addPower(toAttribute);
                     m_player.removeAtInDraw(numChoice);
@@ -540,9 +540,9 @@ public class GameManager {
         }
     }
 
-    public void setCard(Card carte, int row, int columns)
+    public void setCard(Card card, int row, int columns)
     {
-        m_gameboard[row][columns] = carte;
+        m_gameboard[row][columns] = card;
     }
     
     @Override
