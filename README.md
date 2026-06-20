@@ -60,20 +60,18 @@ Après votre tour, votre adversaire joue de la même façon que vous (à la seul
 
 ## Installation
 
-1. Clonez le dépôt :
+1. Cloner le dépôt :
 ```bash
-   git clone 
+   git clone https://github.com/yherlin67/Inscryption.git
 ```
 
-2. Ouvrez le projet dans IntelliJ IDEA :
+2. Ouvrir le projet dans IntelliJ IDEA :
    - **File** → **Open** → sélectionnez le dossier du projet
 
-3. Assurez-vous que le JDK est bien configuré :
+3. S'assurer que le JDK est bien configuré :
    - **File** → **Project Structure** → **Project SDK** (OpenJDK 25 recommandé)
 
-4. Lancez le jeu :
+4. Lancer le jeu :
    - Ouvrez `Main.java` (dans `src/`)
    - Clic droit → **Run 'Main.main()'**
    - Ou cliquez sur la flèche verte ▶️ en haut de l'écran
-     
-5. Le jeu se lance dans la console Java intégrée d'IntelliJ.
