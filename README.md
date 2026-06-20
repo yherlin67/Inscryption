@@ -4,7 +4,7 @@
 
 Ce projet a pour but de développer un jeu de cartes en Java s'inspirant du jeu *Inscryption*. 
 
-Le joueur interagit via la console Java et peut effectuer différentes actions (piocher une carte, attaquer, etc.), à l'image du jeu original.
+Le joueur interagit via la console Java et peut effectuer différentes actions (piocher une carte, la placer sur le plateau, etc.), à l'image du jeu original.
 
 ## Fonctionnalités
 - A votre gauche, se trouve une balance symbolisant l'écart de score avec votre adversaire. Le premier joueur qui atteint un écart de 5 points en sa faveur remporte la partie. 
