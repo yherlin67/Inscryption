@@ -12,8 +12,8 @@ Le joueur interagit via la console Java et peut effectuer différentes actions (
 - A votre droite, vous disposez d'une pioche. Vous commencez avec 4 cartes en mains et vous pouvez piocher une carte par tour.
   
 - Chaque carte "animal" dispose
-  - d'un nom
-  - d'un nombre de points d'attaque
+  - d'un nom,
+  - d'un nombre de points d'attaque,
   - d'un nombre de points de vie,
   - d'un nombre de vos cartes sur le plateau à sacrifier pour pouvoir être placée sur le plateau (nombre de gouttes de sang),
   - d'un nombre de vos cartes déjà mortes (tuées ou sacrifiées) pour pouvoir être placée sur le plateau (nombre d'os),
@@ -66,7 +66,7 @@ Après votre tour, votre adversaire joue de la même façon que vous (à la seul
 ```
 
 2. Ouvrir le projet dans IntelliJ IDEA :
-   - **File** → **Open** → sélectionnez le dossier du projet
+   - **File** → **Open** → sélectionner le dossier du projet
 
 3. S'assurer que le JDK est bien configuré (OpenJDK 25 recommandé) :
    - **File** → **Project Structure** → **Project SDK** 
