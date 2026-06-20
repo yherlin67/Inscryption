@@ -1,5 +1,7 @@
 # Inscryption
 
+Projet réalisé en binôme, dans le cadre de ma première année de BUT informatique.
+
 ## Présentation
 
 Ce projet a pour but de développer un jeu de cartes en Java s'inspirant du jeu *Inscryption*. 
