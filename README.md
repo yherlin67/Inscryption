@@ -68,10 +68,10 @@ Après votre tour, votre adversaire joue de la même façon que vous (à la seul
 2. Ouvrir le projet dans IntelliJ IDEA :
    - **File** → **Open** → sélectionnez le dossier du projet
 
-3. S'assurer que le JDK est bien configuré :
-   - **File** → **Project Structure** → **Project SDK** (OpenJDK 25 recommandé)
+3. S'assurer que le JDK est bien configuré (OpenJDK 25 recommandé) :
+   - **File** → **Project Structure** → **Project SDK** 
 
 4. Lancer le jeu :
-   - Ouvrez `Main.java` (dans `src/`)
+   - Ouvrir `Main.java` (dans `src/`)
    - Clic droit → **Run 'Main.main()'**
-   - Ou cliquez sur la flèche verte ▶️ en haut de l'écran
+   - Ou cliquer sur la flèche verte ▶️ en haut de l'écran
